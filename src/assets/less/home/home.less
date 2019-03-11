@@ -1,0 +1,119 @@
+// 头部
+@mainColor : #3190E8;
+@bgcColor : #fff;
+@borderColor : #ccc ;
+@fontColor :#787878;
+#header{
+  position: fixed;
+  top:0 ;
+  width: 100%;
+  background-color: @mainColor;
+  line-height: .45rem;
+  span{
+    color: @bgcColor;
+    margin-left: .1rem;
+  }
+  div{
+    margin-right: .1rem;
+    float: right;
+    i,a{
+      color: @bgcColor;
+    }
+  }
+}
+
+// 导航栏
+#nav{
+  background-color: @bgcColor;
+  padding-top: .45rem;
+   .topNav{
+     border-bottom: .01rem solid @borderColor;
+     padding: 0 .1rem;
+     display: flex;
+     justify-content: space-between;
+     span{
+       font-size: .12rem;
+       line-height: .4rem;
+       color: @fontColor;
+     }
+   }
+  .bottomNav{
+    padding: 0 .1rem;
+    border-bottom: .01rem solid @borderColor;
+    display: flex;
+    justify-content: space-between;
+    span{
+      line-height: .4rem;
+      color: @mainColor;
+      font-size: .18rem;
+    }
+    i{
+      font-size: .16rem;
+      line-height: .4rem;
+      color: @fontColor;
+    }
+  }
+}
+// 热门城市
+.hotCity{
+  margin-top: .2rem;
+  background-color: @bgcColor;
+  >div{
+    padding-left: .1rem;
+    border-top: .01rem solid @borderColor;
+    border-bottom: .01rem solid @borderColor;
+    line-height: .3rem;
+    color: @fontColor;
+  }
+  ul{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    li{
+      width: 25%;
+      border-bottom: .01rem solid @borderColor;
+      border-right: .01rem solid @borderColor;
+      color: @mainColor ;
+      text-align: center;
+      line-height: .4rem;
+      &:nth-child(4n){
+        border-right: 0;
+      }
+    }
+  }
+}
+
+// 中间字母排序内容
+#main{
+  .piece{
+    background-color: @bgcColor;
+     margin-top: .2rem;
+    .letter{
+      border-top: .01rem solid @borderColor;
+      border-bottom: .01rem solid @borderColor;
+      line-height: .3rem;
+      padding-left: .1rem;
+      span{
+        color: @fontColor;
+      }
+    }
+    ul{
+      display: flex;
+      flex-wrap: wrap;
+      li{
+        width: 25%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        border-bottom: .01rem solid @borderColor;
+        border-right: .01rem solid @borderColor;
+        color: @mainColor ;
+        text-align: center;
+        line-height: .4rem;
+        &:nth-child(4n){
+          border-right: 0;
+        }
+      }
+    }
+   }
+}

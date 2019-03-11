@@ -1,0 +1,89 @@
+<template>
+    <div class="homeContainer">
+        <header id="header">
+            <span class="header_logo">小Z-ele</span>
+            <div>
+                <a href="#">登录</a>
+                <i> | </i>
+                <a href="#">注册</a>
+            </div>
+        </header>
+        <nav id="nav">
+            <div class="topNav">
+                <span>当前定位城市 : </span>
+                <span>定位不准时,请在城市列表中选择</span>
+            </div>
+            <router-link :to="'/city/'+cityGuessInfo.body.id" class="bottomNav">
+                <span>{{ cityGuessInfo.body.name }}</span>
+                <i class="el-icon-arrow-right"></i>
+            </router-link>
+        </nav>
+        <section class="hotCity">
+            <div>热门城市</div>
+            <ul>
+                <li v-for="item in hotCityGuessInfo.body" :key="item.id">{{ item.name }}</li>
+            </ul>
+        </section>
+        <main id="main">
+            <div class="piece" v-for="( item,key ) in groupCityGuessInfo"  :key="item.id">
+                <div class="letter" >{{ key }}<span>{{ key == 'A' ? '(按字母排序)' : '' }}</span></div>
+                <ul>
+                    <li v-for="val in item" :key="val.id">{{ val.name }}</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+</template>
+
+<script>
+    import { cityGuess } from "../../service/getData"
+    import { hotCityGuess } from "../../service/getData"
+    import { groupCityGuess } from "../../service/getData"
+    export default {
+        data () {
+            return {
+                cityGuessInfo : { body : {} },
+                hotCityGuessInfo : { body : {}},
+                groupCityGuessInfo : { },
+            }
+        },
+        created () {
+            this.cityGuess(this).then(results =>{ this.cityGuessInfo = results }).catch( err =>{   console.log ( err )})
+            this.hotCityGuess(this).then(results =>{ this.hotCityGuessInfo = results }).catch( err =>{   console.log ( err )})
+            this.groupCityGuess(this).then(results =>{ this.sort( results.body ) }).catch( err =>{   console.log ( err )})
+        },
+        methods : {
+            cityGuess,
+            hotCityGuess,
+            groupCityGuess,
+            sort( oldObj ){
+                var infoObj = {};
+                for( var key in oldObj ){
+                    var num = 4 -  ( oldObj[key].length % 4 )
+                    if (  num != 4 ){
+                        for( var i = 0 ; i < num ; i ++ ){
+                            var obj = { id : new Date().getTime()*Math.random()*Math.random() , name : ''}
+                            oldObj[key].push( obj )
+                        }
+                    }
+                };
+                for(var i = 65; i <= 90; i++){
+                   for( var key in  oldObj ){
+                       if ( key.toLocaleUpperCase( ).charCodeAt() == i ){
+                           infoObj[key] = oldObj[key]
+                       }
+                   }
+                };
+                this.groupCityGuessInfo = infoObj
+            }
+        },
+        components : {}
+    }
+</script>
+
+<style lang="less" scoped>
+    @import "../../assets/less/home/home.css";
+    [v-clock]{
+        display: none;
+    }
+</style>

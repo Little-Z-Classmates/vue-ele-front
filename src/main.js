@@ -1,13 +1,20 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import "./registerServiceWorker";
+import Vue from "vue"
+import router from "./router/router"
+import store from "./store/store"
 
-Vue.config.productionTip = false;
+import './plugins/element/element.js'
+import VueResource from "vue-resource"
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+Vue.use( VueResource )
+Vue.http.options.root = "https://elm.cangdu.org"
+Vue.http.options.emulateJSON = true;
+
+import app from "./App.vue"
+import "./config/rem.js"
+
+new Vue ( {
+    el : "#app",
+    render : c => c ( app ),
+    router,
+    store
+} )

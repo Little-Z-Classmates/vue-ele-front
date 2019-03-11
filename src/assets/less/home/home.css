@@ -1,0 +1,108 @@
+#header {
+  position: fixed;
+  top: 0 ;
+  width: 100%;
+  background-color: #3190E8;
+  line-height: 0.45rem;
+}
+#header span {
+  color: #fff;
+  margin-left: 0.1rem;
+}
+#header div {
+  margin-right: 0.1rem;
+  float: right;
+}
+#header div i,
+#header div a {
+  color: #fff;
+}
+#nav {
+  background-color: #fff;
+  padding-top: 0.45rem;
+}
+#nav .topNav {
+  border-bottom: 0.01rem solid #ccc;
+  padding: 0 0.1rem;
+  display: flex;
+  justify-content: space-between;
+}
+#nav .topNav span {
+  font-size: 0.12rem;
+  line-height: 0.4rem;
+  color: #787878;
+}
+#nav .bottomNav {
+  padding: 0 0.1rem;
+  border-bottom: 0.01rem solid #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+#nav .bottomNav span {
+  line-height: 0.4rem;
+  color: #3190E8;
+  font-size: 0.18rem;
+}
+#nav .bottomNav i {
+  font-size: 0.16rem;
+  line-height: 0.4rem;
+  color: #787878;
+}
+.hotCity {
+  margin-top: 0.2rem;
+  background-color: #fff;
+}
+.hotCity > div {
+  padding-left: 0.1rem;
+  border-top: 0.01rem solid #ccc;
+  border-bottom: 0.01rem solid #ccc;
+  line-height: 0.3rem;
+  color: #787878;
+}
+.hotCity ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hotCity ul li {
+  width: 25%;
+  border-bottom: 0.01rem solid #ccc;
+  border-right: 0.01rem solid #ccc;
+  color: #3190E8;
+  text-align: center;
+  line-height: 0.4rem;
+}
+.hotCity ul li:nth-child(4n) {
+  border-right: 0;
+}
+#main .piece {
+  background-color: #fff;
+  margin-top: 0.2rem;
+}
+#main .piece .letter {
+  border-top: 0.01rem solid #ccc;
+  border-bottom: 0.01rem solid #ccc;
+  line-height: 0.3rem;
+  padding-left: 0.1rem;
+}
+#main .piece .letter span {
+  color: #787878;
+}
+#main .piece ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+#main .piece ul li {
+  width: 25%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-bottom: 0.01rem solid #ccc;
+  border-right: 0.01rem solid #ccc;
+  color: #3190E8;
+  text-align: center;
+  line-height: 0.4rem;
+}
+#main .piece ul li:nth-child(4n) {
+  border-right: 0;
+}
