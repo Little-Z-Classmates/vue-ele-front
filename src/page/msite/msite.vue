@@ -111,6 +111,8 @@
 </template>
 
 <script>
+    import  { fullScreen } from "../../config/jsTools"
+    import  { judgeFullScreen } from "../../config/jsTools"
     import { imgBaseUrl } from "../../config/env.js"
     import { baseImgUrl } from "../../config/env.js"
     import { getDetailedLocation } from "../../service/getData"
@@ -120,6 +122,11 @@
     export default {
         data () {
             return {
+                // --------遮罩层 3 属性----------
+                loading : '' ,
+                loadingKey : 3,
+                currentLoadingKey : 0,
+                // --------遮罩层 3 属性----------
                 detailAddressInfo : {},  // 详细的地址
                 swiperOption: {
                     loop : true,
@@ -146,10 +153,12 @@
             }
         },
         created () {
+            this.fullScreen( this ) // 遮罩层开启
             // 获取详细地址
             this.getDetailedLocation( this,this.$route.query.geohash ).then( results => {
                if ( results.status === 200 ){
                    this.detailAddressInfo = results.body
+                   this.judgeFullScreen(this)  // 1
                }
            })
             // 获取食品分类列表
@@ -159,6 +168,7 @@
                     arr.push( results.body.slice(0,8) )
                     arr.push( results.body.slice(8,16))
                     this.FootEntryInfo = arr
+                    this.judgeFullScreen(this)   // 2
                 }
             })
             // 获取餐馆分类列表 进行数据 筛选与添加 操作
@@ -190,15 +200,20 @@
                     this.restaurantsListRealLength = results.body.length
                     var filteredArray = results.body.filter( filterFuc )
                     this.restaurantsListInfo = filteredArray
+                    setTimeout( () =>{
+                        this.judgeFullScreen(this)   // 3
+                    },1000)
                 }
             })
         },
         methods : {
             goSearchPage(){
             },
+            fullScreen,       // 遮罩层的两个方法
+            judgeFullScreen, // 遮罩层的两个方法
             getRestaurants,
             getDetailedLocation,
-            getFootEntry,
+            getFootEntry,    // 食品列表
             // 筛选不符合营业时间的商家
             filterShopRestaurants( item ){
                 var shopHoursArr =  ( item.opening_hours )[0].split('/')
