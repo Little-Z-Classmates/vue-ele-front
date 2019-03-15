@@ -135,9 +135,6 @@
                 restaurantsListInfo : [], // 餐馆列表信息
                 restaurantsListRealLength : 0 ,  // 餐馆还未筛选的数量
                 // -----初始化无限加载相关参数-------
-                queryLoading: false,
-                moreLoading: false,
-                allLoaded: false,
                 loading: true,
                 // -----初始化无限加载相关参数-------
             }
