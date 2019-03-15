@@ -1,7 +1,7 @@
 <template>
     <div class="msite"
          v-infinite-scroll="loadMore"
-         :infinite-scroll-disabled="loading"
+         :infinite-scroll-disabled="banMoreLoading"
          infinite-scroll-distance="10"
          infinite-scroll-immediate-check="false">
         <header id="header">
@@ -74,10 +74,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="spinnerBottom">
+                <div class="spinnerBottom" v-if="!allLoaded">
                 <mt-spinner class="dataStatusImg" type="fading-circle" color="#00ccff" :size="30" ></mt-spinner><span class="dataStatus">加载中...</span>
                 </div>
-                <div class="spinnerBottom">
+                <div class="spinnerBottom" v-if="allLoaded">
                     <span class="dataStatus">数据已加载完毕</span>
                 </div>
         </main>
@@ -135,7 +135,8 @@
                 restaurantsListInfo : [], // 餐馆列表信息
                 restaurantsListRealLength : 0 ,  // 餐馆还未筛选的数量
                 // -----初始化无限加载相关参数-------
-                loading: true,
+                banMoreLoading: false,     // 是否禁用 更多加载, true 就禁用, false 就不禁用
+                allLoaded: false,         //  所有数据是否加载完成
                 // -----初始化无限加载相关参数-------
             }
         },
@@ -215,7 +216,14 @@
             },
             // 加载更多数据
             loadMore() {
-                // this.loading = true;
+                // ------禁用测试--------
+                // this.banMoreLoading = true;
+                // console.log ( "禁用不了" )
+                // ------禁用测试-------
+
+                if( this.allLoaded ){
+                    return false;
+                }
                 console.log ( "1" )
                 var geohashArr =  this.$route.query.geohash.split(',')
                 var filterFuc = this.filterShopRestaurants
@@ -242,11 +250,16 @@
                             }
                             item.startArr = startArr
                         })
+                        var oldRealLength = this.restaurantsListRealLength  // 得到更新之前的 数据量
                         this.restaurantsListRealLength = results.body.length + this.restaurantsListRealLength
+                        var newRealLength = this.restaurantsListRealLength  // 得到更新之后的 数据量
+                        if ( oldRealLength == newRealLength ){       // 判断更新之后 数据量 是否等于 更新之前 数据量
+                            this.allLoaded = true                   //  如果等于 allLoaded 全部加载完毕 标识符为true
+                            return false                           //  return false, 不往下执行
+                        }
                         var filteredArray = results.body.filter( filterFuc )
                         var newRestaurantsList = this.restaurantsListInfo.concat(filteredArray)
                         this.restaurantsListInfo = newRestaurantsList
-                        // this.loading = false;
                     }
                 })
 

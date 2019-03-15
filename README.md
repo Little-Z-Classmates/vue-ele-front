@@ -118,6 +118,22 @@ Mint-UI 中的 Infinite scroll , 有个属性 : infinite-scroll-immediate-check
 ```text
 infinite-scroll-distance 默认为 10 , 小于 等于 10 就会触发
 设为 0  , 为只有到底后才为0 ,才能触发 加载函数
-
 ```
-
+### 问题 : 官网上的 infinite-scroll-disabled 的值 为true 的话就禁止加载, 但是在我项目中 写了true, 不起作用
+```text
+infinite-scroll-disabled : banMoreLoading( true ) ---- 失效
+原因 : 还未找到
+解决方法 : 还未解决
+```
+### 问题 : 每次滚到底部,加载下一页完毕, 滚动条 没有停留在原地不动, 而是自动滚到底部,又自动开始加载下一页
+```text
+原因 : 还没找到
+解决方法 : 还没有解决
+```
+### 问题 : 移动端, 页面自动方法问题
+```text
+在我的手机自带浏览器打开, 会自动方法页面
+如果在微信打开,就不会放大
+原因 : 
+解决方法 : 
+```
