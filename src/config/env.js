@@ -12,20 +12,21 @@
  *
  */
 let routerMode = 'hash';
-let baseUrl = '';
+let baseImgUrl = '';
 let imgBaseUrl = '';
 // baseUrl 和 imgBaseUrl 做的事就是 vue-resource 的全局配置基础地址 https://elm.cangdu.org
 // 我们用 vue-resource 的话 就不用
 
 if (process.env.NODE_ENV == 'development') {
-    imgBaseUrl = '/img/';
+    baseImgUrl = '//elm.cangdu.org/img/';
+    imgBaseUrl = 'https://fuss10.elemecdn.com';
 }else if(process.env.NODE_ENV == 'production'){
-    baseUrl = '//elm.cangdu.org';
-    imgBaseUrl = '//elm.cangdu.org/img/';
+    baseImgUrl = '//elm.cangdu.org/img/';
+    imgBaseUrl = 'https://fuss10.elemecdn.com';
 }
 
 export {
-    baseUrl,
+    baseImgUrl,
     routerMode,
     imgBaseUrl,
 }

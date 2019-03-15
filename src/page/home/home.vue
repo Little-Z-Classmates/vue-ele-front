@@ -21,14 +21,17 @@
         <section class="hotCity">
             <div>热门城市</div>
             <ul>
-                <li v-for="item in hotCityGuessInfo.body" :key="item.id">{{ item.name }}</li>
+                <router-link tag="li" :to="'/city/'+ item.id" v-for="item in hotCityGuessInfo.body" :key="item.id">{{
+                    item.name }}
+                </router-link>
             </ul>
         </section>
         <main id="main">
-            <div class="piece" v-for="( item,key ) in groupCityGuessInfo"  :key="item.id">
-                <div class="letter" >{{ key }}<span>{{ key == 'A' ? '(按字母排序)' : '' }}</span></div>
+            <div class="piece" v-for="( item,key ) in groupCityGuessInfo" :key="item.id">
+                <div class="letter">{{ key }}<span>{{ key == "A" ? "(按字母排序)" : "" }}</span></div>
                 <ul>
-                    <li v-for="val in item" :key="val.id">{{ val.name }}</li>
+                    <router-link tag="li" :to="'/city/'+ val.id" v-for="val in item" :key="val.id">{{ val.name }}
+                    </router-link>
                 </ul>
             </div>
         </main>
@@ -39,41 +42,63 @@
     import { cityGuess } from "../../service/getData"
     import { hotCityGuess } from "../../service/getData"
     import { groupCityGuess } from "../../service/getData"
+    import  { fullScreen } from "../../config/jsTools"
+    import  { judgeFullScreen } from "../../config/jsTools"
     export default {
         data () {
             return {
                 cityGuessInfo : { body : {} },
-                hotCityGuessInfo : { body : {}},
-                groupCityGuessInfo : { },
+                hotCityGuessInfo : { body : {} },
+                groupCityGuessInfo : {},
+                loading : '' ,
+                loadingKey : 3,
+                currentLoadingKey : 0
             }
         },
         created () {
-            this.cityGuess(this).then(results =>{ this.cityGuessInfo = results }).catch( err =>{   console.log ( err )})
-            this.hotCityGuess(this).then(results =>{ this.hotCityGuessInfo = results }).catch( err =>{   console.log ( err )})
-            this.groupCityGuess(this).then(results =>{ this.sort( results.body ) }).catch( err =>{   console.log ( err )})
+            this.fullScreen ( this )
+            this.cityGuess ( this ).then ( results => {
+                this.cityGuessInfo = results;
+                this.judgeFullScreen(this)
+            } ).catch ( err => { console.log ( err ) } )
+
+            this.hotCityGuess ( this ).then ( results => {
+                this.hotCityGuessInfo = results ;
+                this.judgeFullScreen( this )
+            } ).catch ( err => {  console.log ( err )   } )
+
+            this.groupCityGuess ( this ).then ( results => {
+                this.sort ( results.body );
+                this.judgeFullScreen( this )
+            } ).catch ( err => {   console.log ( err )} )
+
         },
         methods : {
             cityGuess,
             hotCityGuess,
             groupCityGuess,
-            sort( oldObj ){
-                var infoObj = {};
-                for( var key in oldObj ){
-                    var num = 4 -  ( oldObj[key].length % 4 )
-                    if (  num != 4 ){
-                        for( var i = 0 ; i < num ; i ++ ){
-                            var obj = { id : new Date().getTime()*Math.random()*Math.random() , name : ''}
-                            oldObj[key].push( obj )
+            fullScreen,
+            judgeFullScreen,
+            // 排序 字母
+            sort ( oldObj ) {
+                var infoObj = {}
+                for ( var key in oldObj ) {
+                    var num = 4 - ( oldObj[ key ].length % 4 )
+                    if ( num != 4 ) {
+                        for ( var i = 0 ; i < num ; i ++ ) {
+                            var obj = { id : new Date ().getTime () * Math.random () * Math.random (), name : "" }
+                            oldObj[ key ].push ( obj )
                         }
                     }
-                };
-                for(var i = 65; i <= 90; i++){
-                   for( var key in  oldObj ){
-                       if ( key.toLocaleUpperCase( ).charCodeAt() == i ){
-                           infoObj[key] = oldObj[key]
-                       }
-                   }
-                };
+                }
+
+                for ( var i = 65 ; i <= 90 ; i ++ ) {
+                    for ( var key in  oldObj ) {
+                        if ( key.toLocaleUpperCase ().charCodeAt () == i ) {
+                            infoObj[ key ] = oldObj[ key ]
+                        }
+                    }
+                }
                 this.groupCityGuessInfo = infoObj
             }
         },
@@ -82,8 +107,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../assets/less/home/home.css";
-    [v-clock]{
-        display: none;
-    }
+    @import "../../assets/less/home/home";
+    @import "../../assets/less/base/header";
 </style>

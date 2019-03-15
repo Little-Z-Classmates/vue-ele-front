@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <transition name="fade">
+        <transition name="fade" mode="out-in" >
             <router-view></router-view>
         </transition>
     </div>
@@ -13,6 +13,11 @@
 </script>
 
 <style lang="less">
-    @import "assets/less/base/base.css";
-
+    @import "assets/less/base/base";
+    .fade-enter,.fade-leave-to{
+        opacity: 0;
+    }
+    .fade-enter-active,.fade-leave-active{
+        transition : all .3s ;
+    }
 </style>

@@ -1,0 +1,260 @@
+@mainColor: #3190E8;
+@bgcColor: #fff;
+@borderColor: #ccc;
+@fontColor: #787878;
+body{
+  height: 100%;
+  position: absolute
+}
+.msite{
+  height: 622rem;
+  position: absolute;
+  width: 100%;
+}
+#header {
+  padding: 0 .1rem;
+  .searchPage {
+    color: @bgcColor;
+    font-size: .2rem;
+    line-height: .45rem;
+  }
+  .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 1.8rem;
+    text-align: center;
+    padding-right: .15rem;
+    font-size: .20rem;
+    line-height: .45rem;
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+  }
+  div {
+    margin-right: 0
+  }
+}
+
+// nav
+#nav {
+  border-bottom: .01rem solid @borderColor;
+  height: 2rem;
+  width: 100%;
+  margin-top: .45rem;
+  > .swiper-container {
+    height: 100%;
+    padding-bottom: .25rem;
+    padding-top: .1rem;
+    background-color: #fff;
+    .swiperTab {
+      ul {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          width: 25%;
+          height: 50%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          .navImg {
+            width: 50%;
+            height: 65%;
+          }
+        }
+      }
+    }
+  }
+}
+
+// main
+#main {
+  margin-bottom: .45rem;
+  margin-top: .1rem;
+  border-top: .01rem solid @borderColor;
+  background-color: #fff;
+  color: @fontColor;
+  .title {
+    line-height: .2rem;
+    font-size: .16rem;
+    padding: .1rem;
+    :nth-child(1) {
+      font-size: .16rem;
+      margin-right: .1rem;
+    }
+  }
+  .sellers {
+    .seller {
+      overflow: hidden;
+      position: relative;
+      height: 1rem;
+      border-bottom: 0.01rem solid @borderColor;
+      padding: .15rem .05rem;
+      .sellerHeadImg {
+        width: .6rem;
+        height: .6rem;
+        background-color: indianred;
+        margin-right: .1rem;
+        float: left;
+      }
+      .leftInfo {
+        width: 1.45rem;
+        height: 100%;
+        float: left;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        .top {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          width: 100%;
+          .brand {
+            background-color: orange;
+            font-size: .14rem;
+            margin-right: .1rem;
+          }
+          .sellerName {
+            font-size: .17rem;
+            font-weight: 600;
+          }
+        }
+        .content {
+          font-size: .12rem;
+          height: .24rem;
+          .orange{
+            background-color: orange;
+          }
+          .start {
+            float: left;
+            line-height: .24rem;
+            svg{
+              font-size: .12rem;
+              color: orange;
+              //background-color: orange;
+            }
+            >div{
+              color: orange;
+            }
+          }
+          .scoreAndMonthSell {
+            float: left;
+            transform: scale(.9);
+            .score {
+              color: orange;
+              margin-right: .05rem;
+            }
+          }
+        }
+        .bottom {
+          span {
+            color: @fontColor;
+            font-size: .12rem;
+          }
+        }
+      }
+      .rightInfo {
+        width: 1.45rem;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        float: right;
+        .top {
+          .words {
+            float: right;
+            span {
+              display: inline-block;
+              transform: scale(.85);
+              color: @fontColor;
+              margin-right: 0.04rem;
+              border: 0.01rem solid @borderColor;
+            }
+          }
+        }
+        .content {
+          width: 112%;
+          transform: scale(.75);
+          font-size: .12rem;
+          span {
+            float: right;
+          }
+          :nth-child(1) {
+            border: .01rem solid @mainColor;
+            padding: 0 0.02rem;
+            border-radius: 0.02rem;
+            color: @mainColor;
+            margin-left: 0.04rem;
+          }
+          :nth-child(2) {
+            border: .01rem solid @mainColor;
+            background-color: @mainColor;
+            padding: 0 0.02rem;
+            border-radius: 0.02rem;
+            color: #fff;
+          }
+        }
+        .bottom {
+          width: 100%;
+          font-size: .12rem;
+          span {
+            color: @fontColor;
+            float: right;
+            & ~ span {
+              color: @mainColor;
+            }
+          }
+        }
+      }
+    }
+  }
+  .spinnerBottom{
+    position: relative;
+    height: .4rem ;
+    width: 100%;
+    text-align: center;
+    border-bottom: 0.01rem  solid @borderColor;
+   .dataStatusImg{
+      position: absolute;
+      left: 30%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+   .dataStatus{
+      line-height: .4rem;
+    }
+  }
+}
+
+// footer
+#footer {
+  border-top: .01rem solid @borderColor;
+  width: 100%;
+  height: .45rem;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  .footerNav {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    .footerNavImg {
+      color: @fontColor;
+      font-size: .2rem;
+      margin-top: .04rem;
+    }
+    .footerNavTitle{
+      color: @fontColor;
+    }
+  }
+}
+

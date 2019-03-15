@@ -1,0 +1,21 @@
+#header {
+  position: fixed;
+  top: 0 ;
+  width: 100%;
+  background-color: #3190E8;
+  line-height: 0.45rem;
+  height: 0.45rem;
+  z-index: 999;
+}
+#header span {
+  color: #fff;
+  margin-left: 0.1rem;
+}
+#header div {
+  margin-right: 0.1rem;
+  float: right;
+}
+#header div i,
+#header div a {
+  color: #fff;
+}

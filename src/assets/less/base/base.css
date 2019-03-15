@@ -35,14 +35,14 @@ figcaption {
   text-decoration: none;
   border: none;
   color: #333;
-  font-weight: normal;
-  font-family: "Microsoft Yahei";
+  font-weight: 400;
+  font-family: Microsoft Yahei;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  /*兼容低版本的浏览器*/
-  -webkit-box-sizing: border-box;
-  /*为了兼容低版本的web*/
+  /* 设置移动端点击高亮背景色  去掉就设置为透明颜色即可*/
   -webkit-tap-highlight-color: transparent;
+  /* 设置文字允许字体小于12px; */
+  -webkit-text-size-adjust: none;
+  /* 防止文字的锯齿样式 */
   -webkit-font-smoothing: antialiased;
 }
 body:hover,
@@ -189,4 +189,11 @@ textarea {
 }
 .animation_opactiy {
   animation: backOpacity 2s ease-in-out infinite;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }

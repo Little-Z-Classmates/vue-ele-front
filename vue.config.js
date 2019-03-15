@@ -6,7 +6,7 @@
 const path = require('path')
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
-        ? '/127.0.0.1:3000'
+        ? '/172.20.179.1:3000'
         : '/',
     outputDir: path.join( __dirname , '/dist'),
     // assetsDir : path.join(__dirname , '/src/assets'),
