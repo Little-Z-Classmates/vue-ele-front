@@ -1,0 +1,65 @@
+#food {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-top: 0.85rem;
+}
+#nav {
+  background-color: #fff;
+  z-index: 998;
+  top: 0.45rem;
+  position: fixed;
+  width: 100%;
+  height: 0.4rem;
+  border-bottom: 0.01rem solid #ccc;
+  display: flex;
+}
+#nav .title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+#nav .title > span {
+  display: block;
+  width: 100%;
+  font-size: 0.13rem;
+  line-height: 0.26rem;
+  text-align: center;
+  color: #787878;
+}
+#nav .title:nth-child(2) span {
+  border-right: 0.005rem solid #ccc;
+  border-left: 0.005rem solid #ccc;
+}
+#nav .title svg {
+  transform: rotate(0deg);
+  transition: all 0.3s ease-in;
+}
+#nav .title-active {
+  color: #3190E8 !important;
+}
+#nav .title-move {
+  transition: all 0.3s ease-in;
+  transform: rotate(-180deg) !important;
+}
+#nav .sub {
+  width: 100%;
+  position: absolute;
+}
+#maskLayer {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(168, 168, 168, 0.85);
+}
+.mainOut {
+  width: 100%;
+  height: 100%;
+}
+#main {
+  width: 100%;
+  position: relative;
+}

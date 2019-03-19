@@ -1,0 +1,107 @@
+@mainColor: #3190E8;
+@bgcColor: #fff;
+@borderColor: #ccc;
+@fontColor: #787878;
+.fold-drop-down{
+  position: absolute;
+  top: .4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #efefef;
+  display: flex;
+  overflow: hidden;
+  >div{
+    flex: 1;
+    height: 100%;
+    &~div{
+      background-color: #fff;
+    }
+  }
+  .drop-down-left{
+    display: flex;
+    flex-direction: column;
+    .comprehensiveFood{
+      color: @fontColor;
+      height: .4rem;
+      padding-left: .1rem;
+      line-height: .4rem;
+      position: relative;
+      :nth-child(1){
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        right: .1rem;
+        color: #fff;
+        font-size: .12rem;
+        line-height: .2rem;
+        padding: 0 .05rem ;
+        border-radius: .1rem;
+        background-color: @borderColor;
+      }
+    }
+    .allFoodsList{
+      overflow: hidden;
+      flex: 1;
+      ul{
+        li{
+          padding-left: .1rem;
+          font-size: .12rem;
+          color: @fontColor;
+          height: .4rem;
+          line-height: .4rem;
+          position: relative;
+          img{
+            width: .18rem;
+            height: .18rem;
+            vertical-align: sub;
+          }
+          :nth-child(2){
+            float: right;
+            padding-right: .1rem;
+            margin-top: .13rem;
+            font-weight: 600;
+            color: @fontColor;
+          }
+          :nth-child(3){
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+            right: .25rem;
+            color: #fff;
+            font-size: .12rem;
+            line-height: .2rem;
+            padding: 0 .05rem ;
+            border-radius: .1rem;
+            background-color: @borderColor;
+          }
+        }
+      }
+    }
+  }
+  .drop-down-right{
+    padding-left: .1rem;
+    ul{
+      padding-top: .01rem ;
+      li{
+        color: @fontColor;
+        line-height: .4rem;
+        height: .4rem;
+        border-bottom: .01rem solid @borderColor;
+        span{
+          color: @fontColor;
+        }
+        :nth-child(2){
+          padding-right: .1rem;
+          float: right;
+        }
+      }
+      :last-child{
+        border: 0;
+      }
+    }
+  }
+}
+
+.active{
+  background-color: #fff;
+}

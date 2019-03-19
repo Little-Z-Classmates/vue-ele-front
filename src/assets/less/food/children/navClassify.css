@@ -1,0 +1,100 @@
+.fold-drop-down {
+  position: absolute;
+  top: 0.4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #efefef;
+  display: flex;
+  overflow: hidden;
+}
+.fold-drop-down > div {
+  flex: 1;
+  height: 100%;
+}
+.fold-drop-down > div ~ div {
+  background-color: #fff;
+}
+.fold-drop-down .drop-down-left {
+  display: flex;
+  flex-direction: column;
+}
+.fold-drop-down .drop-down-left .comprehensiveFood {
+  color: #787878;
+  height: 0.4rem;
+  padding-left: 0.1rem;
+  line-height: 0.4rem;
+  position: relative;
+}
+.fold-drop-down .drop-down-left .comprehensiveFood :nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  right: 0.1rem;
+  color: #fff;
+  font-size: 0.12rem;
+  line-height: 0.2rem;
+  padding: 0 0.05rem;
+  border-radius: 0.1rem;
+  background-color: #ccc;
+}
+.fold-drop-down .drop-down-left .allFoodsList {
+  overflow: hidden;
+  flex: 1;
+}
+.fold-drop-down .drop-down-left .allFoodsList ul li {
+  padding-left: 0.1rem;
+  font-size: 0.12rem;
+  color: #787878;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  position: relative;
+}
+.fold-drop-down .drop-down-left .allFoodsList ul li img {
+  width: 0.18rem;
+  height: 0.18rem;
+  vertical-align: sub;
+}
+.fold-drop-down .drop-down-left .allFoodsList ul li :nth-child(2) {
+  float: right;
+  padding-right: 0.1rem;
+  margin-top: 0.13rem;
+  font-weight: 600;
+  color: #787878;
+}
+.fold-drop-down .drop-down-left .allFoodsList ul li :nth-child(3) {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  right: 0.25rem;
+  color: #fff;
+  font-size: 0.12rem;
+  line-height: 0.2rem;
+  padding: 0 0.05rem;
+  border-radius: 0.1rem;
+  background-color: #ccc;
+}
+.fold-drop-down .drop-down-right {
+  padding-left: 0.1rem;
+}
+.fold-drop-down .drop-down-right ul {
+  padding-top: 0.01rem;
+}
+.fold-drop-down .drop-down-right ul li {
+  color: #787878;
+  line-height: 0.4rem;
+  height: 0.4rem;
+  border-bottom: 0.01rem solid #ccc;
+}
+.fold-drop-down .drop-down-right ul li span {
+  color: #787878;
+}
+.fold-drop-down .drop-down-right ul li :nth-child(2) {
+  padding-right: 0.1rem;
+  float: right;
+}
+.fold-drop-down .drop-down-right ul :last-child {
+  border: 0;
+}
+.active {
+  background-color: #fff;
+}

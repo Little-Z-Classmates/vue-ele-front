@@ -1,0 +1,64 @@
+.fold-drop-down {
+  position: absolute;
+  top: 0.4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.fold-drop-down .top {
+  height: 2.15rem;
+  padding-left: 0.15rem;
+}
+.fold-drop-down .top .mode {
+  flex: 4;
+}
+.fold-drop-down .top .mode :nth-child(1) {
+  line-height: 0.4rem;
+}
+.fold-drop-down .top .mode :nth-child(2) {
+  display: inline-block;
+  padding: 0.08rem 0.25rem 0.08rem 0.1rem;
+  border: 0.01rem solid #e0e0e0;
+}
+.fold-drop-down .top .mode :nth-child(2) svg {
+  font-size: 0.18rem;
+  margin-right: 0.05rem;
+}
+.fold-drop-down .top .sellerAttribute {
+  padding-right: 0.2rem;
+  flex: 6;
+}
+.fold-drop-down .top .sellerAttribute > :nth-child(1) {
+  margin-top: 0.16rem;
+  margin-bottom: 0.15rem;
+}
+.fold-drop-down .top .sellerAttribute ul {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+.fold-drop-down .top .sellerAttribute ul li {
+  width: 30%;
+  margin-bottom: 0.1rem;
+  line-height: 0.3rem;
+  text-align: center;
+  border: 0.01rem solid #e0e0e0;
+}
+.fold-drop-down .bottom {
+  flex: 1;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.fold-drop-down .bottom .mint-button {
+  width: 1.78rem;
+  height: 0.5rem;
+}
+.fold-drop-down .bottom .mint-button ~ :nth-child(2) {
+  background-color: #56d176;
+}

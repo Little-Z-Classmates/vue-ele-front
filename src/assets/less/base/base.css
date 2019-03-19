@@ -35,9 +35,9 @@ figcaption {
   text-decoration: none;
   border: none;
   color: #333;
+  box-sizing: border-box;
   font-weight: 400;
   font-family: Microsoft Yahei;
-  box-sizing: border-box;
   /* 设置移动端点击高亮背景色  去掉就设置为透明颜色即可*/
   -webkit-tap-highlight-color: transparent;
   /* 设置文字允许字体小于12px; */
@@ -83,7 +83,7 @@ body {
   overflow-x: hidden;
 }
 html {
-  font-size: 100px;
+  font-size: 26.6667vw;
 }
 html,
 body {

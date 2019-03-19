@@ -1,0 +1,27 @@
+@mainColor: #3190E8;
+@bgcColor: #fff;
+@borderColor: #ccc;
+@fontColor: #787878;
+.fold-drop-down{
+  position: absolute;
+  top: .4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #fff;
+  overflow: hidden;
+  ul{
+    li{
+      position: relative;
+      :nth-child(1){
+        position: absolute;
+        left: -.24rem;
+        top: .2rem;
+        font-size: .16rem;
+      }
+      height: .55rem;
+      border-bottom: .01rem solid @borderColor;
+      margin-left: .3rem;
+      line-height: .55rem;
+    }
+  }
+}

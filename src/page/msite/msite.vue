@@ -19,10 +19,10 @@
                     <!-- slides -->
                     <swiper-slide v-for="item in FootEntryInfo" :key="new Date().getTime()*Math.random()*Math.random()" class="swiperTab">
                         <ul>
-                            <li v-for="value in item " :key="value.id">
+                            <router-link tag="li" :to="'/food?geohash='+ $route.query.geohash +'&title='+ value.title +'&restaurant_category_id='+ value.id" v-for="value in item " :key="value.id">
                                 <img class="navImg" :src="imgBaseUrl + value.image_url">
                                 <div class="navImgTitle">{{ value.title }}</div>
-                            </li>
+                            </router-link>
                         </ul>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -35,45 +35,7 @@
                <span class="iconfont">&#xe67b;</span>
                <span>附近商家</span>
            </div>
-                <div v-for="item in restaurantsListInfo" :key="new Date().getTime()*Math.random()*Math.random()" class="sellers" >
-                    <div class="seller">
-                        <img class="sellerHeadImg" :src=" baseImgUrl + item.image_path">
-                        <div class="leftInfo">
-                            <div class="top">
-                                <span class="brand">品牌</span>
-                                <span class="sellerName">{{ item.name }}</span>
-                            </div>
-                            <div class="content">
-                                <div class="start">
-                                    <svg class="icon footerNavImg" v-for="(start,index) in item.startArr" :key="index" aria-hidden="true">
-                                        <use  :xlink:href="start? '#icon-xingxing1':'#icon-xing-copy'"></use>
-                                    </svg>
-                                </div>
-                                <div class="scoreAndMonthSell">
-                                    <span class="score">{{ item.rating }}</span>
-                                    <span class="monthSell">月售{{ item.recent_order_num }}单</span>
-                                </div>
-                            </div>
-                            <div class="bottom">
-                                <span>￥{{ item.float_minimum_order_amount }}起送 / {{ item.piecewise_agent_fee.tips }}</span>
-                            </div>
-                        </div>
-                        <div class="rightInfo">
-                            <div class="top">
-                                <div class="words">
-                                    <span v-for="supportsVal in item.supports" :key="supportsVal.id">{{ supportsVal.icon_name }}</span>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <span>准时送</span>
-                                <span>蜂鸟专送</span>
-                            </div>
-                            <div class="bottom">
-                                <span>{{ item.order_lead_time }}</span><span>{{ item.distance }}/</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <oneSellerMsgCard :restaurantsListInfo="restaurantsListInfo"></oneSellerMsgCard>
                 <div class="spinnerBottom" v-if="!allLoaded">
                 <mt-spinner class="dataStatusImg" type="fading-circle" color="#00ccff" :size="30" ></mt-spinner><span class="dataStatus">加载中...</span>
                 </div>
@@ -118,6 +80,7 @@
     import { getDetailedLocation } from "../../service/getData"
     import { getFootEntry } from "../../service/getData"
     import { getRestaurants } from "../../service/getData"
+    import  oneSellerMsgCard from '../../components/sellerMsgCard/sellerMsgCard'
 
     export default {
         data () {
@@ -279,6 +242,9 @@
                 })
 
             }
+        },
+        components:{
+            "oneSellerMsgCard" : oneSellerMsgCard
         }
     }
 </script>

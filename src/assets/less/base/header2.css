@@ -1,0 +1,31 @@
+#header {
+  position: fixed;
+  top: 0 ;
+  width: 100%;
+  background-color: #3190E8;
+  line-height: 0.45rem;
+  height: 0.45rem;
+  z-index: 999;
+  padding: 0 0.1rem;
+}
+#header > svg {
+  color: #fff;
+  font-size: 0.2rem;
+  line-height: 0.45rem;
+}
+#header .title {
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 1.8rem;
+  text-align: center;
+  padding-right: 0.15rem;
+  font-size: 0.2rem;
+  line-height: 0.45rem;
+  position: absolute;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+}

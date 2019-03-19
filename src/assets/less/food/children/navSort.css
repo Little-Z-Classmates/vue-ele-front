@@ -1,0 +1,21 @@
+.fold-drop-down {
+  position: absolute;
+  top: 0.4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #fff;
+  overflow: hidden;
+}
+.fold-drop-down ul li {
+  position: relative;
+  height: 0.55rem;
+  border-bottom: 0.01rem solid #ccc;
+  margin-left: 0.3rem;
+  line-height: 0.55rem;
+}
+.fold-drop-down ul li :nth-child(1) {
+  position: absolute;
+  left: -0.24rem;
+  top: 0.2rem;
+  font-size: 0.16rem;
+}

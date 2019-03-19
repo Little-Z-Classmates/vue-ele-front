@@ -1,0 +1,69 @@
+@mainColor: #3190E8;
+@bgcColor: #fff;
+@borderColor: #e0e0e0;
+@fontColor: #787878;
+.fold-drop-down {
+  position: absolute;
+  top: .4rem;
+  height: 2.8rem;
+  width: 100%;
+  background-color: #fff;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  .top {
+    height: 2.15rem;
+    padding-left: .15rem;
+    .mode {
+      flex: 4;
+      :nth-child(1) {
+        line-height: .4rem;
+      }
+      :nth-child(2) {
+        display: inline-block;
+        padding: .08rem .25rem .08rem .1rem;
+        border: .01rem solid @borderColor;
+        svg {
+          font-size: .18rem;
+          margin-right: .05rem;
+        }
+      }
+    }
+    .sellerAttribute {
+      padding-right: .2rem;
+      flex: 6;
+      > :nth-child(1) {
+        margin-top: .16rem;
+        margin-bottom: .15rem;
+      }
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: space-between;
+        li {
+          width: 30%;
+          margin-bottom: .1rem;
+          line-height: .3rem;
+          text-align: center;
+          border: .01rem solid @borderColor;
+        }
+      }
+    }
+  }
+  .bottom {
+    flex: 1;
+    background-color: @borderColor;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    .mint-button {
+      width: 1.78rem;
+      height: .5rem;
+      &~:nth-child(2){
+        background-color: #56d176;
+    }
+    }
+  }
+}

@@ -51,6 +51,16 @@ export const getFootEntry  = async ( vmObj ) =>{
 /**
  * 获取 商铺列表 shopping/restaurants
  */
-export const getRestaurants = async ( vmObj,latitude,longitude,offset='0' ) =>{
+export const getRestaurants = async ( vmObj,latitude,longitude,offset='0',restaurant_category_id ) =>{
+    if ( restaurant_category_id )
+    {
+        return  vmObj.$http.get(`shopping/restaurants?latitude=${latitude}&longitude=${longitude}&offset=${offset}&restaurant_category_id=${restaurant_category_id}`)
+    }
     return  vmObj.$http.get(`shopping/restaurants?latitude=${latitude}&longitude=${longitude}&offset=${offset}`)
+}
+/**
+ * 获取 所有商铺分类列表
+ */
+export const getAllSellerClassify = async ( vmObj ) =>{
+    return  vmObj.$http.get(`shopping/v2/restaurant/category`)
 }
