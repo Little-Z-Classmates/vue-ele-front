@@ -63,3 +63,32 @@
   width: 100%;
   position: relative;
 }
+#main .fading-circle {
+  position: absolute;
+  top: -0.3rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+#main .fading-circle .el-icon-success {
+  font-size: 0.28rem;
+}
+#main .fading-circle span {
+  line-height: 0.28rem;
+}
+#main .upScroll {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+#main .upScroll .el-icon-loading,
+#main .upScroll .el-icon-success {
+  font-size: 0.28rem;
+}
+#main .upScroll span {
+  line-height: 0.28rem;
+}

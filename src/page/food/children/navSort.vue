@@ -1,34 +1,44 @@
 <template>
     <div class="fold-drop-down" ref="dropDown">
         <ul>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-paixu"></use></svg>智能排序</li>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-juli1"></use></svg>距离最近</li>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-huo3"></use></svg>销量最高</li>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jinbi2"></use></svg>起送价最低</li>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-shijian1"></use></svg>配送速度最快</li>
-            <li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xing-copy"></use></svg>评分最高</li>
+            <li @tap="$emit('toggleSort', item.old_id )" v-for="item in SortList" :key="item.old_id"><svg class="icon" aria-hidden="true"><use :xlink:href="item.icon"></use></svg>{{ item.name }}</li>
         </ul>
     </div>
 </template>
 
 <script>
-    import BScroll from 'better-scroll'
+    import BScroll from "better-scroll"
 
     export default {
-     mounted(){
-         this.useBScroll()
-     },
-     methods:{
-            useBScroll(){
-                var dropDown = this.$refs.dropDown
-                let scroll = new BScroll( dropDown )
+        data(){
+            return {
+                currentSortName : '智能排序',
+                SortList :[
+                    { old_id : 4 , name : '智能排序',icon:'#icon-paixu'},
+                    { old_id : 6 , name : '距离最近',icon:'#icon-juli1'},
+                    { old_id : 5 , name : '销量最高',icon:'#icon-huo3'},
+                    { old_id : 1 , name : '起送价最低', icon:'#icon-jinbi2'},
+                    { old_id : 2 , name : '配送速度最快',icon:'#icon-shijian1'},
+                    { old_id : 3 , name : '评分最高',icon:'#icon-xing-copy'},
+                ]
             }
-     },
-     props:[]
+        },
+        mounted () {
+            this.useBScroll ()
+        },
+        methods : {
+            useBScroll () {
+                var dropDown = this.$refs.dropDown
+                let scroll = new BScroll ( dropDown,{
+                    tap : 'tap'
+                } )
+            }
+        },
+        props : []
     }
 </script>
 
 <style lang="less" scoped>
- @import "../../../assets/less/food/children/navSort";
+    @import "../../../assets/less/food/children/navSort";
 
 </style>

@@ -51,16 +51,42 @@ export const getFootEntry  = async ( vmObj ) =>{
 /**
  * 获取 商铺列表 shopping/restaurants
  */
-export const getRestaurants = async ( vmObj,latitude,longitude,offset='0',restaurant_category_id ) =>{
-    if ( restaurant_category_id )
-    {
-        return  vmObj.$http.get(`shopping/restaurants?latitude=${latitude}&longitude=${longitude}&offset=${offset}&restaurant_category_id=${restaurant_category_id}`)
+export const getRestaurants = async ( vmObj,latitude,longitude,offset='0',restaurant_category_id ,order_by,support_ids ) =>{
+    var RstObj = {
+        latitude,
+        longitude,
+        offset,
+        restaurant_category_id,
+        order_by,
+        support_ids
     }
-    return  vmObj.$http.get(`shopping/restaurants?latitude=${latitude}&longitude=${longitude}&offset=${offset}`)
+    //support_ids[]
+    var str = 'shopping/restaurants?'
+    var valueKeyArr = []
+    for ( let key in RstObj ) {
+        if ( RstObj[key] ){
+            if ( Array.isArray( RstObj[key]) ){
+                RstObj[key].forEach( item =>{
+                    valueKeyArr.push( key+'[]='+ item )
+                })
+            }else{
+                valueKeyArr.push( key + '='+ RstObj[key] )
+            }
+        }
+    }
+    var newValueKeyArr = valueKeyArr.join('&')
+    str = str + newValueKeyArr
+    return vmObj.$http.get( str )
 }
 /**
  * 获取 所有商铺分类列表
  */
 export const getAllSellerClassify = async ( vmObj ) =>{
     return  vmObj.$http.get(`shopping/v2/restaurant/category`)
+}
+/**
+ * 获取 商家属性活动列表
+ */
+export  const getSellerActivityAttributes = async ( vmObj ) =>{
+    return  vmObj.$http.get(`shopping/v1/restaurants/activity_attributes`)
 }

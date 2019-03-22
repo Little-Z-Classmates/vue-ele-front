@@ -19,9 +19,10 @@
   line-height: 0.4rem;
 }
 .fold-drop-down .top .mode :nth-child(2) {
+  color: orange;
   display: inline-block;
   padding: 0.08rem 0.25rem 0.08rem 0.1rem;
-  border: 0.01rem solid #e0e0e0;
+  border: 0.01rem solid orange;
 }
 .fold-drop-down .top .mode :nth-child(2) svg {
   font-size: 0.18rem;
@@ -47,6 +48,10 @@
   line-height: 0.3rem;
   text-align: center;
   border: 0.01rem solid #e0e0e0;
+}
+.fold-drop-down .top .sellerAttribute .clickColor {
+  color: orange;
+  border: 0.01rem solid orange;
 }
 .fold-drop-down .bottom {
   flex: 1;

@@ -21,7 +21,8 @@
         <div class="drop-down-right" ref="dropDownRight">
             <ul>
                 <li v-for="value in currentFoodKindSub"
-                    :key="new Date().getTime()*Math.random()*Math.random()">
+                    :key="new Date().getTime()*Math.random()*Math.random()"
+                    @rightTap="$emit('toggleCategory', value.id,value.name )">
                     <span>{{ value.name }}</span>
                     <span>{{ value.count }}</span>
                 </li>
@@ -41,7 +42,7 @@
                 currentFoodKindSub : [],
                 allFoodKindsSub : [],
                 classifyCountAll : '',
-                currentActive: '异国料理'
+                currentActive: '异国料理',
             }
         },
         watch:{
@@ -85,7 +86,7 @@
                         }
                    })
                }
-            }
+            },
         },
         mounted(){
             this.useBScroll()

@@ -10,6 +10,7 @@
   "dependencies": {
     "@vue/babel-preset-app": "^3.5.1",
     "better-scroll": "^1.15.0",
+    "chromedriver": "^2.46.0",
     "element-ui": "^2.6.1",
     "fastclick": "^1.0.6",
     "mint-ui": "^2.2.13",
@@ -36,6 +37,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.3.1",
     "babel-plugin-component": "^1.1.1",
+    "chromedriver": "^2.46.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",

@@ -3,10 +3,11 @@ import VueRouter from "vue-router"
 import { routerMode } from "../config/env.js"
 Vue.use( VueRouter )
 
-import home  from '../page/home/home.vue'
-import city  from '../page/city/city.vue'
-import msite  from '../page/msite/msite.vue'
-import food  from '../page/food/food.vue'
+const home = () => import('../page/home/home.vue')
+const city = () => import('../page/city/city.vue')
+const msite = () => import('../page/msite/msite.vue')
+const food = () => import('../page/food/food.vue')
+
 
 const vueRouterObj = new VueRouter({
     mode: routerMode,
