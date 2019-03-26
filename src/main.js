@@ -41,7 +41,7 @@ new Vue ( {
     mounted() {
         const s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'http://at.alicdn.com/t/font_1084448_gqzbaog4xbi.js';
+        s.src = 'http://at.alicdn.com/t/font_1084448_l16uopt96e.js';
         document.body.appendChild(s);
     },
 } )

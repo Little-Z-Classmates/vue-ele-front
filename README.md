@@ -164,3 +164,123 @@ infinite-scroll-disabled : banMoreLoading( true ) ---- 失效
 ```text
 会造成不可预料的错误
 ```
+### 注意 : 指令是从左往右执行
+```text
+请注意,不然会造成不可预料的错误
+```
+### 注意 : 单行显示 并且 让多出文字 显示省略号  ---- 与 display: flex 混用 , 前者失效
+```text
+单行显示 并且 多出文字 显示省略号
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+```
+### 注意 : display : flex 布局 子元素以 flex : n, 来分隔父元素宽度,如果是 长数字/长字母, 浏览器不会换行,会解析成一个单词
+```text
+用css 以下这两个 属性 强制换行: 
+    word-wrap: break-word;
+    word-break: break-all;
+```
+### 注意 : 使用滚动插件 better-scroll 记得禁用 页面在的滚动,不然页面自己会有滚动事件,出现Bug
+```text
+// 滑动限制
+stop(){
+    var mo=function(e){ e.preventDefault(); };
+    document.body.style.overflow='hidden';
+    document.addEventListener( "touchmove",mo,false );//禁止页面滑动
+},
+// css 加一个样式
+* {
+  touch-action: pan-y;
+}
+```
+### 问题 : 由于在其他页面禁用了 body 的滚动事件 在 msite.vue 页面中需要 改回来
+```text
+move(){
+       var mo=function(e){ e.preventDefault() }
+       document.body.style.overflow='';
+       document.removeEventListener("touchmove",mo,false);
+  }
+```
+### 注意: better-scroll ---> 它的生命周期 BUG
+```text
+    1. 如果在某一个组件内创建了一个BScroll的实例，
+在组件生命周期结束前要注意调用destroy方法，
+    2. 否则在滑动过程中切换页面会导致一直触发scroll事件，
+导致一些意想不到的问题，切记！！！
+```
+### 问题 : vue 中锚点定位问题
+```text
+方法一 : 
+vue-router 里面 
+ 1. 使用 History 模式
+ 2. 再使用scrollBehavior 实现
+const router = new VueRouter({
+  routes,
+  mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
+      if (to.hash) {
+        return {
+          // 這個是透過 to.hash 的值來找到對應的元素
+          // 例如你按下 #3 的連結，就會變成 querySelector('#3')，自然會找到 id = 3 的元素
+          selector: to.hash
+        }
+      }
+    }
+})
+
+方法二 : 不使用 History 模式,正常 # 模式
+
+    document.querySelector(".scroll-container").scrollTop = anchor;
+```
+### 注意: better-scroll --> 注册 滚动 scroll
+```text
+在注册 滚动 scroll 事件时候
+需要 定义一个属性 probeType
+默认值：0
+可选值：1、2、3
+作用：有时候我们需要知道滚动的位置。当 probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件；
+当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；
+当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。
+如果没有设置该值，其默认值为 0，即不派发 scroll 事件。
+```
+### 注意: $nextTick
+```text
+$nextTick 是在下次 DOM 更新循环结束之后执行延迟回调
+回调中获取更新后的 DOM, 
+方法在这里定义无效,会在数据获取前就 就定义了,无用!!!!!
+```
+### 知识点 : 背景皮肤处理
+```text
+/*背景模糊*/
+.bg{
+    width:100%;
+    height:100%;
+    position: relative;
+    background: url("../image/banner/banner.jpg") no-repeat fixed;
+    padding:1px;
+    box-sizing:border-box;
+    z-index:1;
+}
+.bg:after{
+    content: "";
+    width:100%;
+    height:100%;
+    position: absolute;
+    left:0;
+    top:0;
+    background: inherit;
+    filter: blur(2px);
+    z-index: 2;
+}
+```
+### 知识点 : less 和 CSS3 使用 calc()
+```text
+calc(expression) 使用通用的数学运算规则，但是也提供更智能的功能：
+
+使用“+”、“-”、“*” 和 “/”四则运算；
+可以使用百分比、px、em、rem等单位；
+可以混合使用各种单位进行计算；
+表达式中有“+”和“-”时，其前后必须要有空格，如”widht: calc(12%+5em)”这种没有空格的写法是错误的；
+表达式中有“*”和“/”时，其前后可以没有空格，但建议留有空格。
+```

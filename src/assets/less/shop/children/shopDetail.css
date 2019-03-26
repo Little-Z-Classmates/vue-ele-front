@@ -1,0 +1,15 @@
+#shopDetail {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  background-color: #ebebeb;
+}
+.topCard {
+  margin-top: 0.5rem;
+  height: 2.35rem;
+  width: 100%;
+}

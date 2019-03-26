@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in restaurantsListInfo " :key="new Date().getTime()*Math.random()*Math.random()" class="sellers" >
+        <router-link :to="'/shop/'+item.id+'/'+geohash" tag="div" v-for="item in restaurantsListInfo " :key="new Date().getTime()*Math.random()*Math.random()" class="sellers" >
             <div class="seller">
                 <img class="sellerHeadImg" :src=" baseImgUrl + item.image_path">
                 <div class="leftInfo">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </router-link>
     </div>
 </template>
 
@@ -52,7 +52,7 @@
                 baseImgUrl
             }
         },
-        props:[ 'restaurantsListInfo']
+        props:[ 'restaurantsListInfo','geohash']
     }
 </script>
 

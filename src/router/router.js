@@ -3,11 +3,12 @@ import VueRouter from "vue-router"
 import { routerMode } from "../config/env.js"
 Vue.use( VueRouter )
 
-const home = () => import('../page/home/home.vue')
-const city = () => import('../page/city/city.vue')
+const home  = () => import('../page/home/home.vue')
+const city  = () => import('../page/city/city.vue')
 const msite = () => import('../page/msite/msite.vue')
-const food = () => import('../page/food/food.vue')
-
+const food  = () => import('../page/food/food.vue')
+const shop  = () => import('../page/shop/shop.vue')
+const shopDetail = () => import("../page/shop/children/shopDetail.vue")
 
 const vueRouterObj = new VueRouter({
     mode: routerMode,
@@ -17,6 +18,13 @@ const vueRouterObj = new VueRouter({
         { path : '/city/:id', component : city },
         { path : '/msite', component : msite },
         { path : '/food', component : food },
+        {
+            path : '/shop/:shopid/:geohash',
+            component : shop ,
+            children:[
+                { path:'/shop/shopDetail/:shopid/:geohash',component : shopDetail }
+            ]
+        }
     ],
     // linkActiveClass : "mui-active"
 })

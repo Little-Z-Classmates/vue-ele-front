@@ -35,7 +35,7 @@
                <span class="iconfont">&#xe67b;</span>
                <span>附近商家</span>
            </div>
-                <oneSellerMsgCard :restaurantsListInfo="restaurantsListInfo"></oneSellerMsgCard>
+                <oneSellerMsgCard :restaurantsListInfo="restaurantsListInfo" :geohash="$route.query.geohash"></oneSellerMsgCard>
                 <div class="spinnerBottom" v-if="!allLoaded">
                 <mt-spinner class="dataStatusImg" type="fading-circle" color="#00ccff" :size="30" ></mt-spinner><span class="dataStatus">加载中...</span>
                 </div>
@@ -116,6 +116,7 @@
             }
         },
         created () {
+            this.move()
             this.fullScreen( this ) // 遮罩层开启
             // 获取详细地址
             this.getDetailedLocation( this,this.$route.query.geohash ).then( results => {
@@ -202,7 +203,6 @@
                 if( this.allLoaded ){
                     return false;
                 }
-                console.log ( "1" )
                 var geohashArr =  this.$route.query.geohash.split(',')
                 var filterFuc = this.filterShopRestaurants
                 this.getRestaurants( this,geohashArr[0],geohashArr[1],this.restaurantsListRealLength ).then( results =>{
@@ -240,7 +240,12 @@
                         this.restaurantsListInfo = newRestaurantsList
                     }
                 })
-
+            },
+            // 定义一个 可以滚动的方法
+            move(){
+                var mo=function(e){ e.preventDefault() }
+                document.body.style.overflow='';
+                document.removeEventListener("touchmove",mo,false);
             }
         },
         components:{
@@ -250,6 +255,9 @@
 </script>
 
 <style lang="less" scoped>
+    * {
+        touch-action: pan-y;
+    }
     @import "../../assets/less/base/header";
     @import "../../assets/less/msite/msite";
 </style>

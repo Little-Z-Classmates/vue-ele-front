@@ -1,0 +1,216 @@
+.goback {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0.2rem;
+  height: 0.2rem;
+  padding: 0.03rem;
+  background-color: rgba(186, 186, 186, 0.9);
+  z-index: 999;
+  border-radius: 50%;
+}
+#shop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+#fixedTop {
+  width: 100%;
+  position: fixed;
+  z-index: 998;
+  top: 0;
+  left: 0;
+}
+#fixedTop .filterImg {
+  position: relative;
+  overflow: hidden;
+}
+#fixedTop .filterImg:after {
+  content: "";
+  width: 100%;
+  height: 120%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: inherit;
+  z-index: 2;
+  filter: blur(10px);
+}
+#fixedTop #header {
+  position: relative;
+  overflow: hidden;
+  height: 1rem;
+  width: 100%;
+  padding-left: 0.1rem;
+  padding-top: 0.1rem;
+  display: flex;
+  z-index: 3;
+  background-color: rgba(81, 81, 81, 0.4);
+}
+#fixedTop #header .left {
+  height: 100%;
+  padding-right: 0.1rem;
+}
+#fixedTop #header .left .logo {
+  border-radius: 0.08rem;
+  width: 0.7rem;
+  height: 0.7rem;
+}
+#fixedTop #header .title {
+  float: left;
+  flex: 1;
+  overflow: hidden;
+}
+#fixedTop #header .title h2 {
+  font-family: "SimHei";
+  line-height: 0.3rem;
+  color: #fff;
+}
+#fixedTop #header .title p {
+  color: #fff;
+  font-size: 0.12rem;
+  line-height: 0.24rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#fixedTop #header .title p:nth-of-type(1) {
+  margin-top: 0.05rem;
+}
+#fixedTop #header .right {
+  float: none;
+}
+#fixedTop #header .right .toinfo {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.2rem;
+  height: 0.2rem;
+  padding: 0.03rem;
+}
+#fixedTop #center {
+  background-color: rgba(81, 81, 81, 0.4);
+  position: relative;
+  z-index: 3;
+  padding-left: 0.1rem;
+  height: 0.3rem;
+  width: 100%;
+  line-height: 0.3rem;
+}
+#fixedTop #center i {
+  background-color: orangered;
+  color: #fff;
+  font-size: 0.12rem;
+  border-radius: 0.02rem;
+  padding: 0 0.03rem;
+  float: left;
+  line-height: 0.2rem;
+  margin-top: 0.05rem;
+}
+#fixedTop #center span {
+  color: #fff;
+  font-size: 0.12rem;
+}
+#fixedTop #center span ~ span {
+  float: right;
+  margin-right: 0.06rem;
+}
+#fixedTop #center .centerInfo {
+  width: 2.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+#fixedTop #nav {
+  background-color: #fff;
+  height: 0.5rem;
+  width: 100%;
+  border-bottom: 0.01rem solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.05rem;
+}
+#fixedTop #nav span {
+  font-size: 0.18rem;
+  line-height: 0.33rem;
+  border-bottom: 0.03rem transparent #3190E8;
+}
+#fixedTop #nav .active {
+  border-bottom: 0.03rem solid #3190E8;
+  color: #3190E8;
+}
+#main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  height: 0.5rem;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+}
+#footer .shop-car {
+  position: absolute;
+  top: -0.15rem;
+  border: 0.03rem solid #292929;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.2rem;
+  background-color: #3190E8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#footer .shop-car .blue-car {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+#footer .money {
+  display: flex;
+  padding: 0.07rem 0;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 0.9rem;
+  height: 100%;
+  flex: 1;
+}
+#footer .money div {
+  color: #fff;
+}
+#footer .money .allMoney {
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+}
+#footer .money .deliverMoney {
+  font-size: 0.12rem;
+  transform: scale(0.9);
+  transform-origin: left;
+  padding-left: 0.03rem;
+}
+#footer .getMoney {
+  width: 1.05rem;
+  height: 100%;
+  background-color: #00d900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  color: #fff;
+  font-size: 0.15rem;
+}
+#footer .getMoney span {
+  color: #fff;
+}
+#footer .noYet {
+  border-color: #262626;
+  background-color: #262626;
+}

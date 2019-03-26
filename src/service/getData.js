@@ -90,3 +90,15 @@ export const getAllSellerClassify = async ( vmObj ) =>{
 export  const getSellerActivityAttributes = async ( vmObj ) =>{
     return  vmObj.$http.get(`shopping/v1/restaurants/activity_attributes`)
 }
+/**
+ * 根据 id 获取 商铺的 具体信息
+ */
+export const getShopInformation  = async ( vmObj ,shopId) =>{
+    return vmObj.$http.get(`shopping/restaurant/${shopId}`)
+}
+/**
+ * 根据 id 获取 商铺的 食品种类
+ */
+export const getShopGoodsMenu = async( vmObj ,shopId) =>{
+    return vmObj.$http.get(`shopping/v2/menu?restaurant_id=${shopId}`)
+}

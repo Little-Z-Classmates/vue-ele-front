@@ -18,10 +18,10 @@
               </div>
               <div class="historyInfo">
                   <ul class="historyList"  v-if="flag">
-                      <router-link tag="li" :to="'/msite?geohash='+item.geohash" v-for="item in historyPlace" :key="item.geohash">
+                      <li @click="goNext(item.geohash)" v-for="item in historyPlace" :key="item.geohash">
                           <div class="listTitle">{{ item.name }}</div>
                           <div class="listInfo">{{ item.address }}</div>
-                      </router-link>
+                      </li>
                   </ul>
                   <ul class="historyList"  v-if="!flag">
                       <li  v-for="item in PlaceToKeyInfo" @click="goNextAndSetHistoryInfo(id,item.geohash,item.address,item.name )"  :key="item.geohash">
@@ -164,6 +164,10 @@
                     }
                 }
                 localStorage.setItem('historyPlaceInfo',JSON.stringify(arr))
+                this.goNext(geohash)
+            },
+            // 点击列表 跳转到 下个路由
+            goNext(geohash){
                 // 带着 geohash 去到下个路由
                 this.$router.push({ path: '/msite', query: { geohash: geohash }})
             }
