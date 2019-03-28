@@ -4,6 +4,7 @@
 @fontColor: #787878;
 
 #shopDetail{
+  padding-top: .45rem;
   overflow: hidden;
   position: fixed;
   top: 0;
@@ -14,8 +15,87 @@
   background-color:#ebebeb
 }
 
-.topCard{
-  margin-top: .5rem ;
-  height: 2.35rem;
+main{
   width: 100%;
+  height: 100%;
+  .mainInner{
+    padding-top: .1rem;
+    .topCard{
+      background-color: #fff;
+      width: 100%;
+      padding-bottom: .2rem;
+      .title{
+        height: .45rem;
+        line-height: .45rem;
+        font-size: .18rem;
+        padding-left: .1rem;
+        border-bottom: .01rem solid @borderColor;
+      }
+      .centerInfo{
+        ul{
+          padding-left: .1rem;
+          li{
+            color: @fontColor;
+            margin-top:.1rem;
+            line-height: .22rem;
+            span{
+              color: #fff;
+              padding: 0 .02rem;
+              border-radius: .04rem;
+              font-size: .14rem;
+              line-height: .22rem;
+            }
+          }
+        }
+      }
+    }
+    .bottomCard{
+      margin-top: .1rem;
+      background-color: #fff;
+      .title{
+        height: .45rem;
+        border-bottom: .01rem solid @borderColor;
+        line-height: .45rem;
+        font-size: .18rem;
+        padding-left: .1rem;
+      }
+      .shopMsgInfo{
+        padding-left: .1rem;
+        div{
+          border-bottom: .01rem solid @borderColor;
+          line-height: .5rem;
+          padding-right: .1rem;
+          color: @fontColor;
+          &:last-of-type{
+            border-bottom:none;
+          }
+          span{
+            float: right;
+            color: @fontColor;
+          }
+        }
+        .place{
+          line-height: .25rem;
+          padding: .1rem 0;
+        }
+      }
+    }
+  }
 }
+
+.dust-layer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  background-color: rgba(72, 72, 72, 0.82);
+  img{
+    width: 100vw;
+    height: 100vw;
+  }
+}
+

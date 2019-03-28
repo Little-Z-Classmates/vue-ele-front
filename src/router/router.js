@@ -9,6 +9,7 @@ const msite = () => import('../page/msite/msite.vue')
 const food  = () => import('../page/food/food.vue')
 const shop  = () => import('../page/shop/shop.vue')
 const shopDetail = () => import("../page/shop/children/shopDetail.vue")
+const shopSafe = () => import("../page/shop/children/shopSafe.vue")
 
 const vueRouterObj = new VueRouter({
     mode: routerMode,
@@ -19,13 +20,13 @@ const vueRouterObj = new VueRouter({
         { path : '/msite', component : msite },
         { path : '/food', component : food },
         {
-            path : '/shop/:shopid/:geohash',
+            path : '/shop/:shopid',
             component : shop ,
             children:[
-                { path:'/shop/shopDetail/:shopid/:geohash',component : shopDetail }
+                { path:'/shop/shopDetail/:shopid',component : shopDetail },
+                { path:'/shop/shopDetail/shopSafe/:shopid',component : shopSafe },
             ]
         }
     ],
-    // linkActiveClass : "mui-active"
 })
 export default vueRouterObj

@@ -79,7 +79,7 @@
             goBack(){
                 this.$router.go(-1)
             },
-            // 根据id , 得到 localStorage 信息, 把历史地址 渲染到对应的位置
+            // 根据城市id , 得到 localStorage 信息, 把历史地址 渲染到对应的位置
             getHistoryInfoToLocalStorage(id){
                 var arr = JSON.parse( localStorage.getItem('historyPlaceInfo') ) || []
                 if ( arr.find( function ( value ) {  return ( value.id == id ) })  ){
@@ -121,7 +121,7 @@
                     })
                 }
             },
-            // 点击列表, 把数据存到 localStorage 里面 , 再跳转到 下个路由
+            // 点击列表, 把数据存到 sessionStorage 里面 , 再跳转到 下个路由
             goNextAndSetHistoryInfo(id ,geohash,address,name){
                 var arr = JSON.parse( localStorage.getItem('historyPlaceInfo') ) || []
                 if ( arr == [] ){
@@ -166,10 +166,11 @@
                 localStorage.setItem('historyPlaceInfo',JSON.stringify(arr))
                 this.goNext(geohash)
             },
-            // 点击列表 跳转到 下个路由
+            // 点击列表 跳转到 下个路由,sessionStorage
             goNext(geohash){
-                // 带着 geohash 去到下个路由
-                this.$router.push({ path: '/msite', query: { geohash: geohash }})
+                // 带着 geohash 去到下个路由, 设置 sessionStorage
+                this.$store.commit('setGeoHashToSS',geohash)
+                this.$router.push({ path: '/msite' })
             }
         },
     }

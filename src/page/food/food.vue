@@ -1,6 +1,6 @@
 <template>
     <div id="food" >
-        <headerComponent :sellerName="$route.query.title"></headerComponent>
+        <headerComponent :sellerName="$route.query.title"  @goToBack="goToBack"></headerComponent>
         <nav id="nav">
             <div class="title"
                  v-for="item in navTitles"
@@ -102,20 +102,34 @@
             },
             // 滚动 刷新 与 加载
             scroll(){
-                return new BScroll( this.$refs.mainRef,{
-                    pullDownRefresh: {
-                        threshold: 50,  // 顶部下拉的距离（threshold）
-                        stop: 40    // 刷新时机以及回弹停留的距离（stop）
-                    },
-                    pullUpLoad: {
-                        threshold: 0 // 底部上拉的距离（threshold）
-                    }
-                } )
+                if ( this.$refs.mainRef ){
+                    return new BScroll( this.$refs.mainRef,{
+                        pullDownRefresh: {
+                            threshold: 50,  // 顶部下拉的距离（threshold）
+                            stop: 40    // 刷新时机以及回弹停留的距离（stop）
+                        },
+                        pullUpLoad: {
+                            threshold: 0 // 底部上拉的距离（threshold）
+                        }
+                    } )
+                }
             },
         },
         methods : {
             getAllSellerClassify,
             getRestaurants,
+            // 根据 Vuex 得到经纬度
+            getVuexGeoHash(){
+                if ( this.$store.getters.getGeoHash ){
+                    return this.$store.getters.getGeoHash
+                }else{
+                    this.$router.push({ path : '/home'})
+                }
+            },
+            // 返回上一页的方法
+            goToBack(){
+                this.$router.push({ path : '/msite'})
+            },
             // 点击蒙层, nav栏 往上滑
             disappearNav(){
                 this.navTabFlag = false
@@ -125,7 +139,7 @@
             // 封装 getRestaurants
             getRestaurantsPackage( scrollObj ){
                 // 根据id 得到商铺列表
-                var geohash = ( this.$route.query.geohash ).split(',') ;
+                var geohash = ( this.$store.getters.getGeoHash ).split(',') ;
                 var restaurant_category_id = this.$route.query.restaurant_category_id ;
                 this.getRestaurants( this,geohash[0],geohash[1],0,restaurant_category_id ).then( result =>{
                     if ( result.status === 200){
@@ -152,7 +166,7 @@
             },
             // 封装 getRestaurants , 下拉得到更多数据
             getMoreRestaurantsPackage( scrollObj ){
-                var geohash = ( this.$route.query.geohash ).split(',') ;
+                var geohash = ( this.$store.getters.getGeoHash ).split(',') ;
                 var restaurant_category_id = this.$route.query.restaurant_category_id ;
                 this.getRestaurants( this,geohash[0],geohash[1],this.currentShopListNum,restaurant_category_id ).then( result => {
                     if ( result.status === 200 ) {
@@ -201,7 +215,7 @@
                     return false
                 }
                 this.fullscreenLoading = true
-                var geohash = ( this.$route.query.geohash ).split(',') ;
+                var geohash = ( this.$store.getters.getGeoHash ).split(',') ;
                 this.getRestaurants( this,geohash[0],geohash[1],0,categoryId ).then( result =>{
                     if ( result.status == 200){
                         this.currentCategoryId = categoryId
@@ -219,7 +233,7 @@
                    return false
               }
                 this.fullscreenLoading = true
-                var geohash = ( this.$route.query.geohash ).split(',') ;
+                var geohash = ( this.$store.getters.getGeoHash ).split(',') ;
                 this.getRestaurants( this,geohash[0],geohash[1],0,this.currentCategoryId,order_by ).then( result =>{
                     if ( result.status == 200){
                         this.currentSort = order_by
@@ -246,7 +260,7 @@
                     return false
                 }
                 this.fullscreenLoading = true
-                var geohash = ( this.$route.query.geohash ).split(',') ;
+                var geohash = ( this.$store.getters.getGeoHash ).split(',') ;
                 this.getRestaurants( this,geohash[0],geohash[1],0,this.currentCategoryId,this.currentSort,vipIdArr )
                 .then( result =>{
                     if ( result.status == 200){
@@ -260,6 +274,10 @@
             }
         },
         created(){
+            this.getVuexGeoHash()
+            if ( !this.$store.getters.getGeoHash ){
+                return false
+            }
             this.getAllSellerClassify( this ).then( results =>{
                 if ( results.status === 200 ){
                     this.navClassifyInfoList = results.body
@@ -269,21 +287,28 @@
         },
         mounted () {
             this.$nextTick(() => {
-                this.scroll;
-                // 下拉 触发 事件
-                this.scroll.on('pullingDown', () => {
-                    this.loadingDownStatus = 'loading' ;
-                    this.getRestaurantsPackage( this.scroll );
-                });
-                // 上拉 触发 事件
-                this.scroll.on('pullingUp', () => {
-                    if ( ! ( this.loadingUpStatus == 'overLoading' ) ){
-                        this.getMoreRestaurantsPackage( this.scroll );
-                    }
-                });
-                this.scroll.disable();
-                this.stop();
+                if ( this.scroll ){
+                    this.scroll;
+                    // 下拉 触发 事件
+                    this.scroll.on('pullingDown', () => {
+                        this.loadingDownStatus = 'loading' ;
+                        this.getRestaurantsPackage( this.scroll );
+                    });
+                    // 上拉 触发 事件
+                    this.scroll.on('pullingUp', () => {
+                        if ( ! ( this.loadingUpStatus == 'overLoading' ) ){
+                            this.getMoreRestaurantsPackage( this.scroll );
+                        }
+                    });
+                    this.scroll.disable();
+                    this.stop();
+                }
             })
+        },
+        beforeDestroy(){
+            if ( this.scroll ){
+                this.scroll.destroy()
+            }
         },
         components : {
             "headerComponent" : header,

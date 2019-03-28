@@ -56,22 +56,20 @@
             }
         },
         created () {
+            this.move()
             this.fullScreen ( this )
             this.cityGuess ( this ).then ( results => {
                 this.cityGuessInfo = results;
                 this.judgeFullScreen(this)
             } ).catch ( err => { console.log ( err ) } )
-
             this.hotCityGuess ( this ).then ( results => {
                 this.hotCityGuessInfo = results ;
                 this.judgeFullScreen( this )
             } ).catch ( err => {  console.log ( err )   } )
-
             this.groupCityGuess ( this ).then ( results => {
                 this.sort ( results.body );
                 this.judgeFullScreen( this )
             } ).catch ( err => {   console.log ( err )} )
-
         },
         methods : {
             cityGuess,
@@ -100,6 +98,12 @@
                     }
                 }
                 this.groupCityGuessInfo = infoObj
+            },
+            // 定义一个 可以滚动的方法
+            move(){
+                var mo=function(e){ e.preventDefault() }
+                document.body.style.overflow='';
+                document.removeEventListener("touchmove",mo,false);
             }
         },
         components : {}

@@ -209,6 +209,16 @@ move(){
     2. 否则在滑动过程中切换页面会导致一直触发scroll事件，
 导致一些意想不到的问题，切记！！！
 ```
+### 问题 :  better-scroll ---> ref 注意事项
+```text
+1.  ref不要用a-b连名符号写
+如果html里面写ref = "goods-Wrapper"
+用this.$refs.goodsWrapper  或者  this.$refs.goods-Wrapper  
+或  this.$refs.goodswrapper  获取dom元素控制台会报错 :
+[BScroll warn]: Can not resolve the wrapper DOM.    
+Error in nextTick: "TypeError: Cannot read property 'children' of undefined"
+2.  直接用ref="goodsWrapper" （用驼峰命名）
+```
 ### 问题 : vue 中锚点定位问题
 ```text
 方法一 : 
@@ -283,4 +293,15 @@ calc(expression) 使用通用的数学运算规则，但是也提供更智能的
 可以混合使用各种单位进行计算；
 表达式中有“+”和“-”时，其前后必须要有空格，如”widht: calc(12%+5em)”这种没有空格的写法是错误的；
 表达式中有“*”和“/”时，其前后可以没有空格，但建议留有空格。
+```
+### 问题 : 子路由和 父路由 !!!共用一种传参方式!!!, 子路由 改变传参 的值,父路由 也会根据参数改变而改变,
+```text
+例 : {
+       path : '/shop/:shopid',
+       component : shop ,
+       children:[
+           { path:'/shop/shopDetail/:shopid',component : shopDetail }
+       ]
+    }
+解决方式 : 子路由和 父路由 传参 方式 不一致就行
 ```

@@ -1,6 +1,6 @@
 <template>
     <header id="header">
-        <svg class="icon" aria-hidden="true" @click="goBack">
+        <svg class="icon" aria-hidden="true" @click="$emit('goToBack')">
             <use xlink:href="#icon-xiangyou"></use>
         </svg>
         <span class="title">{{ sellerName }}</span>
@@ -14,9 +14,6 @@
             }
         },
         methods:{
-            goBack(){
-                this.$router.go(-1)
-            }
         },
         props:[ 'sellerName' ]
     }

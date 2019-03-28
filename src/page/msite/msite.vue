@@ -19,7 +19,7 @@
                     <!-- slides -->
                     <swiper-slide v-for="item in FootEntryInfo" :key="new Date().getTime()*Math.random()*Math.random()" class="swiperTab">
                         <ul>
-                            <router-link tag="li" :to="'/food?geohash='+ $route.query.geohash +'&title='+ value.title +'&restaurant_category_id='+ value.id" v-for="value in item " :key="value.id">
+                            <router-link tag="li" :to="'/food?title='+ value.title +'&restaurant_category_id='+ value.id" v-for="value in item " :key="value.id">
                                 <img class="navImg" :src="imgBaseUrl + value.image_url">
                                 <div class="navImgTitle">{{ value.title }}</div>
                             </router-link>
@@ -35,7 +35,7 @@
                <span class="iconfont">&#xe67b;</span>
                <span>附近商家</span>
            </div>
-                <oneSellerMsgCard :restaurantsListInfo="restaurantsListInfo" :geohash="$route.query.geohash"></oneSellerMsgCard>
+                <oneSellerMsgCard :restaurantsListInfo="restaurantsListInfo" :geohash="$store.getters.getGeoHash"></oneSellerMsgCard>
                 <div class="spinnerBottom" v-if="!allLoaded">
                 <mt-spinner class="dataStatusImg" type="fading-circle" color="#00ccff" :size="30" ></mt-spinner><span class="dataStatus">加载中...</span>
                 </div>
@@ -115,11 +115,15 @@
                 return this.$refs.mySwiper.swiper
             }
         },
-        created () {
+       created () {
+            this.getVuexGeoHash()
+            if ( !this.$store.getters.getGeoHash ){
+                return false
+            }
             this.move()
             this.fullScreen( this ) // 遮罩层开启
             // 获取详细地址
-            this.getDetailedLocation( this,this.$route.query.geohash ).then( results => {
+            this.getDetailedLocation( this,this.getVuexGeoHash() ).then( results => {
                if ( results.status === 200 ){
                    this.detailAddressInfo = results.body
                    this.judgeFullScreen(this)  // 1
@@ -136,7 +140,7 @@
                 }
             })
             // 获取餐馆分类列表 进行数据 筛选与添加 操作
-            var geohashArr =  this.$route.query.geohash.split(',')
+            var geohashArr =  this.$store.getters.getGeoHash.split(',')
             var filterFuc = this.filterShopRestaurants
             this.getRestaurants( this, geohashArr[0],geohashArr[1] ).then( results =>{
                 if ( results.status === 200 ){
@@ -178,6 +182,14 @@
             getRestaurants,
             getDetailedLocation,
             getFootEntry,    // 食品列表
+            // 根据 Vuex 得到经纬度
+            getVuexGeoHash(){
+                if ( this.$store.getters.getGeoHash ){
+                    return this.$store.getters.getGeoHash
+                }else{
+                    this.$router.push({ path : '/home'})
+                }
+            },
             // 筛选不符合营业时间的商家
             filterShopRestaurants( item ){
                 var shopHoursArr =  ( item.opening_hours )[0].split('/')
@@ -203,7 +215,7 @@
                 if( this.allLoaded ){
                     return false;
                 }
-                var geohashArr =  this.$route.query.geohash.split(',')
+                var geohashArr =  this.$store.getters.getGeoHash.split(',')
                 var filterFuc = this.filterShopRestaurants
                 this.getRestaurants( this,geohashArr[0],geohashArr[1],this.restaurantsListRealLength ).then( results =>{
                     if ( results.status === 200 ){

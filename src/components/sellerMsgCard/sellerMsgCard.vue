@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="'/shop/'+item.id+'/'+geohash" tag="div" v-for="item in restaurantsListInfo " :key="new Date().getTime()*Math.random()*Math.random()" class="sellers" >
+        <div @click="toRouterShop(item.id)" v-for="item in restaurantsListInfo " :key="new Date().getTime()*Math.random()*Math.random()" class="sellers" >
             <div class="seller">
                 <img class="sellerHeadImg" :src=" baseImgUrl + item.image_path">
                 <div class="leftInfo">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-        </router-link>
+        </div>
     </div>
 </template>
 
@@ -50,6 +50,11 @@
             return{
                 imgBaseUrl,
                 baseImgUrl
+            }
+        },
+        methods:{
+            toRouterShop(id){
+                this.$router.push( { path : `/shop/${id}`} )
             }
         },
         props:[ 'restaurantsListInfo','geohash']

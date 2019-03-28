@@ -1,14 +1,6 @@
 <template>
     <div id="shop" :style="shopInfo.activities.length?{'padding-top': '1.8rem'}:''">
         <svg class="icon goback" @click="goback" aria-hidden="true"><use xlink:href="#icon-xiangyou-copy"></use></svg>
-        <!--v-on:before-enter="beforeEnterAndAfterLeave"-->
-        <!--v-on:enter="enterAndLeave"-->
-        <!--v-on:after-enter="afterEnterAndBeforeLeave"-->
-        <!--v-bind:css="false"-->
-        <!--v-on:before-leave="afterEnterAndBeforeLeave"-->
-        <!--v-on:leave="enterAndLeave"-->
-        <!--v-on:after-leave="beforeEnterAndAfterLeave"-->
-        <!--name="leftRight"-->
         <transition name="leftRight">
             <router-view></router-view>
         </transition>
@@ -24,7 +16,7 @@
                         <p>公告：{{shopInfo.promotion_info}}</p>
                     </div>
                     <div class="right">
-                        <router-link tag="svg" :to="'/shop/shopDetail/'+$route.params.shopid+'/'+$route.params.geohash+''" class="icon toinfo"aria-hidden="true"><use xlink:href="#icon-mjiantou-copy-copy"></use></router-link>
+                        <router-link tag="svg" :to="'/shop/shopDetail/'+$route.params.shopid" class="icon toinfo"aria-hidden="true"><use xlink:href="#icon-mjiantou-copy-copy"></use></router-link>
                     </div>
                 </header>
                 <section v-if="shopInfo.activities.length" id="center">
@@ -76,26 +68,16 @@
         },
         methods:{
             getShopInformation,
+            // 根据 Vuex 得到经纬度
+            getVuexGeoHash(){
+                if ( this.$store.getters.getGeoHash ){
+                    return this.$store.getters.getGeoHash
+                }else{
+                    this.$router.push({ path : '/home'})
+                }
+            },
             goback(){
-                var geohash = this.$route.params.geohash
-                this.$router.push({ path: '/msite', query: { geohash: geohash }})
-            },
-
-            beforeEnterAndAfterLeave(el){
-                el.style.transform = 'translateX(375px)'
-                el.style.opacity = '0'
-                // console.log ( "1" )
-            },
-            enterAndLeave( el,done ){
-                el.offsetHeight;
-                el.style.transition = 'all .5s'
-                done()
-                // console.log ( "2" )
-            },
-            afterEnterAndBeforeLeave( el ){
-                el.style.transform = `translateX(0px)`
-                el.style.opacity = '1'
-                // console.log ( "3" )
+                this.$router.push({ path: '/msite' })
             },
         },
         computed:{
@@ -105,9 +87,20 @@
             },
         },
         created(){
+            this.getVuexGeoHash()
+            if ( !this.$store.getters.getGeoHash ){
+                return false
+            }
             this.getShopInformation(this,this.shopId).then( result =>{
                 if ( result.status == 200 ){
-                    this.shopInfo = result.body
+                    this.$store.commit('setCurrentVisitShopInfoToSS',result.body)
+                    if ( !result.body ){
+                        this.$router.push({path:'/msite'})
+                    }else if ( result.body.message ){
+                        this.$router.push({path:'/msite'})
+                    }else{
+                        this.shopInfo = result.body
+                    }
                 }
             })
         },
@@ -138,6 +131,7 @@
     opacity: 0;
     transform: translateX(100vw);
 }
+
 .leftRight-enter-active, .leftRight-leave-active{
     transition: all .5s;
 }

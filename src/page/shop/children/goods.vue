@@ -130,15 +130,17 @@
         },
         created(){
             this.stop()
-            this.getShopGoodsMenu(this,this.shopId).then( result =>{
-                if ( result.status == 200){
-                    var arr = result.body
-                    arr.forEach( item =>{
-                        item.goodsTitleFlag = false
-                    })
-                    this.shopGoodsMenu = arr
-                }
-            })
+            if (this.shopId){
+                this.getShopGoodsMenu(this,this.shopId).then( result =>{
+                    if ( result.status == 200){
+                        var arr = result.body
+                        arr.forEach( item =>{
+                            item.goodsTitleFlag = false
+                        })
+                        this.shopGoodsMenu = arr
+                    }
+                })
+            }
         },
         mounted(){
             this.$nextTick( function () {
@@ -175,6 +177,10 @@
                     key<0 ? this.currentLeftMenuIndex = 0 : this.currentLeftMenuIndex = key
                 })
             })
+        },
+        beforeDestroy(){
+            this.leftAsideScroll.destroy()
+            this.goodsListScroll.destroy()
         }
     }
 </script>

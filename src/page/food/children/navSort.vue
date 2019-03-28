@@ -26,10 +26,12 @@
         mounted () {
             this.useBScroll ()
         },
+        beforeDestroy(){
+            this.useBScroll ().destroy()
+        },
         methods : {
             useBScroll () {
-                var dropDown = this.$refs.dropDown
-                let scroll = new BScroll ( dropDown,{
+                return new BScroll ( this.$refs.dropDown,{
                     tap : 'tap'
                 } )
             }

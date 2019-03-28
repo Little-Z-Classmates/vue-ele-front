@@ -65,13 +65,14 @@
             }
         },
         methods:{
-            useBScroll(){
-                var dropDownLeft = this.$refs.dropDownLeft
-                var dropDownRight = this.$refs.dropDownRight
-                let navScrollLeft = new BScroll(dropDownLeft,{
+            navScrollLeft(){
+                return new BScroll(this.$refs.dropDownLeft,{
                     tap : 'leftTap'
                 })
-                let navScrollRight = new BScroll(dropDownRight,{
+
+            },
+            navScrollRight(){
+                return new BScroll(this.$refs.dropDownRight,{
                     tap : 'rightTap'
                 })
             },
@@ -89,7 +90,12 @@
             },
         },
         mounted(){
-            this.useBScroll()
+            this.navScrollLeft()
+            this.navScrollRight()
+        },
+        beforeDestroy(){
+            this.navScrollLeft().destroy()
+            this.navScrollRight().destroy()
         },
         props:['navClassifyInfoList']
     }
