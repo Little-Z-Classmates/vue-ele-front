@@ -22,6 +22,68 @@
   padding-bottom: .5rem
 }
 
+.activityMask{
+  background-color: rgb(38, 38, 38);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+  div,svg{
+    color: #fff;
+  }
+  .title{
+    font-size: .2rem;
+    width: 100%;
+    line-height: 1rem;
+    text-align: center;
+  }
+  .preferential_title,.promotion_title{
+    width: 100%;
+    height: .4rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+      padding: .06rem;
+      border: .01rem solid #fff;
+      border-radius: .14rem;
+      color: #fff;
+    }
+  }
+  .preferential_title{
+    margin-bottom: .2rem;
+  }
+  .promotion_title{
+    margin: .2rem 0;
+  }
+  .preferential_info{
+    div{
+      color: #fff;
+      line-height: .25rem;
+      padding-left: .25rem;
+      span{
+        padding: 0 .02rem ;
+        border-radius: .02rem;
+        color: #fff;
+      }
+    }
+  }
+  .promotion_info{
+    padding-left: .25rem;
+  }
+  .guanbi{
+    width: .4rem;
+    height: .4rem;
+    position: absolute;
+    bottom: .3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 #fixedTop{
   width: 100%;
   position: fixed;
@@ -42,92 +104,92 @@
       z-index: 2;
       filter: blur(10px);
     }
-  }
-  #header{
-    position: relative;
-    overflow: hidden;
-    height: 1rem;
-    width: 100%;
-    padding-left: .1rem;
-    padding-top: .1rem;
-    display: flex;
-    z-index: 3;
-    background-color: rgba(81, 81, 81, 0.4);
-    .left{
-      height: 100%;
-      padding-right: .1rem;
-      .logo{
-        border-radius: .08rem;
-        width: .7rem;
-        height: .7rem;
-      }
-    }
-    .title{
-      float: left;
-      flex: 1;
+    #header{
+      position: relative;
       overflow: hidden;
-      h2{
-        font-family: "SimHei";
-        line-height: .3rem;
-        color: #fff;
+      height: 1rem;
+      width: 100%;
+      padding-left: .1rem;
+      padding-top: .1rem;
+      display: flex;
+      z-index: 3;
+      background-color: rgba(81, 81, 81, 0.4);
+      .left{
+        height: 100%;
+        padding-right: .1rem;
+        .logo{
+          border-radius: .08rem;
+          width: .7rem;
+          height: .7rem;
+        }
       }
-      p{
-        color: #fff;
-        font-size: .12rem;
-        line-height: .24rem;
+      .title{
+        float: left;
+        flex: 1;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &:nth-of-type(1){
-          margin-top: .05rem;
+        h2{
+          font-family: "SimHei";
+          line-height: .3rem;
+          color: #fff;
+        }
+        p{
+          color: #fff;
+          font-size: .12rem;
+          line-height: .24rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          &:nth-of-type(1){
+            margin-top: .05rem;
+          }
+        }
+      }
+      .right{
+        float: none;
+        .toinfo{
+          position: absolute;
+          right: 0;
+          top:50%;
+          transform: translateY(-50%);
+          width: .2rem;
+          height: .2rem;
+          padding: .03rem;
         }
       }
     }
-    .right{
-      float: none;
-      .toinfo{
-        position: absolute;
-        right: 0;
-        top:50%;
-        transform: translateY(-50%);
-        width: .2rem;
-        height: .2rem;
-        padding: .03rem;
+    #center{
+      background-color: rgba(81, 81, 81, 0.4);
+      position: relative;
+      z-index: 3;
+      padding-left: .1rem;
+      height: .3rem;
+      width: 100%;
+      line-height: .3rem;
+      i{
+        background-color: orangered;
+        color: #fff;
+        font-size: .12rem;
+        border-radius: .02rem;
+        padding: 0 .03rem;
+        float: left;
+        line-height: .2rem;
+        margin-top: .05rem;
       }
-    }
-  }
-  #center{
-    background-color: rgba(81, 81, 81, 0.4);
-    position: relative;
-    z-index: 3;
-    padding-left: .1rem;
-    height: .3rem;
-    width: 100%;
-    line-height: .3rem;
-    i{
-      background-color: orangered;
-      color: #fff;
-      font-size: .12rem;
-      border-radius: .02rem;
-      padding: 0 .03rem;
-      float: left;
-      line-height: .2rem;
-      margin-top: .05rem;
-    }
-    span{
-      color: #fff;
-      font-size: .12rem;
-      &~span{
-        float: right;
-        margin-right: .06rem;
+      span{
+        color: #fff;
+        font-size: .12rem;
+        &~span{
+          float: right;
+          margin-right: .06rem;
+        }
       }
-    }
-    .centerInfo{
-      width: 2.6rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
+      .centerInfo{
+        width: 2.6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+      }
     }
   }
   #nav{

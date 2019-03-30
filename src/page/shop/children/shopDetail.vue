@@ -84,7 +84,6 @@
             }
         },
         created(){
-            console.log("1111111111111111")
             // 判断有无经纬度, 没有 则跳转
             this.getVuexGeoHash()
             if ( !this.$store.getters.getGeoHash ){
@@ -104,7 +103,6 @@
           })
         },
         beforeDestroy(){
-            console.log("2222222222222222")
             this.scroll.destroy()
         },
         components:{

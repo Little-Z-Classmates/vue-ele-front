@@ -4,7 +4,7 @@
 @fontColor: #787878;
 
 .shopSafe{
-  padding-top: .45rem;
+  padding-top: .44rem;
   overflow: hidden;
   position: fixed;
   top: 0;
@@ -13,4 +13,37 @@
   height: 100%;
   width: 100%;
   background-color:#ebebeb
+}
+
+main{
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid  transparent;
+  .mainInner{
+    .centerInfo{
+      margin-top: .1rem;
+      background-color: #fff;
+      .title{
+        height: .45rem;
+        border-bottom: .01rem solid @borderColor;
+        line-height: .45rem;
+        font-size: .18rem;
+        padding-left: .1rem;
+      }
+      ul{
+        padding-left: .2rem;
+        li{
+          line-height: .35rem;
+        }
+        .okImg{
+          line-height: .6rem;
+          height: .6rem;
+          img{
+            width: .6rem;
+            height: .6rem;
+          }
+        }
+      }
+    }
+  }
 }

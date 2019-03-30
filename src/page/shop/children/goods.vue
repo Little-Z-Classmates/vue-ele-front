@@ -35,20 +35,51 @@
                             <div class="salesInfo">月售{{sonVal.month_sales}}份 好评率{{sonVal.satisfy_rate}}%</div>
                             <span :style="sonVal.activity?{'visibility': 'visible'}:{'visibility': 'hidden'}" class="preferentialInfo">&nbsp;{{sonVal.activity?sonVal.activity.image_text:''}}&nbsp;</span>
                             <div class="priceAndBuyStyle">
-                                <span>￥20</span>
+                                <span>￥{{sonVal.specfoods[0].price}}</span>
                                 <span>&nbsp;起</span>
                                 <div v-if="!sonVal.specifications.length" class="counter">
-                                    <span class="jian">－</span>
-                                    <span class="num">1</span>
-                                    <span class="jia">+</span>
+                                    <transition name="toLeftJian">
+                                        <span class="jian" @tap="reduceFoods(sonVal)" v-if="sonVal.addAndReduceFlag">－</span>
+                                    </transition>
+                                    <transition name="toLeftNum">
+                                        <span class="num"  v-if="sonVal.addAndReduceFlag">{{ sonVal.specfoods[0].currentBuyNum}}</span>
+                                    </transition>
+                                    <span class="jia" @tap="addFoods(sonVal)">+</span>
                                 </div>
-                                <el-button  v-if="sonVal.specifications.length" class="buyStyle" size="mini" type="primary"><span>选规格</span></el-button>
+                                <el-button  v-if="sonVal.specifications.length"  class="buyStyle" size="mini" type="primary" @tap.native="showSpecifications(sonVal)"><span>选规格</span></el-button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <transition name="el-fade-in-linear">
+            <section class="mask-layer" v-if="specificationsFlag" @click="specificationsFlag = false"></section>
+        </transition>
+        <transition name="el-zoom-in-bottom">
+            <section class="specifications" v-if="specificationsFlag">
+                <i class="el-icon-close" @click="specificationsFlag = false"></i>
+                <div class="foods-header-info">
+                    <div class="left-info">
+                        <img :src="currentSpecificationInfo.image_path" alt="">
+                    </div>
+                    <div class="right-info">
+                        <div class="foods-style-name">{{currentSpecificationInfo.name}}</div>
+                        <div v-if="FoodStyleSelectStrAndMoney" class="all-foods-style">已选: {{FoodStyleSelectStrAndMoney.selectStr}}</div>
+                        <div v-if="FoodStyleSelectStrAndMoney" class="price">￥{{FoodStyleSelectStrAndMoney.money}}</div>
+                    </div>
+                </div>
+                <div class="foods-style-info">
+                    <div v-if="currentSpecificationInfo" v-for="(item,key) in currentSpecificationInfo.specifications" :key="key">
+                        <div class="title">{{item.name}}</div>
+                        <ul>
+                            <li  v-for="(value,index) in item.values" :key="index" @click="toggleFoodStyle(item,index)" :class="index==item.currentActiveClassIndex?'active':''">{{value.specs_name}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <el-button type="primary"  class="primary-btn"><span>选好了</span></el-button>
+            </section>
+        </transition>
     </div>
 </template>
 
@@ -56,18 +87,36 @@
     import BScroll from 'better-scroll'
     import { baseImgUrl } from "../../../config/env"
     import { getShopGoodsMenu } from "../../../service/getData"
+    import {deepCopy} from "../../../config/jsTools"
 
     export default {
         data(){
            return {
-               baseImgUrl,                     // 图片基础路径
-               shopGoodsMenu : [],             // 商店商品菜单
-               currentLeftMenuIndex : 0 ,         // 当前左边菜单选中的index
-               goodsTitleFlag: false,          // 标识符: 控制 tooltiptext 那三个点的 显示与关闭
+               baseImgUrl,                    // 图片基础路径
+               shopGoodsMenu : [],            // 商店商品菜单
+               currentLeftMenuIndex : 0 ,     // 当前左边菜单选中的index
+               goodsTitleFlag: false,         // 标识符: 控制 tooltiptext 那三个点的 显示与关闭
+               specificationsFlag:false,      // 标识符: 控制 点击规格的 页面出现
+               currentSpecificationInfo:{},   // 当前的规格卡信息
+               FoodStyleSelectStrAndMoney:{}, //规格卡里面的 '已选',金钱额度
            }
         },
         methods:{
             getShopGoodsMenu,
+            // 深拷贝
+            deepCopy,
+            // 库存警告弹窗, 参数1 是库存数量, 参数二是 有无规格选择, true/false
+            warning(num,isMore){
+                if ( !isMore ){
+                    this.$message({
+                        center: true,
+                        message: `库存只有${num}件,亲请另外选择商品哦`,
+                        type: 'warning'
+                    })
+                }else{
+
+                }
+            },
             // 判断 是否 商品 是否为 新品或者 招牌
             judgeNewOrSign( arr,flagStr ){
                 return  arr.find( item =>{
@@ -97,6 +146,58 @@
                 }
                 this.goodsListScroll.scrollTo(0,moveDistance,1000,)
             },
+            // 点击 + , 添加货物
+            addFoods(foods){
+                if( foods.specfoods[0].currentBuyNum == 0 ){
+                    foods.addAndReduceFlag = true
+                }
+                if (  foods.specfoods[0].currentBuyNum < foods.specfoods[0].stock ){
+                      foods.specfoods[0].currentBuyNum++
+                }else{
+                  this.warning(foods.specfoods[0].currentBuyNum,false)
+                }
+            },
+            // 点击 - , 添加货物
+            reduceFoods(foods){
+                foods.specfoods[0].currentBuyNum--
+                if( foods.specfoods[0].currentBuyNum == 0 ){
+                    foods.addAndReduceFlag = false
+                }
+            },
+            // 计算 规格卡里面的 '已选',金钱额度
+            countFoodStyleSelectStrAndMoney( specifications ){
+                let Obj = {
+                    selectStr: '',
+                    money:0
+                }
+                specifications.forEach( (item,key) =>{
+                    var index = item.currentActiveClassIndex
+                    if ( key != 0 ){
+                        Obj.selectStr += '/'+ item.values[index].specs_name
+                    }else{
+                        Obj.selectStr += item.values[index].specs_name
+                    }
+                    Obj.money += parseFloat(item.values[index].price)
+                })
+                this.FoodStyleSelectStrAndMoney = Obj
+            },
+            // 点击规格 显示方法,传入信息
+            showSpecifications(sonVal){
+                this.currentSpecificationInfo ={
+                    image_path : this.baseImgUrl+sonVal.image_path,
+                    name : sonVal.name,
+                    specifications : sonVal.specifications
+                }
+                //计算 规格卡里面的 '已选',金钱额度
+                this.countFoodStyleSelectStrAndMoney(sonVal.specifications)
+                // 蒙层显示
+                this.specificationsFlag = true;
+            },
+            // 点击 规格卡里面的 样式类型, 切换类 和 信息
+            toggleFoodStyle(item,index){
+                item.currentActiveClassIndex = index
+                this.countFoodStyleSelectStrAndMoney(this.currentSpecificationInfo.specifications)
+            }
         },
         computed:{
             // 当前店铺的 Id
@@ -126,16 +227,42 @@
                     arr.push( num )
                 })
                 return arr
-            }
+            },
         },
         created(){
             this.stop()
             if (this.shopId){
-                this.getShopGoodsMenu(this,this.shopId).then( result =>{
+                this.getShopGoodsMenu( this,this.shopId ).then( result =>{
                     if ( result.status == 200){
                         var arr = result.body
                         arr.forEach( item =>{
                             item.goodsTitleFlag = false
+                            item.foods.forEach( sonItem => {
+                                //---------------------对食物样式类型筛选过滤---------------
+                                let specificationStyle = [] // 几种规格样式
+                                sonItem.specifications.forEach( sonSpeItem =>{
+                                    let everyStyleTitleName = sonSpeItem.name  // 每种食物种类每个样式名
+                                    let everyStyleValueArr = []         // 数组
+                                    sonSpeItem.values.forEach( sonSpeValue => {
+                                        let everyStyleFoodName = sonSpeValue   // 每种食物种类每个样式名
+                                        let everyStyleFoodIndex = sonItem.specfoods.findIndex( speValue =>{  // 由于数据是数组没分类,需要我们给每个食物种类的样式做筛选
+                                            if( speValue.specs[0].name == everyStyleTitleName && speValue.specs_name == everyStyleFoodName  ){
+                                                return true
+                                            }
+                                        })
+                                        everyStyleValueArr.push( sonItem.specfoods[everyStyleFoodIndex] )
+                                    })
+                                    sonSpeItem.values = everyStyleValueArr
+                                    sonSpeItem.currentActiveClassIndex = 0
+                                    specificationStyle.push(sonSpeItem)
+                                })
+                                sonItem.specifications = specificationStyle
+                                //------------------------------------
+                                sonItem.addAndReduceFlag = false
+                                sonItem.specfoods.forEach( sonSonItem =>{
+                                    sonSonItem.currentBuyNum = 0
+                                })
+                            })
                         })
                         this.shopGoodsMenu = arr
                     }

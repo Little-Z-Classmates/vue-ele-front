@@ -18,7 +18,6 @@ Vue.component(Button.name, Button);
 // 导入 ele-ui
 import './plugins/element/element.js'
 
-
 //  导入 swiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
@@ -41,7 +40,7 @@ new Vue ( {
     mounted() {
         const s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'http://at.alicdn.com/t/font_1084448_kz777zlkp7c.js';
+        s.src = 'http://at.alicdn.com/t/font_1084448_hf4ryqm2qut.js';
         document.body.appendChild(s);
     },
 } )

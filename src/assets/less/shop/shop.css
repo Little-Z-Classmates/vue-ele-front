@@ -16,6 +16,68 @@
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }
+.activityMask {
+  background-color: #262626;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+}
+.activityMask div,
+.activityMask svg {
+  color: #fff;
+}
+.activityMask .title {
+  font-size: 0.2rem;
+  width: 100%;
+  line-height: 1rem;
+  text-align: center;
+}
+.activityMask .preferential_title,
+.activityMask .promotion_title {
+  width: 100%;
+  height: 0.4rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.activityMask .preferential_title span,
+.activityMask .promotion_title span {
+  padding: 0.06rem;
+  border: 0.01rem solid #fff;
+  border-radius: 0.14rem;
+  color: #fff;
+}
+.activityMask .preferential_title {
+  margin-bottom: 0.2rem;
+}
+.activityMask .promotion_title {
+  margin: 0.2rem 0;
+}
+.activityMask .preferential_info div {
+  color: #fff;
+  line-height: 0.25rem;
+  padding-left: 0.25rem;
+}
+.activityMask .preferential_info div span {
+  padding: 0 0.02rem;
+  border-radius: 0.02rem;
+  color: #fff;
+}
+.activityMask .promotion_info {
+  padding-left: 0.25rem;
+}
+.activityMask .guanbi {
+  width: 0.4rem;
+  height: 0.4rem;
+  position: absolute;
+  bottom: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
 #fixedTop {
   width: 100%;
   position: fixed;
@@ -38,7 +100,7 @@
   z-index: 2;
   filter: blur(10px);
 }
-#fixedTop #header {
+#fixedTop .filterImg #header {
   position: relative;
   overflow: hidden;
   height: 1rem;
@@ -49,26 +111,26 @@
   z-index: 3;
   background-color: rgba(81, 81, 81, 0.4);
 }
-#fixedTop #header .left {
+#fixedTop .filterImg #header .left {
   height: 100%;
   padding-right: 0.1rem;
 }
-#fixedTop #header .left .logo {
+#fixedTop .filterImg #header .left .logo {
   border-radius: 0.08rem;
   width: 0.7rem;
   height: 0.7rem;
 }
-#fixedTop #header .title {
+#fixedTop .filterImg #header .title {
   float: left;
   flex: 1;
   overflow: hidden;
 }
-#fixedTop #header .title h2 {
+#fixedTop .filterImg #header .title h2 {
   font-family: "SimHei";
   line-height: 0.3rem;
   color: #fff;
 }
-#fixedTop #header .title p {
+#fixedTop .filterImg #header .title p {
   color: #fff;
   font-size: 0.12rem;
   line-height: 0.24rem;
@@ -76,13 +138,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-#fixedTop #header .title p:nth-of-type(1) {
+#fixedTop .filterImg #header .title p:nth-of-type(1) {
   margin-top: 0.05rem;
 }
-#fixedTop #header .right {
+#fixedTop .filterImg #header .right {
   float: none;
 }
-#fixedTop #header .right .toinfo {
+#fixedTop .filterImg #header .right .toinfo {
   position: absolute;
   right: 0;
   top: 50%;
@@ -91,7 +153,7 @@
   height: 0.2rem;
   padding: 0.03rem;
 }
-#fixedTop #center {
+#fixedTop .filterImg #center {
   background-color: rgba(81, 81, 81, 0.4);
   position: relative;
   z-index: 3;
@@ -100,7 +162,7 @@
   width: 100%;
   line-height: 0.3rem;
 }
-#fixedTop #center i {
+#fixedTop .filterImg #center i {
   background-color: orangered;
   color: #fff;
   font-size: 0.12rem;
@@ -110,15 +172,15 @@
   line-height: 0.2rem;
   margin-top: 0.05rem;
 }
-#fixedTop #center span {
+#fixedTop .filterImg #center span {
   color: #fff;
   font-size: 0.12rem;
 }
-#fixedTop #center span ~ span {
+#fixedTop .filterImg #center span ~ span {
   float: right;
   margin-right: 0.06rem;
 }
-#fixedTop #center .centerInfo {
+#fixedTop .filterImg #center .centerInfo {
   width: 2.6rem;
   white-space: nowrap;
   overflow: hidden;

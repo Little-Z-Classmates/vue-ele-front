@@ -168,6 +168,111 @@
 .goods .goods-list .goods-group > :last-of-type {
   border-bottom: none;
 }
+.mask-layer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(94, 94, 94, 0.59);
+}
+.specifications {
+  position: fixed;
+  width: 100%;
+  height: 80%;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  background-color: #fff;
+  padding: 0.15rem;
+}
+.specifications .el-icon-close {
+  position: absolute;
+  right: 0.1rem;
+  font-size: 0.25rem;
+  top: 0.1rem;
+  z-index: 2;
+}
+.specifications .foods-header-info {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.specifications .foods-header-info .left-info {
+  padding-right: 0.1rem;
+  float: left;
+}
+.specifications .foods-header-info .left-info img {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.specifications .foods-header-info .right-info {
+  float: left;
+}
+.specifications .foods-header-info .right-info .foods-style-name {
+  font-size: 0.18rem;
+  line-height: 0.18rem;
+  font-weight: 600;
+  padding-bottom: 0.1rem;
+}
+.specifications .foods-header-info .right-info .all-foods-style {
+  font-size: 0.12rem;
+  color: #787878;
+}
+.specifications .foods-header-info .right-info .price {
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  color: orangered;
+  font-size: 0.2rem;
+  line-height: 0.2rem;
+}
+.specifications .foods-style-info {
+  padding-top: 0.1rem;
+}
+.specifications .foods-style-info .title {
+  line-height: 0.25rem;
+  color: #787878;
+  font-size: 0.15rem;
+}
+.specifications .foods-style-info ul {
+  overflow: hidden;
+}
+.specifications .foods-style-info ul li {
+  width: 30%;
+  float: left;
+  padding: 0.08rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5%;
+  border: 0.01rem solid rgba(204, 204, 204, 0.16);
+}
+.specifications .foods-style-info ul li:nth-child(3n) {
+  margin-right: 0;
+}
+.specifications .foods-style-info ul li:nth-child(n+4) {
+  margin-top: 0.1rem;
+}
+.specifications .foods-style-info ul .active {
+  background-color: rgba(96, 179, 232, 0.27);
+  color: #3190E8;
+  font-weight: 600;
+}
+.specifications .primary-btn {
+  width: 90%;
+  background-color: #3190E8;
+  position: absolute;
+  bottom: 0.15rem;
+  left: 5%;
+  padding: 0.1rem 0.2rem;
+}
+.specifications .primary-btn span {
+  font-size: 0.15rem;
+  color: #fff;
+  font-weight: 600;
+}
 .fadeInOut-enter-active,
 .fadeInOut-leave-active {
   transition: all 0.3s;
@@ -175,4 +280,20 @@
 .fadeInOut-enter,
 .fadeInOut-leave-to {
   opacity: 0;
+}
+.toLeftJian-enter-active,
+.toLeftJian-leave-active {
+  transition: all 0.2s;
+}
+.toLeftJian-enter,
+.toLeftJian-leave-to {
+  transform: translateX(0.6rem);
+}
+.toLeftNum-enter-active,
+.toLeftNum-leave-active {
+  transition: all 0.2s;
+}
+.toLeftNum-enter,
+.toLeftNum-leave-to {
+  transform: translateX(0.3rem);
 }

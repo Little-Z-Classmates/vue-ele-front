@@ -1,8 +1,20 @@
 <template>
     <div id="shop" :style="shopInfo.activities.length?{'padding-top': '1.8rem'}:''">
         <svg class="icon goback" @click="goback" aria-hidden="true"><use xlink:href="#icon-xiangyou-copy"></use></svg>
-        <transition name="leftRight">
+        <transition name="leftRight" mode="in-out">
             <router-view></router-view>
+        </transition>
+        <transition name="el-fade-in-linear">
+             <section class="activityMask" v-if="activityMaskFlag" >
+                  <div class="title">{{shopInfo.name}}</div>
+                  <div class="preferential_title"><span>优惠信息</span></div>
+                  <div class="preferential_info">
+                      <div v-for="item in shopInfo.activities" :key="item.id"><span :style="'background-color:#'+ item.icon_color">{{item.icon_name}}</span> {{item.name}} : {{item.description}}</div>
+                  </div>
+                  <div class="promotion_title"><span>商家公告</span></div>
+                  <div class="promotion_info">{{shopInfo.description}}</div>
+                  <svg class="icon guanbi" @click="activityMaskFlag = false" aria-hidden="true"><use xlink:href="#icon-guanbi"></use></svg>
+             </section>
         </transition>
         <section id="fixedTop">
             <div class="filterImg" :style="'background:url('+baseImgUrl+shopInfo.image_path+') no-repeat 0 0 / cover #000;'">
@@ -19,7 +31,7 @@
                         <router-link tag="svg" :to="'/shop/shopDetail/'+$route.params.shopid" class="icon toinfo"aria-hidden="true"><use xlink:href="#icon-mjiantou-copy-copy"></use></router-link>
                     </div>
                 </header>
-                <section v-if="shopInfo.activities.length" id="center">
+                <section v-if="shopInfo.activities.length" id="center" @click="activityMaskFlag = true">
                     <i>{{shopInfo.activities[0].icon_name}}</i>
                     <span class="centerInfo">&nbsp;&nbsp;{{shopInfo.activities[0].description}}</span>
                     <span>{{shopInfo.activities.length}}个活动&nbsp;<svg class="icon "aria-hidden="true"><use xlink:href="#icon-mjiantou-copy-copy"></use></svg></span>
@@ -57,13 +69,15 @@
     import { getShopInformation } from "../../service/getData"
     import { baseImgUrl } from "../../config/env"
     import goods from "./children/goods"
+    import { mapState } from 'vuex'
 
     export default {
         data(){
           return {
               baseImgUrl,
               shopInfo : { activities:[] },  // 商铺详细信息
-              currentMain:'goods'   // 当前显示的 main
+              currentMain:'goods',   // 当前显示的 main
+              activityMaskFlag : false //点击活动 的 蒙层 标识符
           }
         },
         methods:{

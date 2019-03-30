@@ -27,3 +27,18 @@ export var judgeFullScreen = function( theThis ){
     }
 }
 // --------------------------------------------------------------
+
+// 深拷贝 ( typeof 检测 所有复杂类型都是 object)
+export var deepCopy = function(obj) {
+    var result = Array.isArray(obj) ? [] : {};
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] === 'object') {
+                result[key] = deepCopy(obj[key]);   //递归复制
+            } else {
+                result[key] = obj[key];
+            }
+        }
+    }
+    return result;
+}

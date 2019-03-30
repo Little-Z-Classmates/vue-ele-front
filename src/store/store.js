@@ -16,8 +16,8 @@ export default new Vuex.Store({
           comments:'',              // 备注
           shoppingStatus: false ,   // 下单状态
           foodsInfo:[{                   // 商品信息
-              goodsId : null,            // 商品id
-              goodsName:'',              // 商品名
+              foodsId : null,            // 商品id
+              foodsName:'',              // 商品名
               onePrice:0,                // 单价
               packing_fee:0,             // 打包费
               sku_id:null,               // 规格id

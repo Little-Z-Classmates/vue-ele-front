@@ -305,3 +305,8 @@ calc(expression) 使用通用的数学运算规则，但是也提供更智能的
     }
 解决方式 : 子路由和 父路由 传参 方式 不一致就行
 ```
+### 问题 : ele-ui 中 el-button 点击事件失效
+```text
+加上 .native 即可:
+@tap.native
+```

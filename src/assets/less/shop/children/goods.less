@@ -177,10 +177,131 @@
   }
 }
 
+.mask-layer{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(94, 94, 94, 0.59);
+}
+
+.specifications{
+  position: fixed;
+  width: 100%;
+  height: 80%;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  background-color: #fff;
+  padding: .15rem;
+  .el-icon-close{
+    position: absolute;
+    right: .1rem;
+    font-size: .25rem;
+    top: .1rem;
+    z-index: 2;
+  }
+  .foods-header-info{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    .left-info{
+      padding-right: .1rem;
+      float: left;
+      img{
+        width: .9rem;
+        height: .9rem;
+      }
+    }
+    .right-info{
+      float: left;
+      .foods-style-name{
+        font-size: .18rem;
+        line-height: .18rem;
+        font-weight: 600;
+        padding-bottom: .1rem;
+      }
+      .all-foods-style{
+        font-size: .12rem;
+        color: @fontColor;
+      }
+      .price{
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        color: orangered;
+        font-size: .2rem;
+        line-height: .2rem;
+      }
+    }
+  }
+  .foods-style-info{
+    padding-top: .1rem;
+    .title{
+      line-height: .25rem;
+      color: @fontColor;
+      font-size: .15rem;
+    }
+    ul{
+      overflow: hidden;
+      li{
+        width: 30%;
+        float: left;
+        padding: .08rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 5%;
+        border: .01rem solid rgba(204, 204, 204, 0.16);
+        &:nth-child(3n){
+          margin-right:0;
+        }
+        &:nth-child(n+4){
+          margin-top: .1rem;
+        }
+      }
+      .active{
+        background-color: rgba(96, 179, 232, 0.27);
+        color: @mainColor;
+        font-weight: 600;
+      }
+    }
+  }
+  .primary-btn{
+    width: 90%;
+    background-color: @mainColor;
+    position: absolute;
+    bottom: .15rem;
+    left: 5%;
+    padding: .1rem .2rem;
+    span{
+      font-size: .15rem;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
 // fade-in-out 动画
 .fadeInOut-enter-active,.fadeInOut-leave-active{
   transition: all .3s;
 }
 .fadeInOut-enter,.fadeInOut-leave-to{
   opacity: 0;
+}
+
+// 减号往左边过渡
+.toLeftJian-enter-active,.toLeftJian-leave-active{
+  transition: all .2s;
+}
+.toLeftJian-enter,.toLeftJian-leave-to{
+  transform: translateX(.6rem);
+}
+// 数量往左边过渡
+.toLeftNum-enter-active,.toLeftNum-leave-active{
+  transition: all .2s;
+}
+.toLeftNum-enter,.toLeftNum-leave-to{
+  transform: translateX(.3rem);
 }
