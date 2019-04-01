@@ -56,10 +56,11 @@
                  </svg>
              </div>
              <div class="money">
-                 <div class="allMoney">￥20.00</div>
-                 <div class="deliverMoney">配送费 ￥5</div>
+                 <!--<div class="allMoney">￥20.00</div>-->
+                 <div class="allMoney gray-color">还未选购商品</div>
+                 <div class="deliverMoney gray-color">配送费 ￥5</div>
              </div>
-            <el-button  class="getMoney noYet" type="success"><span>还差￥20起送</span></el-button>
+            <el-button  class="getMoney noYet" type="success"><span class="gray-color">还差￥{{shopInfo.float_minimum_order_amount}}起送</span></el-button>
             <!--去结算 / 还差20元起送-->
         </footer>
     </div>
@@ -69,15 +70,14 @@
     import { getShopInformation } from "../../service/getData"
     import { baseImgUrl } from "../../config/env"
     import goods from "./children/goods"
-    import { mapState } from 'vuex'
 
     export default {
         data(){
           return {
               baseImgUrl,
               shopInfo : { activities:[] },  // 商铺详细信息
-              currentMain:'goods',   // 当前显示的 main
-              activityMaskFlag : false //点击活动 的 蒙层 标识符
+              currentMain:'goods',           // 当前显示的 main
+              activityMaskFlag : false       // 点击活动 的 蒙层 标识符
           }
         },
         methods:{

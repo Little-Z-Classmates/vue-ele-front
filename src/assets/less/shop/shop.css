@@ -249,14 +249,13 @@
   color: #fff;
 }
 #footer .money .allMoney {
-  font-size: 0.18rem;
+  font-size: 0.14rem;
   line-height: 0.26rem;
 }
 #footer .money .deliverMoney {
   font-size: 0.12rem;
   transform: scale(0.9);
   transform-origin: left;
-  padding-left: 0.03rem;
 }
 #footer .getMoney {
   width: 1.05rem;
@@ -271,6 +270,9 @@
 }
 #footer .getMoney span {
   color: #fff;
+}
+#footer .gray-color {
+  color: #989898 !important;
 }
 #footer .noYet {
   border-color: #262626;

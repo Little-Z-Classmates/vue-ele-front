@@ -23,6 +23,19 @@
         font-size:.13rem;
         padding-left: .05rem;
         border-left: .03rem transparent @mainColor;
+        position: relative;
+        span{
+          position: absolute;
+          right: .04rem;
+          top: .04rem;
+          padding: .01rem .03rem;
+          background-color: orangered;
+          display: inline-block;
+          font-size: .12rem;
+          line-height: .12rem;
+          border-radius: .12rem;
+          color: #fff;
+        }
       }
       .active{
         border-left: .03rem solid @mainColor;
@@ -165,6 +178,10 @@
               .jia{
                 color: #fff;
                 background-color: @mainColor;
+              }
+              .gray{
+                color: @fontColor !important;
+                border:  .01rem solid @fontColor !important;
               }
             }
           }

@@ -7,12 +7,13 @@
                     @tap="toggleLeftIndexAndMoveRight(index)"
                     :class="index == currentLeftMenuIndex ? 'active':''">
                     {{item.name}}
+                    <span v-if="shopGoodsMenu[index].thisMenuSelectFoodsNum">{{shopGoodsMenu[index].thisMenuSelectFoodsNum}}</span>
                 </li>
             </ul>
         </aside>
         <section class="goods-list" ref="goodsList">
             <div class="goods-list-inside">
-                <div class="goods-group" v-for="value in shopGoodsMenu">
+                <div class="goods-group" v-for="(value,foodsMenuIndex) in shopGoodsMenu">
                     <div class="goods-title" >
                         <span>{{value.name}}</span>&nbsp;{{value.description}}
                         <i @tap="value.goodsTitleFlag = !value.goodsTitleFlag" class="tooltip">. . .
@@ -21,7 +22,7 @@
                         </transition>
                         </i>
                     </div>
-                    <div class="every-goods" v-for="sonVal in value.foods" >
+                    <div class="every-goods" v-for="(sonVal,foodsIndex) in value.foods" >
                         <div v-if="judgeNewOrSign(sonVal.attributes,'新')" class="triangle-topright">
                             <div class="word">新品</div>
                         </div>
@@ -39,14 +40,19 @@
                                 <span>&nbsp;起</span>
                                 <div v-if="!sonVal.specifications.length" class="counter">
                                     <transition name="toLeftJian">
-                                        <span class="jian" @tap="reduceFoods(sonVal)" v-if="sonVal.addAndReduceFlag">－</span>
+                                        <span class="jian" @tap="reduceFoods(sonVal,foodsMenuIndex,foodsIndex)" v-if="sonVal.addAndReduceFlag">－</span>
                                     </transition>
                                     <transition name="toLeftNum">
                                         <span class="num"  v-if="sonVal.addAndReduceFlag">{{ sonVal.specfoods[0].currentBuyNum}}</span>
                                     </transition>
-                                    <span class="jia" @tap="addFoods(sonVal)">+</span>
+                                    <span class="jia" @tap="addFoods(sonVal,foodsMenuIndex,foodsIndex)">+</span>
                                 </div>
-                                <el-button  v-if="sonVal.specifications.length"  class="buyStyle" size="mini" type="primary" @tap.native="showSpecifications(sonVal)"><span>选规格</span></el-button>
+                                <el-button  v-if="sonVal.specifications.length && !sonVal.thisFoodsSelectNum"  class="buyStyle" size="mini" type="primary" @tap.native="showSpecifications(sonVal,foodsMenuIndex,foodsIndex)"><span>选规格</span></el-button>
+                                <div v-if="sonVal.specifications.length && sonVal.thisFoodsSelectNum" class="counter">
+                                    <span class="jian" :class="sonVal.thisFoodsSelectNum > 1?'gray':''" @tap="reduceFoods(sonVal,foodsMenuIndex,foodsIndex,sonVal.specfoods[0].food_id,sonVal.specifications[0].currentActiveClassIndex)">－</span>
+                                    <span class="num">{{ sonVal.thisFoodsSelectNum}}</span>
+                                    <span class="jia" @tap="specificationsFlag = true">+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +83,7 @@
                         </ul>
                     </div>
                 </div>
-                <el-button type="primary"  class="primary-btn"><span>选好了</span></el-button>
+                <el-button type="primary"  class="primary-btn" @click.native="addHaveStyleFoods"><span>选好了</span></el-button>
             </section>
         </transition>
     </div>
@@ -88,6 +94,7 @@
     import { baseImgUrl } from "../../../config/env"
     import { getShopGoodsMenu } from "../../../service/getData"
     import {deepCopy} from "../../../config/jsTools"
+    import { Toast } from 'mint-ui';
 
     export default {
         data(){
@@ -98,7 +105,13 @@
                goodsTitleFlag: false,         // 标识符: 控制 tooltiptext 那三个点的 显示与关闭
                specificationsFlag:false,      // 标识符: 控制 点击规格的 页面出现
                currentSpecificationInfo:{},   // 当前的规格卡信息
-               FoodStyleSelectStrAndMoney:{}, //规格卡里面的 '已选',金钱额度
+               FoodStyleSelectStrAndMoney:{}, // 规格卡里面的 '已选',金钱额度
+               currentShoppingCar:{              // 购物车
+                       restaurantId : null,      // 餐馆Id
+                       comments:'',              // 备注
+                       shoppingStatus: false ,   // 下单状态
+                       foodsInfoArr:[ ]          // 商品信息
+               }
            }
         },
         methods:{
@@ -146,8 +159,8 @@
                 }
                 this.goodsListScroll.scrollTo(0,moveDistance,1000,)
             },
-            // 点击 + , 添加货物
-            addFoods(foods){
+            // 点击 + , 添加货物( 无规格的+ )
+            addFoods(foods,foodsMenuIndex,foodsIndex){
                 if( foods.specfoods[0].currentBuyNum == 0 ){
                     foods.addAndReduceFlag = true
                 }
@@ -156,19 +169,104 @@
                 }else{
                   this.warning(foods.specfoods[0].currentBuyNum,false)
                 }
+                // 这个食物当前的 数量+1
+                this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum++
+                // 菜单栏的 数量+1
+                this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum++
+                // 查看这个商店的购物车是否存在 这个食物的 ID
+                let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                    return ( foods.specfoods[0].food_id  == item.foodsId )
+                })
+                if ( foods_index == -1 ){
+                    var foodsInfo = {
+                        foodsId :foods.specfoods[0].food_id,         // 商品id
+                        buyNum: foods.specfoods[0].currentBuyNum ,   // 商品购买的数量
+                        foodsName:foods.specfoods[0].name,           // 商品名
+                        onePrice:foods.specfoods[0].price,           // 单价
+                        packing_fee:foods.specfoods[0].packing_fee,  // 打包费
+                        sku_id:foods.specfoods[0].sku_id,            // 规格id
+                        specs:foods.specfoods[0].specs,              // 规格
+                        stock:foods.specfoods[0].stock,              // 库存
+                        foodsStatus:true,                            // 商品选中状态
+                    }
+                    this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
+                }else{
+                    this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
+                }
             },
-            // 点击 - , 添加货物
-            reduceFoods(foods){
-                foods.specfoods[0].currentBuyNum--
-                if( foods.specfoods[0].currentBuyNum == 0 ){
-                    foods.addAndReduceFlag = false
+            // 点击 - , 减少货物
+            reduceFoods(foods,foodsMenuIndex,foodsIndex,food_id,currentActiveClassIndex){
+                if ( !food_id ){
+                    foods.specfoods[0].currentBuyNum--
+                    // 这个食物当前的 数量-1
+                    this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum--
+                    // 菜单栏的 数量-1
+                    this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum--
+                    if( foods.specfoods[0].currentBuyNum == 0 ){
+                        foods.addAndReduceFlag = false
+                    }
+                    // 查看这个商店的购物车这个食物的 ID
+                    let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                        return ( foods.specfoods[0].food_id  == item.foodsId )
+                    })
+                    this.currentShoppingCar.foodsInfoArr[foods_index].buyNum--
+                    // 如果为0 , 在购物车中删除这个食物
+                    if ( !this.currentShoppingCar.foodsInfoArr[foods_index].buyNum ){
+                        this.currentShoppingCar.foodsInfoArr.splice(foods_index,1)
+                    }
+                }else{
+                    if ( foods.thisFoodsSelectNum  > 1 ){
+                        Toast({
+                            message: `多规格和带属性的商品
+                                  只能去购物车删除哦`,
+                            className: 'whiteColor'
+                        });
+                    }else{
+                        console.log ( "1" )
+                        let foodsInfoArrIndex =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                            return ( item.foodsId == food_id )
+                        })
+                        // 这个食物当前的 数量-1
+                        this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum--
+                        // 菜单栏的 数量-1
+                        this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum--
+                        // 相应的食物规格样式 -1
+                        this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].specifications[0].values[currentActiveClassIndex].currentBuyNum--
+                        this.currentShoppingCar.foodsInfoArr.splice(foodsInfoArrIndex,1)
+                    }
+                }
+
+            },
+            // 点击 + , 添加货物( 有规格的+ )
+            addFoodsStyle(){
+                let Obj = this.FoodStyleSelectStrAndMoney.currentFood
+                // 查看这个商店的购物车是否存在 这个食物的 ID
+                let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                    return ( Obj.food_id  == item.foodsId && Obj.sku_id == item.sku_id )
+                })
+                if ( foods_index == -1 ){
+                    var foodsInfo = {
+                        foodsId :Obj.food_id,         // 商品id
+                        buyNum: Obj.currentBuyNum ,   // 商品购买的数量
+                        foodsName:Obj.name,           // 商品名
+                        onePrice:Obj.price,           // 单价
+                        packing_fee:Obj.packing_fee,  // 打包费
+                        sku_id:Obj.sku_id,            // 规格id
+                        specs:Obj.specs,              // 规格
+                        stock:Obj.stock,              // 库存
+                        foodsStatus:true,             // 商品选中状态
+                    }
+                    this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
+                }else{
+                    this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
                 }
             },
             // 计算 规格卡里面的 '已选',金钱额度
-            countFoodStyleSelectStrAndMoney( specifications ){
+            countFoodStyleSelectStrAndMoney( specifications){
                 let Obj = {
                     selectStr: '',
-                    money:0
+                    money:0,
+                    currentFood:{},
                 }
                 specifications.forEach( (item,key) =>{
                     var index = item.currentActiveClassIndex
@@ -178,15 +276,19 @@
                         Obj.selectStr += item.values[index].specs_name
                     }
                     Obj.money += parseFloat(item.values[index].price)
+                    Obj.currentFood = item.values[index]
                 })
                 this.FoodStyleSelectStrAndMoney = Obj
             },
             // 点击规格 显示方法,传入信息
-            showSpecifications(sonVal){
+            showSpecifications(sonVal,foodsMenuIndex,foodsIndex){
                 this.currentSpecificationInfo ={
                     image_path : this.baseImgUrl+sonVal.image_path,
                     name : sonVal.name,
-                    specifications : sonVal.specifications
+                    specifications : sonVal.specifications,
+                    category_id : sonVal.category_id,
+                    foodsMenuIndex : foodsMenuIndex,
+                    foodsIndex: foodsIndex
                 }
                 //计算 规格卡里面的 '已选',金钱额度
                 this.countFoodStyleSelectStrAndMoney(sonVal.specifications)
@@ -197,11 +299,37 @@
             toggleFoodStyle(item,index){
                 item.currentActiveClassIndex = index
                 this.countFoodStyleSelectStrAndMoney(this.currentSpecificationInfo.specifications)
+            },
+            // 点击 有规格卡的 食物的 '选好了' 按钮
+            addHaveStyleFoods(){
+                // 1. 判断库存是否为0,为0则弹出提示框;
+                // 2. 拿到该食物的名字,该食物的价格, 当前数量库存 +1
+                // 3. 页面上 '选规格' 按钮 变化成计数器;
+                // 3.1 点击计数器减号 : 数量为1 可以减为0; 数量 > 1,减号变灰色,点击弹出提示框说去购物车更改
+                // 4. 如果这个店铺原本购物车里面为0件商品,点击后, footer 中的 购物车图标变蓝色,有动效,有总件数右上角小图标
+                // 5. 计算起送价格变化, 达到起送价格后,可以点击结算
+                // 6. 左边的 菜单 一个类型的 件数 小图标
+                // PS:(点击确定后, 刷新数据,由于后台接口不全;无法做;全部数据再发请求的话性能过载)
+                if (this.FoodStyleSelectStrAndMoney.currentFood.stock < this.FoodStyleSelectStrAndMoney.currentFood.currentBuyNum){
+                    this.$message({ message: '库存不够,请选择其他的商品', type: 'warning' });
+                    return false
+                }
+                // 这个食物当前选择的这个样式 数量+1
+                this.FoodStyleSelectStrAndMoney.currentFood.currentBuyNum++
+                // 这个食物当前的 数量+1
+                this.shopGoodsMenu[this.currentSpecificationInfo.foodsMenuIndex].foods[this.currentSpecificationInfo.foodsIndex].thisFoodsSelectNum++
+                // 菜单栏的 数量+1
+                this.shopGoodsMenu[this.currentSpecificationInfo.foodsMenuIndex].thisMenuSelectFoodsNum++
+                // 添加 当前商店购物车
+                this.addFoodsStyle()
+                // 关闭规格卡
+                this.specificationsFlag = false
             }
         },
         computed:{
             // 当前店铺的 Id
             shopId (){
+                this.currentShoppingCar.restaurantId = this.$route.params.shopid
                 return this.$route.params.shopid
             },
             // better-scroll 对象1
@@ -237,7 +365,9 @@
                         var arr = result.body
                         arr.forEach( item =>{
                             item.goodsTitleFlag = false
+                            item.thisMenuSelectFoodsNum = 0
                             item.foods.forEach( sonItem => {
+                                sonItem.thisFoodsSelectNum = 0
                                 //---------------------对食物样式类型筛选过滤---------------
                                 let specificationStyle = [] // 几种规格样式
                                 sonItem.specifications.forEach( sonSpeItem =>{
@@ -375,4 +505,10 @@
     }
 }
 
+</style>
+
+<style>
+    .mint-toast-text{
+        color: #fff;
+    }
 </style>

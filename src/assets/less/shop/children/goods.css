@@ -22,6 +22,19 @@
   font-size: 0.13rem;
   padding-left: 0.05rem;
   border-left: 0.03rem transparent #3190E8;
+  position: relative;
+}
+.goods .left-aside ul li span {
+  position: absolute;
+  right: 0.04rem;
+  top: 0.04rem;
+  padding: 0.01rem 0.03rem;
+  background-color: orangered;
+  display: inline-block;
+  font-size: 0.12rem;
+  line-height: 0.12rem;
+  border-radius: 0.12rem;
+  color: #fff;
 }
 .goods .left-aside ul .active {
   border-left: 0.03rem solid #3190E8;
@@ -164,6 +177,10 @@
 .goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .jia {
   color: #fff;
   background-color: #3190E8;
+}
+.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .gray {
+  color: #787878 !important;
+  border: 0.01rem solid #787878 !important;
 }
 .goods .goods-list .goods-group > :last-of-type {
   border-bottom: none;
