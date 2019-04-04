@@ -15,6 +15,10 @@ Vue.use(InfiniteScroll);
 Vue.component(Loadmore.name, Loadmore);
 Vue.component(Button.name, Button);
 
+// 导入 animate ui
+import animate from 'animate.css'
+Vue.use(animate)
+
 // 导入 ele-ui
 import './plugins/element/element.js'
 
@@ -40,7 +44,7 @@ new Vue ( {
     mounted() {
         const s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'http://at.alicdn.com/t/font_1084448_hf4ryqm2qut.js';
+        s.src = 'http://at.alicdn.com/t/font_1084448_bjboisdo695.js';
         document.body.appendChild(s);
     },
 } )

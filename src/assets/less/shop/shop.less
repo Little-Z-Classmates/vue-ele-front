@@ -29,7 +29,7 @@
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 1000;
+  z-index: 1005;
   div,svg{
     color: #fff;
   }
@@ -102,7 +102,7 @@
       top:0;
       background: inherit;
       z-index: 2;
-      filter: blur(10px);
+      filter: blur(.1rem);
     }
     #header{
       position: relative;
@@ -226,6 +226,7 @@
   width: 100%;
   background-color: #000;
   display: flex;
+  z-index: 1002;
   .shop-car{
     position: absolute;
     top: -.15rem;
@@ -242,6 +243,21 @@
       width: .3rem;
       height: .3rem;
     }
+    >span{
+      position: absolute;
+      right: 0;
+      top: -.06rem;
+      padding: .01rem .03rem;
+      background-color: orangered;
+      display: inline-block;
+      font-size: .12rem;
+      line-height: .12rem;
+      border-radius: .12rem;
+      color: #fff;
+    }
+  }
+  .huise{
+    background-color: #363636!important;
   }
   .money{
     display: flex;
@@ -261,7 +277,7 @@
     .deliverMoney{
       font-size: .12rem;
       transform: scale(.9);
-      transform-origin: left;
+      transform-origin: left top;
     }
   }
   .getMoney{
@@ -286,5 +302,134 @@
     border-color: #262626;
     background-color: #262626;
   }
+}
+
+.thisShopPingCar{
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  width: 100%;
+  padding-bottom: 1.1rem;
+  padding-top: .41rem;
+  overflow: hidden;
+  .title{
+    background-color: #eceff1;
+    border-bottom: .01rem solid @borderColor ;
+    color: @fontColor;
+    padding: 0 .1rem;
+    font-size: .15rem;
+    line-height: .4rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    div{
+      color: @fontColor;
+      float: right;
+      font-size: .14rem;
+    }
+  }
+  ul{
+    li{
+      overflow: hidden;
+      padding: 0 .15rem;
+      height: .6rem;
+      position: relative;
+      border-bottom:.01rem solid @borderColor ;
+      .foods-name{
+        color: #000;
+        font-size: .16rem;
+        height: .6rem;
+        display: inline-block;
+        span{
+          line-height:.25rem;
+          display: inline-block;
+          margin-top: .09rem;
+        }
+        div{
+          font-size: .12rem;
+          color: @fontColor;
+        }
+      }
+      .single-food-all-price{
+        line-height: .6rem;
+        color: orangered;
+        margin-right: 1.05rem;
+        font-weight: 600;
+        float: right;
+      }
+      .inputNumber{
+         span{
+          width: .2rem;
+          height: .2rem;
+          text-align: center;
+          border: .01rem solid @mainColor;
+          line-height: .18rem;
+          border-radius: 50%;
+          position: absolute;
+          right: .1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          font-weight: 600;
+        }
+        .inputNumber-jian{
+          right: .7rem;
+          color: @mainColor;
+          background-color: #fff;
+        }
+        .inputNumber-num{
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          text-align: center;
+          line-height: .2rem;
+          border-radius: 0;
+          width: .4rem;
+          border: none;
+          right: .3rem;
+        }
+        .inputNumber-jia{
+          color: #fff;
+          background-color: @mainColor;
+        }
+      }
+    }
+  }
+  .all-packing_fee{
+    overflow: hidden;
+    padding: 0 .15rem;
+    height: .6rem;
+    position: relative;
+    line-height: .5rem;
+    color: #000;
+    font-size: .16rem;
+    width: 100%;
+    position: absolute;
+    bottom: .5rem;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    background-color: #fff;
+    .single-food-all-price{
+      line-height: .5rem;
+      color: orangered;
+      margin-right: 1.05rem;
+      font-weight: 600;
+      float: right;
+    }
+  }
+}
+
+.main-mask-layer{
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  left: 0;
+  top: 0;
 }
 

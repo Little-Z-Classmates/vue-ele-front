@@ -46,7 +46,7 @@
 .goods .goods-list .goods-list-inside {
   margin-bottom: 0.5rem;
 }
-.goods .goods-list .goods-group .goods-title {
+.goods .goods-list .goods-list-inside .goods-group .goods-title {
   height: 0.4rem;
   padding-left: 0.1rem;
   width: 100%;
@@ -55,16 +55,16 @@
   font-size: 0.12rem;
   line-height: 0.4rem;
 }
-.goods .goods-list .goods-group .goods-title > span {
+.goods .goods-list .goods-list-inside .goods-group .goods-title > span {
   line-height: 0.4rem;
   font-size: 0.16rem;
 }
-.goods .goods-list .goods-group .goods-title .tooltip {
+.goods .goods-list .goods-list-inside .goods-group .goods-title .tooltip {
   float: right;
   margin-right: 0.1rem;
   font-weight: 600;
 }
-.goods .goods-list .goods-group .every-goods {
+.goods .goods-list .goods-list-inside .goods-group .every-goods {
   background-color: #fff;
   height: 1.22rem;
   width: 100%;
@@ -72,7 +72,7 @@
   display: flex;
   position: relative;
 }
-.goods .goods-list .goods-group .every-goods .sign {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .sign {
   position: absolute;
   right: 0.1rem;
   top: 0.05rem;
@@ -80,25 +80,25 @@
   border: 0.01rem solid orangered;
   color: orangered;
   border-radius: 0.12rem;
-  padding: 0px 4px;
+  padding: 0 0.04rem;
   transform-origin: right;
   transform: scale(0.75);
 }
-.goods .goods-list .goods-group .every-goods .goodsImg {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .goodsImg {
   width: 0.95rem;
   height: 100%;
   padding: 0.1rem;
 }
-.goods .goods-list .goods-group .every-goods .goodsImg img {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .goodsImg img {
   width: 0.75rem;
   height: 0.75rem;
 }
-.goods .goods-list .goods-group .every-goods .content {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content {
   width: 100%;
   padding-top: 0.1rem;
   overflow: hidden;
 }
-.goods .goods-list .goods-group .every-goods .content .title {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .title {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,18 +107,18 @@
   height: 0.25rem;
   line-height: 0.25rem;
 }
-.goods .goods-list .goods-group .every-goods .content .detailed {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .detailed {
   font-size: 0.12rem;
   transform: scale(0.9);
   color: #787878;
   transform-origin: left;
   line-height: 0.2rem;
 }
-.goods .goods-list .goods-group .every-goods .content .salesInfo {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .salesInfo {
   font-size: 0.12rem;
   line-height: 0.25rem;
 }
-.goods .goods-list .goods-group .every-goods .content .preferentialInfo {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .preferentialInfo {
   color: orange;
   font-size: 0.12rem;
   line-height: 0.16rem;
@@ -128,26 +128,26 @@
   border-radius: 0.16rem;
   display: inline-block;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle {
   width: 100%;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle > span {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle > span {
   line-height: 0.25rem;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle span:nth-child(1) {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle span:nth-child(1) {
   color: orangered;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .buyStyle {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .buyStyle {
   padding: 0.08rem 0.1rem;
   background-color: #3190E8;
   position: absolute;
   right: 0.1rem;
   bottom: 0.05rem;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .buyStyle span {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .buyStyle span {
   color: #fff;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter span {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .counter span {
   width: 0.2rem;
   height: 0.2rem;
   text-align: center;
@@ -157,13 +157,14 @@
   position: absolute;
   right: 0.1rem;
   bottom: 0.04rem;
+  z-index: 1;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .jian {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .counter .jian {
   right: 0.7rem;
   color: #3190E8;
   background-color: #fff;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .num {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .counter .num {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -174,15 +175,15 @@
   border: none;
   right: 0.3rem;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .jia {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .counter .jia {
   color: #fff;
   background-color: #3190E8;
 }
-.goods .goods-list .goods-group .every-goods .content .priceAndBuyStyle .counter .gray {
+.goods .goods-list .goods-list-inside .goods-group .every-goods .content .priceAndBuyStyle .counter .gray {
   color: #787878 !important;
   border: 0.01rem solid #787878 !important;
 }
-.goods .goods-list .goods-group > :last-of-type {
+.goods .goods-list .goods-list-inside .goods-group > :last-of-type {
   border-bottom: none;
 }
 .mask-layer {
@@ -200,7 +201,7 @@
   height: 80%;
   bottom: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 1005;
   background-color: #fff;
   padding: 0.15rem;
 }

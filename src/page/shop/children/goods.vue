@@ -37,7 +37,7 @@
                             <span :style="sonVal.activity?{'visibility': 'visible'}:{'visibility': 'hidden'}" class="preferentialInfo">&nbsp;{{sonVal.activity?sonVal.activity.image_text:''}}&nbsp;</span>
                             <div class="priceAndBuyStyle">
                                 <span>￥{{sonVal.specfoods[0].price}}</span>
-                                <span>&nbsp;起</span>
+                                <span v-if="sonVal.specifications.length">&nbsp;起</span>
                                 <div v-if="!sonVal.specifications.length" class="counter">
                                     <transition name="toLeftJian">
                                         <span class="jian" @tap="reduceFoods(sonVal,foodsMenuIndex,foodsIndex)" v-if="sonVal.addAndReduceFlag">－</span>
@@ -45,7 +45,7 @@
                                     <transition name="toLeftNum">
                                         <span class="num"  v-if="sonVal.addAndReduceFlag">{{ sonVal.specfoods[0].currentBuyNum}}</span>
                                     </transition>
-                                    <span class="jia" @tap="addFoods(sonVal,foodsMenuIndex,foodsIndex)">+</span>
+                                    <span class="jia" @tap="addFoods(sonVal,foodsMenuIndex,foodsIndex,$event)">+</span>
                                 </div>
                                 <el-button  v-if="sonVal.specifications.length && !sonVal.thisFoodsSelectNum"  class="buyStyle" size="mini" type="primary" @tap.native="showSpecifications(sonVal,foodsMenuIndex,foodsIndex)"><span>选规格</span></el-button>
                                 <div v-if="sonVal.specifications.length && sonVal.thisFoodsSelectNum" class="counter">
@@ -59,6 +59,15 @@
                 </div>
             </div>
         </section>
+        <transition
+                v-on:before-enter="beforeEnterBall"
+                v-on:enter="enterBall"
+                v-on:after-enter="afterEnterBall">
+            <div  v-if="ballMove.flag"  style="z-index:1001" class="outBall">
+                <span class="innerBall">+</span>
+            </div>
+        </transition>
+
         <transition name="el-fade-in-linear">
             <section class="mask-layer" v-if="specificationsFlag" @click="specificationsFlag = false"></section>
         </transition>
@@ -109,9 +118,15 @@
                currentShoppingCar:{              // 购物车
                        restaurantId : null,      // 餐馆Id
                        comments:'',              // 备注
+                       allNum:0,                 // 所有已经选中的食物数量
                        shoppingStatus: false ,   // 下单状态
                        foodsInfoArr:[ ]          // 商品信息
-               }
+               },
+               ballMove:{                        // 小球过渡信息
+                   flag : false,
+                   top  : 0 ,
+                   left : 0,
+               },
            }
         },
         methods:{
@@ -160,42 +175,97 @@
                 this.goodsListScroll.scrollTo(0,moveDistance,1000,)
             },
             // 点击 + , 添加货物( 无规格的+ )
-            addFoods(foods,foodsMenuIndex,foodsIndex){
-                if( foods.specfoods[0].currentBuyNum == 0 ){
-                    foods.addAndReduceFlag = true
-                }
-                if (  foods.specfoods[0].currentBuyNum < foods.specfoods[0].stock ){
-                      foods.specfoods[0].currentBuyNum++
-                }else{
-                  this.warning(foods.specfoods[0].currentBuyNum,false)
-                }
-                // 这个食物当前的 数量+1
-                this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum++
-                // 菜单栏的 数量+1
-                this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum++
-                // 查看这个商店的购物车是否存在 这个食物的 ID
-                let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
-                    return ( foods.specfoods[0].food_id  == item.foodsId )
-                })
-                if ( foods_index == -1 ){
-                    var foodsInfo = {
-                        foodsId :foods.specfoods[0].food_id,         // 商品id
-                        buyNum: foods.specfoods[0].currentBuyNum ,   // 商品购买的数量
-                        foodsName:foods.specfoods[0].name,           // 商品名
-                        onePrice:foods.specfoods[0].price,           // 单价
-                        packing_fee:foods.specfoods[0].packing_fee,  // 打包费
-                        sku_id:foods.specfoods[0].sku_id,            // 规格id
-                        specs:foods.specfoods[0].specs,              // 规格
-                        stock:foods.specfoods[0].stock,              // 库存
-                        foodsStatus:true,                            // 商品选中状态
+            addFoods(foods,foodsMenuIndex,foodsIndex,event){
+                if ( event ){
+                    // 把当前在 页面中的 left top 传入 这个对象中
+                    this.ballMove.top =  event.target.getBoundingClientRect().top
+                    this.ballMove.left =  event.target.getBoundingClientRect().left
+
+                    if ( this.ballMove.flag == false ){
+                        if (  foods.specfoods[0].currentBuyNum < foods.specfoods[0].stock ){
+                            if (  foods.specfoods[0].currentBuyNum == 0 ){
+                                foods.addAndReduceFlag = true
+                            }
+                            foods.specfoods[0].currentBuyNum++
+                        }else{
+                            this.warning(foods.specfoods[0].currentBuyNum,false)
+                            return false
+                        }
+                        // 小球move
+                        this.ballMove.flag = true
+                        // 这个食物当前的 数量+1
+                        this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum++
+                        // 菜单栏的 数量+1
+                        this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum++
+                        // 查看这个商店的购物车是否存在 这个食物的 ID
+                        let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                            return ( foods.specfoods[0].food_id  == item.foodsId )
+                        })
+                        if ( foods_index == -1 ){
+                            var foodsInfo = {
+                                foodsId :foods.specfoods[0].food_id,         // 商品id
+                                buyNum: foods.specfoods[0].currentBuyNum ,   // 商品购买的数量
+                                foodsName:foods.specfoods[0].name,           // 商品名
+                                onePrice:foods.specfoods[0].price,           // 单价
+                                packing_fee:foods.specfoods[0].packing_fee,  // 打包费
+                                sku_id:foods.specfoods[0].sku_id,            // 规格id
+                                specs:foods.specfoods[0].specs,              // 规格
+                                stock:foods.specfoods[0].stock,              // 库存
+                                foodsStatus:true,                            // 商品选中状态
+                                foodsMenuIndex,
+                                foodsIndex
+                            }
+                            this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
+                        }else{
+                            this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
+                        }
+                        // 购物车总数量 +1
+                        this.currentShoppingCar.allNum++
+                        // 把购物车信息传到 shop.vue 父组件
+                        this.$emit('getShoppingCar',this.currentShoppingCar,this.ballMove.flag)
                     }
-                    this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
                 }else{
-                    this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
+                    if (  foods.specfoods[0].currentBuyNum < foods.specfoods[0].stock ){
+                        if (  foods.specfoods[0].currentBuyNum == 0 ){
+                            foods.addAndReduceFlag = true
+                        }
+                        foods.specfoods[0].currentBuyNum++
+                    }else{
+                        this.warning(foods.specfoods[0].currentBuyNum,false)
+                        return false
+                    }
+                    // 这个食物当前的 数量+1
+                    this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum++
+                    // 菜单栏的 数量+1
+                    this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum++
+                    // 查看这个商店的购物车是否存在 这个食物的 ID
+                    let foods_index =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
+                        return ( foods.specfoods[0].food_id  == item.foodsId )
+                    })
+                    if ( foods_index == -1 ){
+                        var foodsInfo = {
+                            foodsId :foods.specfoods[0].food_id,         // 商品id
+                            buyNum: foods.specfoods[0].currentBuyNum ,   // 商品购买的数量
+                            foodsName:foods.specfoods[0].name,           // 商品名
+                            onePrice:foods.specfoods[0].price,           // 单价
+                            packing_fee:foods.specfoods[0].packing_fee,  // 打包费
+                            sku_id:foods.specfoods[0].sku_id,            // 规格id
+                            specs:foods.specfoods[0].specs,              // 规格
+                            stock:foods.specfoods[0].stock,              // 库存
+                            foodsStatus:true,                            // 商品选中状态
+                            foodsMenuIndex,
+                            foodsIndex
+                        }
+                        this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
+                    }else{
+                        this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
+                    }
+                    // 购物车总数量 +1
+                    this.currentShoppingCar.allNum++
                 }
             },
             // 点击 - , 减少货物
-            reduceFoods(foods,foodsMenuIndex,foodsIndex,food_id,currentActiveClassIndex){
+            reduceFoods( foods,foodsMenuIndex,foodsIndex,food_id,currentActiveClassIndex,isFromShop ){
                 if ( !food_id ){
                     foods.specfoods[0].currentBuyNum--
                     // 这个食物当前的 数量-1
@@ -215,14 +285,14 @@
                         this.currentShoppingCar.foodsInfoArr.splice(foods_index,1)
                     }
                 }else{
-                    if ( foods.thisFoodsSelectNum  > 1 ){
+                    if ( foods.thisFoodsSelectNum  > 1 && !isFromShop ){
                         Toast({
                             message: `多规格和带属性的商品
                                   只能去购物车删除哦`,
                             className: 'whiteColor'
                         });
+                        return false
                     }else{
-                        console.log ( "1" )
                         let foodsInfoArrIndex =  this.currentShoppingCar.foodsInfoArr.findIndex( item =>{
                             return ( item.foodsId == food_id )
                         })
@@ -232,10 +302,24 @@
                         this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum--
                         // 相应的食物规格样式 -1
                         this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].specifications[0].values[currentActiveClassIndex].currentBuyNum--
-                        this.currentShoppingCar.foodsInfoArr.splice(foodsInfoArrIndex,1)
+                        // 如果不来自 shop 组件
+                        if ( !isFromShop ){
+                            this.currentShoppingCar.foodsInfoArr.splice(foodsInfoArrIndex,1)
+                        }else{
+                        // 如果来自 shop 组件 , 查看 -- 了之后 是否等于 0 , 等于0 再splice
+                            if( !this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].specifications[0].values[currentActiveClassIndex].currentBuyNum ){
+                                this.currentShoppingCar.foodsInfoArr.splice(foodsInfoArrIndex,1)
+                            }
+                        }
                     }
                 }
-
+                // 购物车总数量 -1
+                this.currentShoppingCar.allNum--
+                // 查看是否是 shop.vue 传过来的
+                if ( !isFromShop ){
+                    // 把购物车信息传到 shop.vue 父组件
+                    this.$emit('getShoppingCar',this.currentShoppingCar)
+                }
             },
             // 点击 + , 添加货物( 有规格的+ )
             addFoodsStyle(){
@@ -254,15 +338,32 @@
                         sku_id:Obj.sku_id,            // 规格id
                         specs:Obj.specs,              // 规格
                         stock:Obj.stock,              // 库存
+                        foodsIndex: Obj.foodsIndex,
+                        foodsMenuIndex: Obj.foodsMenuIndex,
                         foodsStatus:true,             // 商品选中状态
                     }
                     this.currentShoppingCar.foodsInfoArr.push(foodsInfo)
                 }else{
                     this.currentShoppingCar.foodsInfoArr[foods_index].buyNum++
                 }
+                // 购物车总数量 +1
+                this.currentShoppingCar.allNum++
+                // 把购物车信息传到 shop.vue 父组件
+                this.$emit('getShoppingCar',this.currentShoppingCar)
+            },
+            // shop.vue 添加货物 ( 有规格 )
+            addFoodsStyleFromShop(foods,foodsMenuIndex,foodsIndex,currentActiveClassIndex){
+                // 这个食物当前的 数量+1
+                this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].thisFoodsSelectNum++
+                // 菜单栏的 数量+1
+                this.shopGoodsMenu[foodsMenuIndex].thisMenuSelectFoodsNum++
+                // 相应的食物规格样式 +1
+                this.shopGoodsMenu[foodsMenuIndex].foods[foodsIndex].specifications[0].values[currentActiveClassIndex].currentBuyNum++
+                // 购物车总数量 +1
+                this.currentShoppingCar.allNum++
             },
             // 计算 规格卡里面的 '已选',金钱额度
-            countFoodStyleSelectStrAndMoney( specifications){
+            countFoodStyleSelectStrAndMoney( specifications ){
                 let Obj = {
                     selectStr: '',
                     money:0,
@@ -290,8 +391,15 @@
                     foodsMenuIndex : foodsMenuIndex,
                     foodsIndex: foodsIndex
                 }
+                // 放入两个属性
+                sonVal.specifications.forEach( specVal =>{
+                    specVal.values.forEach( specSonVal =>{
+                        specSonVal.foodsMenuIndex = foodsMenuIndex
+                        specSonVal.foodsIndex = foodsIndex
+                    } )
+                })
                 //计算 规格卡里面的 '已选',金钱额度
-                this.countFoodStyleSelectStrAndMoney(sonVal.specifications)
+                this.countFoodStyleSelectStrAndMoney(sonVal.specifications,foodsMenuIndex,foodsIndex)
                 // 蒙层显示
                 this.specificationsFlag = true;
             },
@@ -324,7 +432,27 @@
                 this.addFoodsStyle()
                 // 关闭规格卡
                 this.specificationsFlag = false
-            }
+            },
+            // 过渡动画
+            beforeEnterBall(el){
+                el.style.top = this.ballMove.top  + 'px'
+                el.style.left = this.ballMove.left + 'px'
+            },
+            enterBall(el, done){
+                el.offsetLeft
+                let top = 610
+                let left = 40
+                let transformTop =  top - this.ballMove.top
+                let transformLeft = - ( this.ballMove.left - left )
+                el.style.transform =  `translate3d(${transformLeft}px,0,0)`
+                let child = el.children[0]
+                child.style.transform = `translate3d(0,${transformTop}px,0)`
+                el.addEventListener('transitionEnd', done)
+                el.addEventListener('webkitTransitionEnd', done)
+            },
+            afterEnterBall(el){
+                this.ballMove.flag = false
+            },
         },
         computed:{
             // 当前店铺的 Id
@@ -355,7 +483,56 @@
                     arr.push( num )
                 })
                 return arr
-            },
+            }
+        },
+        watch:{
+            changeFoodsNum: function ( newVal ) {
+                var haveStyle = this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex].specifications.length
+            // 判断是否有规格
+                // 无规格
+                if ( !haveStyle ){
+                    // 如果是 减号 为 false
+                    if ( newVal.status == 'false' ){
+                        var foods = this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex]
+                        this.reduceFoods( foods, newVal.foodsMenuIndex, newVal.foodsIndex, undefined, undefined,true )
+                    }else{
+                        var foods = this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex]
+                        this.addFoods( foods, newVal.foodsMenuIndex, newVal.foodsIndex )
+                    }
+                }else{
+                // 有规格
+                    // 如果为 减号, false
+                    if ( newVal.status == 'false' ){
+                        var currentActiveClassIndex = 0
+                        this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex].specifications.some(item =>{
+                            currentActiveClassIndex =  item.values.findIndex( value =>{
+                                return ( value.food_id  == newVal.foodsId )
+                            })
+                            if ( currentActiveClassIndex == -1 ){
+                                return false
+                            }else{
+                                return true
+                            }
+                        })
+                        var foods = this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex]
+                        this.reduceFoods( foods, newVal.foodsMenuIndex, newVal.foodsIndex, newVal.foodsId ,currentActiveClassIndex,true )
+                    }else{
+                        var currentActiveClassIndex = 0
+                        this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex].specifications.some(item =>{
+                            currentActiveClassIndex =  item.values.findIndex( value =>{
+                                return ( value.food_id  == newVal.foodsId )
+                            })
+                            if ( currentActiveClassIndex == -1 ){
+                                return false
+                            }else{
+                                return true
+                            }
+                        })
+                        var foods = this.shopGoodsMenu[newVal.foodsMenuIndex].foods[newVal.foodsIndex]
+                        this.addFoodsStyleFromShop( foods,newVal.foodsMenuIndex,newVal.foodsIndex,currentActiveClassIndex )
+                    }
+                }
+            }
         },
         created(){
             this.stop()
@@ -367,6 +544,8 @@
                             item.goodsTitleFlag = false
                             item.thisMenuSelectFoodsNum = 0
                             item.foods.forEach( sonItem => {
+                                sonItem.addPositionTop  = 0
+                                sonItem.addPositionLeft = 0
                                 sonItem.thisFoodsSelectNum = 0
                                 //---------------------对食物样式类型筛选过滤---------------
                                 let specificationStyle = [] // 几种规格样式
@@ -438,7 +617,8 @@
         beforeDestroy(){
             this.leftAsideScroll.destroy()
             this.goodsListScroll.destroy()
-        }
+        },
+        props:['changeFoodsNum']
     }
 </script>
 
@@ -505,6 +685,25 @@
     }
 }
 
+// 球
+.outBall{
+    transition :0.4s all linear;
+    width: .2rem;
+    height: .2rem;
+    position: fixed;
+    .innerBall{
+        width: .2rem;
+        height: .2rem;
+        text-align: center;
+        border: .01rem solid @mainColor;
+        line-height: .18rem;
+        border-radius: 50%;
+        display: block;
+        color: #fff;
+        background-color: @mainColor;
+        transition: 0.4s all cubic-bezier(0.49, -0.29, 0.75, 0.41)
+    }
+}
 </style>
 
 <style>

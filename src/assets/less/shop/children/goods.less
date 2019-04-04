@@ -47,150 +47,152 @@
     width: 78%;
     .goods-list-inside{
       margin-bottom: .5rem;
-    }
-    .goods-group{
-      .goods-title{
-        height: .4rem;
-        padding-left: .1rem;
-        width: 100%;
-        background-color: #F5F5F5;
-        color: @fontColor;
-        font-size: .12rem;
-        line-height: .4rem;
-        >span{
-          line-height: .4rem;
-          font-size: .16rem;
-        }
-        .tooltip{
-          float: right;
-          margin-right: .1rem;
-          font-weight: 600;
-        }
-      }
-      .every-goods{
-        background-color: #fff;
-        height: 1.22rem;
-        width: 100%;
-        border-bottom: 0.01rem solid @borderColor;
-        display: flex;
-        position: relative;
-        .sign{
-          position: absolute;
-          right: .1rem;
-          top:.05rem;
-          font-size: .12rem;
-          border: .01rem solid orangered;
-          color: orangered;
-          border-radius: .12rem;
-          padding:0px 4px;
-          transform-origin: right;
-          transform: scale(.75);
-        }
-        .goodsImg{
-          width: .95rem;
-          height: 100%;
-          padding: .1rem ;
-          img{
-            width: .75rem;
-            height: .75rem;
-          }
-        }
-        .content{
+      .goods-group{
+        .goods-title{
+          height: .4rem;
+          padding-left: .1rem;
           width: 100%;
-          padding-top: .1rem;
-          overflow: hidden;
-          .title{
+          background-color: #F5F5F5;
+          color: @fontColor;
+          font-size: .12rem;
+          line-height: .4rem;
+          >span{
+            line-height: .4rem;
+            font-size: .16rem;
+          }
+          .tooltip{
+            float: right;
+            margin-right: .1rem;
+            font-weight: 600;
+          }
+        }
+        .every-goods{
+          background-color: #fff;
+          height: 1.22rem;
+          width: 100%;
+          border-bottom: 0.01rem solid @borderColor;
+          display: flex;
+          position: relative;
+          .sign{
+            position: absolute;
+            right: .1rem;
+            top:.05rem;
+            font-size: .12rem;
+            border: .01rem solid orangered;
+            color: orangered;
+            border-radius: .12rem;
+            padding:0 .04rem;
+            transform-origin: right;
+            transform: scale(.75);
+          }
+          .goodsImg{
+            width: .95rem;
+            height: 100%;
+            padding: .1rem ;
+            img{
+              width: .75rem;
+              height: .75rem;
+            }
+          }
+          .content{
             width: 100%;
+            padding-top: .1rem;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: .15rem;
-            height:.25rem ;
-            line-height: .25rem;
-          }
-          .detailed{
-            font-size: .12rem;
-            transform: scale(.9);
-            color: @fontColor;
-            transform-origin: left;
-            line-height: .2rem;
-          }
-          .salesInfo{
-            font-size: .12rem;
-            line-height: .25rem;
-          }
-          .preferentialInfo{
-            color: orange;
-            font-size: .12rem;
-            line-height: .16rem;
-            transform-origin: left;
-            transform: scale(.7);
-            border:0.01rem solid orange;
-            border-radius: .16rem;
-            display: inline-block;
-          }
-          .priceAndBuyStyle{
-            width: 100%;
-            >span{
+            .title{
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: .15rem;
+              height:.25rem ;
               line-height: .25rem;
             }
-            span:nth-child(1){
-              color: orangered;
+            .detailed{
+              font-size: .12rem;
+              transform: scale(.9);
+              color: @fontColor;
+              transform-origin: left;
+              line-height: .2rem;
             }
-            .buyStyle{
-              padding: .08rem .1rem;
-              background-color: @mainColor;
-              position: absolute;
-              right: .1rem;
-              bottom: .05rem;
-              span{
-                color: #fff;
+            .salesInfo{
+              font-size: .12rem;
+              line-height: .25rem;
+            }
+            .preferentialInfo{
+              color: orange;
+              font-size: .12rem;
+              line-height: .16rem;
+              transform-origin: left;
+              transform: scale(.7);
+              border:0.01rem solid orange;
+              border-radius: .16rem;
+              display: inline-block;
+            }
+            .priceAndBuyStyle{
+              width: 100%;
+              >span{
+                line-height: .25rem;
               }
-            }
-            .counter{
-              span{
-                width: .2rem;
-                height: .2rem;
-                text-align: center;
-                border: .01rem solid @mainColor;
-                line-height: .18rem;
-                border-radius: 50%;
+              span:nth-child(1){
+                color: orangered;
+              }
+              .buyStyle{
+                padding: .08rem .1rem;
+                background-color: @mainColor;
                 position: absolute;
                 right: .1rem;
-                bottom: .04rem;
+                bottom: .05rem;
+                span{
+                  color: #fff;
+                }
               }
-              .jian{
-                right: .7rem;
-                color: @mainColor;
-                background-color: #fff;
-              }
-              .num{
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                text-align: center;
-                line-height: .2rem;
-                border-radius: 0;
-                width: .4rem;
-                border: none;
-                right: .3rem;
-              }
-              .jia{
-                color: #fff;
-                background-color: @mainColor;
-              }
-              .gray{
-                color: @fontColor !important;
-                border:  .01rem solid @fontColor !important;
+              .counter{
+                span{
+                  width: .2rem;
+                  height: .2rem;
+                  text-align: center;
+                  border: .01rem solid @mainColor;
+                  line-height: .18rem;
+                  border-radius: 50%;
+                  position: absolute;
+                  right: .1rem;
+                  bottom: .04rem;
+                  z-index: 1;
+                }
+                .jian{
+                  right: .7rem;
+                  color: @mainColor;
+                  background-color: #fff;
+                }
+                .num{
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-align: center;
+                  line-height: .2rem;
+                  border-radius: 0;
+                  width: .4rem;
+                  border: none;
+                  right: .3rem;
+                }
+                .jia{
+                  color: #fff;
+                  background-color: @mainColor;
+                }
+                .gray{
+                  color: @fontColor !important;
+                  border:  .01rem solid @fontColor !important;
+                }
               }
             }
           }
         }
-      }
-      >:last-of-type{
-        border-bottom: none;
+        >:last-of-type{
+          border-bottom: none;
+        }
       }
     }
+
   }
 }
 
@@ -210,7 +212,7 @@
   height: 80%;
   bottom: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 1005;
   background-color: #fff;
   padding: .15rem;
   .el-icon-close{
@@ -300,6 +302,7 @@
     }
   }
 }
+
 // fade-in-out 动画
 .fadeInOut-enter-active,.fadeInOut-leave-active{
   transition: all .3s;
@@ -315,6 +318,7 @@
 .toLeftJian-enter,.toLeftJian-leave-to{
   transform: translateX(.6rem);
 }
+
 // 数量往左边过渡
 .toLeftNum-enter-active,.toLeftNum-leave-active{
   transition: all .2s;
@@ -322,3 +326,4 @@
 .toLeftNum-enter,.toLeftNum-leave-to{
   transform: translateX(.3rem);
 }
+
