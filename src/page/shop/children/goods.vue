@@ -22,7 +22,7 @@
                         </transition>
                         </i>
                     </div>
-                    <div class="every-goods" v-for="(sonVal,foodsIndex) in value.foods" >
+                    <div class="every-goods" @tap="showShopInfo(sonVal)" v-for="(sonVal,foodsIndex) in value.foods" >
                         <div v-if="judgeNewOrSign(sonVal.attributes,'新')" class="triangle-topright">
                             <div class="word">新品</div>
                         </div>
@@ -40,18 +40,18 @@
                                 <span v-if="sonVal.specifications.length">&nbsp;起</span>
                                 <div v-if="!sonVal.specifications.length" class="counter">
                                     <transition name="toLeftJian">
-                                        <span class="jian" @tap="reduceFoods(sonVal,foodsMenuIndex,foodsIndex)" v-if="sonVal.addAndReduceFlag">－</span>
+                                        <span class="jian" @tap.stop ="reduceFoods(sonVal,foodsMenuIndex,foodsIndex)" v-if="sonVal.addAndReduceFlag">－</span>
                                     </transition>
                                     <transition name="toLeftNum">
                                         <span class="num"  v-if="sonVal.addAndReduceFlag">{{ sonVal.specfoods[0].currentBuyNum}}</span>
                                     </transition>
-                                    <span class="jia" @tap="addFoods(sonVal,foodsMenuIndex,foodsIndex,$event)">+</span>
+                                    <span class="jia" @tap.stop ="addFoods(sonVal,foodsMenuIndex,foodsIndex,$event)">+</span>
                                 </div>
-                                <el-button  v-if="sonVal.specifications.length && !sonVal.thisFoodsSelectNum"  class="buyStyle" size="mini" type="primary" @tap.native="showSpecifications(sonVal,foodsMenuIndex,foodsIndex)"><span>选规格</span></el-button>
+                                <el-button  v-if="sonVal.specifications.length && !sonVal.thisFoodsSelectNum"  class="buyStyle" size="mini" type="primary" @tap.native.stop ="showSpecifications(sonVal,foodsMenuIndex,foodsIndex)"><span>选规格</span></el-button>
                                 <div v-if="sonVal.specifications.length && sonVal.thisFoodsSelectNum" class="counter">
-                                    <span class="jian" :class="sonVal.thisFoodsSelectNum > 1?'gray':''" @tap="reduceFoods(sonVal,foodsMenuIndex,foodsIndex,sonVal.specfoods[0].food_id,sonVal.specifications[0].currentActiveClassIndex)">－</span>
+                                    <span class="jian" :class="sonVal.thisFoodsSelectNum > 1?'gray':''" @tap.stop ="reduceFoods(sonVal,foodsMenuIndex,foodsIndex,sonVal.specfoods[0].food_id,sonVal.specifications[0].currentActiveClassIndex)">－</span>
                                     <span class="num">{{ sonVal.thisFoodsSelectNum}}</span>
-                                    <span class="jia" @tap="specificationsFlag = true">+</span>
+                                    <span class="jia" @tap.stop ="specificationsFlag = true">+</span>
                                 </div>
                             </div>
                         </div>
@@ -110,6 +110,7 @@
            return {
                baseImgUrl,                    // 图片基础路径
                shopGoodsMenu : [],            // 商店商品菜单
+               shopGoodsMenuCopy:[],          // 商店商品菜单复制
                currentLeftMenuIndex : 0 ,     // 当前左边菜单选中的index
                goodsTitleFlag: false,         // 标识符: 控制 tooltiptext 那三个点的 显示与关闭
                specificationsFlag:false,      // 标识符: 控制 点击规格的 页面出现
@@ -453,6 +454,10 @@
             afterEnterBall(el){
                 this.ballMove.flag = false
             },
+            // 点击 展示商店的信息
+            showShopInfo(sonVal){
+                console.log ( sonVal )
+            }
         },
         computed:{
             // 当前店铺的 Id
@@ -532,6 +537,17 @@
                         this.addFoodsStyleFromShop( foods,newVal.foodsMenuIndex,newVal.foodsIndex,currentActiveClassIndex )
                     }
                 }
+            },
+            clearShopCarFlag: function () {
+                var shopGoodsMenuCopyObj = this.shopGoodsMenuCopy
+                this.shopGoodsMenu = deepCopy(shopGoodsMenuCopyObj)
+                this.currentShoppingCar = {        // 购物车
+                        restaurantId : null,      // 餐馆Id
+                        comments:'',              // 备注
+                        allNum:0,                 // 所有已经选中的食物数量
+                        shoppingStatus: false ,   // 下单状态
+                        foodsInfoArr:[ ]          // 商品信息
+                }
             }
         },
         created(){
@@ -574,6 +590,7 @@
                             })
                         })
                         this.shopGoodsMenu = arr
+                        this.shopGoodsMenuCopy = deepCopy(arr)
                     }
                 })
             }
@@ -618,7 +635,7 @@
             this.leftAsideScroll.destroy()
             this.goodsListScroll.destroy()
         },
-        props:['changeFoodsNum']
+        props:['changeFoodsNum','clearShopCarFlag']
     }
 </script>
 

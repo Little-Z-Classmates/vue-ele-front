@@ -45,7 +45,11 @@
         <main id="main">
             <transition name="el-fade-in-linear">
                 <keep-alive>
-                    <component :is="currentMain" @getShoppingCar="getShoppingCar" :changeFoodsNum="changeFoodsNum"></component>
+                    <component :is="currentMain"
+                               @getShoppingCar="getShoppingCar"
+                               :changeFoodsNum="changeFoodsNum"
+                               :clearShopCarFlag="clearShopCarFlag">
+                    </component>
                 </keep-alive>
             </transition>
         </main>
@@ -69,8 +73,8 @@
             <section class="thisShopPingCar" v-show="thisShoppingCarFlag">
                 <div class="title">
                     已选商品
-                    <div>
-                        <svg class="icon" aria-hidden="true"><use xlink:href="#icon-huishouzhan"></use></svg>
+                    <div @click="clearShopCar">
+                        <svg class="icon" aria-hidden="true" ><use xlink:href="#icon-huishouzhan"></use></svg>
                         清空
                     </div>
                 </div>
@@ -138,7 +142,8 @@
                   foodsMenuIndex:null,
                   foodsIndex:null,
                   status: 'false',                   // 状态false 为 减 , true 为 加
-              }
+              },
+              clearShopCarFlag : true                 // 清空标识符每次清空都修改它,goods监听
           }
         },
         methods:{
@@ -237,6 +242,21 @@
                 this.thisShoppingCar.allNum++
                 this.countPrice()
                 this.shoppingCarScroll.refresh()
+            },
+            // 清空购物车
+            clearShopCar(){
+                this.thisShoppingCar = {            // 这个店的购物车
+                    allNum : 0,
+                    foodsInfoArr:[],
+                    allPrice: 0,
+                    allPackage_fee:0,
+                    gapPrice:0,
+                    times:0,
+                    noYetFlag:true,
+                    specsInfo:''
+                }
+                this.countPrice()
+                this.clearShopCarFlag = !this.clearShopCarFlag
             }
         },
         computed:{

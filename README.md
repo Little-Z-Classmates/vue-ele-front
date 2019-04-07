@@ -337,3 +337,12 @@ calc(expression) 使用通用的数学运算规则，但是也提供更智能的
 解决 : 把  children 字段更名
        package.json 中安装 低版本的 饿了么ui '<2.6.0' 
 ```
+### 问题 : 基础优化
+```text
+1. 不要在模板中写复杂表达式
+2. 慎用watch 尤其是deep
+3.合理使用v-if / v-show  v-if 是操作DOM,频繁切换,性能耗费大
+                         v-show 操作样式/ 操作样式,频繁切换,性能消耗小
+4. 善用 keep-alive 
+5. 使用Object.freeze() 冻结对象
+```

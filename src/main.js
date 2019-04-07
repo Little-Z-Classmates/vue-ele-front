@@ -15,7 +15,7 @@ Vue.use(InfiniteScroll);
 Vue.component(Loadmore.name, Loadmore);
 Vue.component(Button.name, Button);
 
-// 导入 animate ui
+// 导入 animate.css
 import animate from 'animate.css'
 Vue.use(animate)
 
