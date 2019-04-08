@@ -73,7 +73,7 @@
             this.getSellerActivityAttributes(this).then( result =>{
                 if ( result.status == 200){
                     // 对商家属性进行 过滤
-                    var arr = result.body
+                    var arr = result.data
                     arr.forEach( item =>{
                        item.status  = false
                     })

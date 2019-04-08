@@ -64,7 +64,7 @@
           this.currentCityGuess( this ,this.id ).then( result =>{
                 if ( result.status == 200){
                     this.judgeFullScreen(this)
-                    this.currentCity =  result.body
+                    this.currentCity =  result.data
                 }
             } ).catch( err =>{
                 throw err

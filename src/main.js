@@ -1,6 +1,7 @@
 import Vue from "vue"
 import router from "./router/router"
 import store from "./store/store"
+import  "./axios/my_axios"
 
 // 导入字体图标
 import "./assets/fonts/iconfont.css"
@@ -27,11 +28,6 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 Vue.use( VueAwesomeSwiper )
 
-// 导入 vue-resource
-import VueResource from "vue-resource"
-Vue.use( VueResource )
-Vue.http.options.root = "https://elm.cangdu.org"
-Vue.http.options.emulateJSON = true;
 
 // 导入App
 import app from "./App.vue"

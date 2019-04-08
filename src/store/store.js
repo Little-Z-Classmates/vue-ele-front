@@ -3,7 +3,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 var geoHash = JSON.parse ( sessionStorage.getItem('currentGeoHash') ) // 获取当前的 经纬度
-var currentVisitShopInfo = JSON.parse ( sessionStorage.getItem('currentVisitShopInfo') ) // 获取当前的 经纬度
+var currentVisitShopInfo = JSON.parse ( sessionStorage.getItem('currentVisitShopInfo') ) // 获取访问的商家信息
 
 export default new Vuex.Store({
   state: {

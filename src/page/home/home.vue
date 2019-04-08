@@ -13,15 +13,15 @@
                 <span>当前定位城市 : </span>
                 <span>定位不准时,请在城市列表中选择</span>
             </div>
-            <router-link :to="'/city/'+cityGuessInfo.body.id" class="bottomNav">
-                <span>{{ cityGuessInfo.body.name }}</span>
+            <router-link :to="'/city/'+cityGuessInfo.data.id" class="bottomNav">
+                <span>{{ cityGuessInfo.data.name }}</span>
                 <i class="el-icon-arrow-right"></i>
             </router-link>
         </nav>
         <section class="hotCity">
             <div>热门城市</div>
             <ul>
-                <router-link tag="li" :to="'/city/'+ item.id" v-for="item in hotCityGuessInfo.body" :key="item.id">{{
+                <router-link tag="li" :to="'/city/'+ item.id" v-for="item in hotCityGuessInfo.data" :key="item.id">{{
                     item.name }}
                 </router-link>
             </ul>
@@ -47,8 +47,8 @@
     export default {
         data () {
             return {
-                cityGuessInfo : { body : {} },
-                hotCityGuessInfo : { body : {} },
+                cityGuessInfo : { data: {} },
+                hotCityGuessInfo : { data : {} },
                 groupCityGuessInfo : {},
                 loading : '' ,
                 loadingKey : 3,
@@ -67,7 +67,7 @@
                 this.judgeFullScreen( this )
             } ).catch ( err => {  console.log ( err )   } )
             this.groupCityGuess ( this ).then ( results => {
-                this.sort ( results.body );
+                this.sort ( results.data );
                 this.judgeFullScreen( this )
             } ).catch ( err => {   console.log ( err )} )
         },

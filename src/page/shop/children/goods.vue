@@ -555,7 +555,7 @@
             if (this.shopId){
                 this.getShopGoodsMenu( this,this.shopId ).then( result =>{
                     if ( result.status == 200){
-                        var arr = result.body
+                        var arr = result.data
                         arr.forEach( item =>{
                             item.goodsTitleFlag = false
                             item.thisMenuSelectFoodsNum = 0

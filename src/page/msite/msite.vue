@@ -116,16 +116,12 @@
             }
         },
        created () {
-            this.getVuexGeoHash()
-            if ( !this.$store.getters.getGeoHash ){
-                return false
-            }
             this.move()
             this.fullScreen( this ) // 遮罩层开启
             // 获取详细地址
             this.getDetailedLocation( this,this.getVuexGeoHash() ).then( results => {
                if ( results.status === 200 ){
-                   this.detailAddressInfo = results.body
+                   this.detailAddressInfo = results.data
                    this.judgeFullScreen(this)  // 1
                }
            })
@@ -133,8 +129,8 @@
             this.getFootEntry( this ).then( results =>{
                 if ( results.status === 200 ){
                     var arr = []
-                    arr.push( results.body.slice(0,8) )
-                    arr.push( results.body.slice(8,16))
+                    arr.push( results.data.slice(0,8) )
+                    arr.push( results.data.slice(8,16))
                     this.FootEntryInfo = arr
                     this.judgeFullScreen(this)   // 2
                 }
@@ -144,7 +140,7 @@
             var filterFuc = this.filterShopRestaurants
             this.getRestaurants( this, geohashArr[0],geohashArr[1] ).then( results =>{
                 if ( results.status === 200 ){
-                    results.body.forEach( item =>{
+                    results.data.forEach( item =>{
                         var flag = false
                         var startArr = {}
                         var rating = item.rating
@@ -165,8 +161,8 @@
                         }
                         item.startArr = startArr
                      })
-                    this.restaurantsListRealLength = results.body.length
-                    var filteredArray = results.body.filter( filterFuc )
+                    this.restaurantsListRealLength = results.data.length
+                    var filteredArray = results.data.filter( filterFuc )
                     this.restaurantsListInfo = filteredArray
                     setTimeout( () =>{
                         this.judgeFullScreen(this)   // 3
@@ -184,11 +180,7 @@
             getFootEntry,    // 食品列表
             // 根据 Vuex 得到经纬度
             getVuexGeoHash(){
-                if ( this.$store.getters.getGeoHash ){
-                    return this.$store.getters.getGeoHash
-                }else{
-                    this.$router.push({ path : '/home'})
-                }
+              return this.$store.getters.getGeoHash
             },
             // 筛选不符合营业时间的商家
             filterShopRestaurants( item ){
@@ -207,11 +199,6 @@
             },
             // 加载更多数据
             loadMore() {
-                // ------禁用测试--------
-                // this.banMoreLoading = true;
-                // console.log ( "禁用不了" )
-                // ------禁用测试-------
-
                 if( this.allLoaded ){
                     return false;
                 }
@@ -219,7 +206,7 @@
                 var filterFuc = this.filterShopRestaurants
                 this.getRestaurants( this,geohashArr[0],geohashArr[1],this.restaurantsListRealLength ).then( results =>{
                     if ( results.status === 200 ){
-                        results.body.forEach( item =>{
+                        results.data.forEach( item =>{
                             var flag = false
                             var startArr = {}
                             var rating = item.rating
@@ -241,13 +228,13 @@
                             item.startArr = startArr
                         })
                         var oldRealLength = this.restaurantsListRealLength  // 得到更新之前的 数据量
-                        this.restaurantsListRealLength = results.body.length + this.restaurantsListRealLength
+                        this.restaurantsListRealLength = results.data.length + this.restaurantsListRealLength
                         var newRealLength = this.restaurantsListRealLength  // 得到更新之后的 数据量
                         if ( oldRealLength == newRealLength ){       // 判断更新之后 数据量 是否等于 更新之前 数据量
                             this.allLoaded = true                   //  如果等于 allLoaded 全部加载完毕 标识符为true
                             return false                           //  return false, 不往下执行
                         }
-                        var filteredArray = results.body.filter( filterFuc )
+                        var filteredArray = results.data.filter( filterFuc )
                         var newRestaurantsList = this.restaurantsListInfo.concat(filteredArray)
                         this.restaurantsListInfo = newRestaurantsList
                     }

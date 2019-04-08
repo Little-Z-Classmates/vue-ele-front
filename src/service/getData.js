@@ -7,46 +7,46 @@
  * 获取当前定位城市
  */
 export  const cityGuess = async ( vmObj ) =>{
-    return vmObj.$http.get('v1/cities?type=guess')
+    return vmObj.$axios.get('v1/cities?type=guess')
 }
 
 /**
  * 获取火热城市
  */
 export  const hotCityGuess = async ( vmObj ) =>{
-    return vmObj.$http.get('v1/cities?type=hot')
+    return vmObj.$axios.get('v1/cities?type=hot')
 }
 
 /**
  * 获取所有城市
  */
 export  const groupCityGuess = async ( vmObj ) =>{
-    return vmObj.$http.get('v1/cities?type=group')
+    return vmObj.$axios.get('v1/cities?type=group')
 }
 /**
  * 根据 id 获取 城市信息
  */
 export  const currentCityGuess = async ( vmObj,id ) =>{
-    return vmObj.$http.get('v1/cities/' + id )
+    return vmObj.$axios.get('v1/cities/' + id )
 }
 /**
  * 根据 城市id , 搜索关键词 获取地址
  */
 export  const getPlaceToKey = async ( vmObj,id,value ) =>{
-    return vmObj.$http.get(`v1/pois?city_id=${id}&keyword=${value}&type=search`)
+    return vmObj.$axios.get(`v1/pois?city_id=${id}&keyword=${value}&type=search`)
 }
 /**
  * 根据 经纬度获取 详细定位
  */
 export  const getDetailedLocation   = async ( vmObj,geohash ) => {
-    return  vmObj.$http.get(`v2/pois/${geohash}`)
+    return  vmObj.$axios.get(`v2/pois/${geohash}`)
 }
 
 /**
  * 获取 食品分类列表 v2/index_entry
  */
 export const getFootEntry  = async ( vmObj ) =>{
-    return  vmObj.$http.get(`v2/index_entry`)
+    return  vmObj.$axios.get(`v2/index_entry`)
 }
 /**
  * 获取 商铺列表 shopping/restaurants
@@ -76,29 +76,29 @@ export const getRestaurants = async ( vmObj,latitude,longitude,offset='0',restau
     }
     var newValueKeyArr = valueKeyArr.join('&')
     str = str + newValueKeyArr
-    return vmObj.$http.get( str )
+    return vmObj.$axios.get( str )
 }
 /**
  * 获取 所有商铺分类列表
  */
 export const getAllSellerClassify = async ( vmObj ) =>{
-    return  vmObj.$http.get(`shopping/v2/restaurant/category`)
+    return  vmObj.$axios.get(`shopping/v2/restaurant/category`)
 }
 /**
  * 获取 商家属性活动列表
  */
 export  const getSellerActivityAttributes = async ( vmObj ) =>{
-    return  vmObj.$http.get(`shopping/v1/restaurants/activity_attributes`)
+    return  vmObj.$axios.get(`shopping/v1/restaurants/activity_attributes`)
 }
 /**
  * 根据 id 获取 商铺的 具体信息
  */
 export const getShopInformation  = async ( vmObj ,shopId) =>{
-    return vmObj.$http.get(`shopping/restaurant/${shopId}`)
+    return vmObj.$axios.get(`shopping/restaurant/${shopId}`)
 }
 /**
  * 根据 id 获取 商铺的 食品种类
  */
 export const getShopGoodsMenu = async( vmObj ,shopId) =>{
-    return vmObj.$http.get(`shopping/v2/menu?restaurant_id=${shopId}`)
+    return vmObj.$axios.get(`shopping/v2/menu?restaurant_id=${shopId}`)
 }

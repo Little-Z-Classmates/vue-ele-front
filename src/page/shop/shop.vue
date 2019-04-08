@@ -148,14 +148,6 @@
         },
         methods:{
             getShopInformation,
-            // 根据 Vuex 得到经纬度
-            getVuexGeoHash(){
-                if ( this.$store.getters.getGeoHash ){
-                    return this.$store.getters.getGeoHash
-                }else{
-                    this.$router.push({ path : '/home'})
-                }
-            },
             goback(){
                 this.$router.push({ path: '/msite' })
             },
@@ -283,19 +275,15 @@
             }
         },
         created(){
-            this.getVuexGeoHash()
-            if ( !this.$store.getters.getGeoHash ){
-                return false
-            }
             this.getShopInformation(this,this.shopId).then( result =>{
                 if ( result.status == 200 ){
-                    this.$store.commit('setCurrentVisitShopInfoToSS',result.body)
-                    if ( !result.body ){
+                    this.$store.commit('setCurrentVisitShopInfoToSS',result.data)
+                    if ( !result.data ){
                         this.$router.push({path:'/msite'})
-                    }else if ( result.body.message ){
+                    }else if ( result.data.message ){
                         this.$router.push({path:'/msite'})
                     }else{
-                        this.shopInfo = result.body
+                        this.shopInfo = result.data
                         this.thisShoppingCar.gapPrice = this.shopInfo.float_minimum_order_amount
                         this.thisShoppingCar.times++
                     }

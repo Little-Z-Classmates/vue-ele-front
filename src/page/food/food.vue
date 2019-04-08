@@ -145,8 +145,8 @@
                     if ( result.status === 200){
                         if ( scrollObj ){
                            setTimeout( ()=>{
-                                this.currentShopList = result.body;
-                                this.currentShopListNum = result.body.length;
+                                this.currentShopList = result.data;
+                                this.currentShopListNum = result.data.length;
                                 this.loadingUpStatus = 'loading';
                                 scrollObj.finishPullDown();
                             },1500)
@@ -158,8 +158,8 @@
                                 this.loadingDownStatus = 'overLoading' ;
                             },1000)
                         }else{
-                             this.currentShopList = result.body;
-                             this.currentShopListNum = result.body.length
+                             this.currentShopList = result.data;
+                             this.currentShopListNum = result.data.length
                         }
                     }
                 });
@@ -172,11 +172,11 @@
                     if ( result.status === 200 ) {
                         setTimeout( ()=>{
                             var currentNum = this.currentShopListNum
-                            this.currentShopListNum += result.body.length
+                            this.currentShopListNum += result.data.length
                             if ( currentNum  == this.currentShopListNum ){
                                 this.loadingUpStatus = 'overLoading'
                             }else{
-                                this.currentShopList = this.currentShopList.concat( result.body )
+                                this.currentShopList = this.currentShopList.concat( result.data )
                             }
                             scrollObj.finishPullUp();
                         },2000 )  // 两秒变成 数据变的更多
@@ -219,7 +219,7 @@
                 this.getRestaurants( this,geohash[0],geohash[1],0,categoryId ).then( result =>{
                     if ( result.status == 200){
                         this.currentCategoryId = categoryId
-                        this.currentShopList   = result.body
+                        this.currentShopList   = result.data
                         this.navFirstTitleName = categoryName
                         this.fullscreenLoading = false
                         this.navTabFlag = false
@@ -237,7 +237,7 @@
                 this.getRestaurants( this,geohash[0],geohash[1],0,this.currentCategoryId,order_by ).then( result =>{
                     if ( result.status == 200){
                         this.currentSort = order_by
-                        this.currentShopList   = result.body
+                        this.currentShopList   = result.data
                         this.fullscreenLoading = false
                         this.navTabFlag = false
                         this.scroll.enable();
@@ -265,7 +265,7 @@
                 .then( result =>{
                     if ( result.status == 200){
                         this.currentVipIdArr = vipIdArr
-                        this.currentShopList = result.body
+                        this.currentShopList = result.data
                         this.fullscreenLoading = false
                         this.navTabFlag = false
                         this.scroll.enable();
@@ -280,7 +280,7 @@
             }
             this.getAllSellerClassify( this ).then( results =>{
                 if ( results.status === 200 ){
-                    this.navClassifyInfoList = results.body
+                    this.navClassifyInfoList = results.data
                 }
             })
             this.getRestaurantsPackage()
