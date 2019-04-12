@@ -54,7 +54,6 @@ vueRouterObj.beforeEach( (to, from, next) => {
         next( { path : '/home'})
         return false
     }
-
     next()
 })
 export default vueRouterObj

@@ -51,7 +51,7 @@
                                 <div v-if="sonVal.specifications.length && sonVal.thisFoodsSelectNum" class="counter">
                                     <span class="jian" :class="sonVal.thisFoodsSelectNum > 1?'gray':''" @tap.stop ="reduceFoods(sonVal,foodsMenuIndex,foodsIndex,sonVal.specfoods[0].food_id,sonVal.specifications[0].currentActiveClassIndex)">－</span>
                                     <span class="num">{{ sonVal.thisFoodsSelectNum}}</span>
-                                    <span class="jia" @tap.stop ="specificationsFlag = true">+</span>
+                                    <span class="jia" @tap.stop ="toggleSpecAndMaskLayerFlag(false)">+</span>
                                 </div>
                             </div>
                         </div>
@@ -59,6 +59,7 @@
                 </div>
             </div>
         </section>
+        <!-- 球 -->
         <transition
                 v-on:before-enter="beforeEnterBall"
                 v-on:enter="enterBall"
@@ -67,13 +68,38 @@
                 <span class="innerBall">+</span>
             </div>
         </transition>
-
+        <!-- 蒙层 -->
         <transition name="el-fade-in-linear">
-            <section class="mask-layer" v-if="specificationsFlag" @click="specificationsFlag = false"></section>
+            <section class="mask-layer" v-if="MaskLayerFlag" @click="toggleSpecAndMaskLayerFlag(true)"></section>
         </transition>
+        <!-- 商品信息 -->
+        <transition name="el-zoom-in-bottom">
+            <section class="shopGoodInfo" v-if="shopGoodInfoFlag">
+                <i class="el-icon-close" @click="toggleShopGoodInfoAndMaskLayerFlag"></i>
+                <div class="shopHeaderImg">
+                    <img :src="baseImgUrl + shopGoodInfo.image_path" alt="">
+                </div>
+                <div class="info">
+                    <div class="goodName">{{shopGoodInfo.name}}</div>
+                    <div class="goodDescription">{{shopGoodInfo.description}}</div>
+                    <div class="rating">评分
+                        <el-rate
+                            :value="shopGoodInfo.rating"
+                            disabled
+                            show-score
+                            text-color="#ff9900"
+                            score-template="{value}">
+                        </el-rate>
+                    </div>
+                    <div class="month_sales">月售 {{shopGoodInfo.month_sales}}单 <span>售价 ￥{{shopGoodInfo.specfoods[0].price}} 起</span></div>
+                    <div class="rating_count">评论数 {{shopGoodInfo.rating_count}} 好评率 {{shopGoodInfo.satisfy_rate}}%</div>
+                </div>
+            </section>
+        </transition>
+        <!-- 选项卡 -->
         <transition name="el-zoom-in-bottom">
             <section class="specifications" v-if="specificationsFlag">
-                <i class="el-icon-close" @click="specificationsFlag = false"></i>
+                <i class="el-icon-close" @click="toggleSpecAndMaskLayerFlag(false)"></i>
                 <div class="foods-header-info">
                     <div class="left-info">
                         <img :src="currentSpecificationInfo.image_path" alt="">
@@ -114,6 +140,8 @@
                currentLeftMenuIndex : 0 ,     // 当前左边菜单选中的index
                goodsTitleFlag: false,         // 标识符: 控制 tooltiptext 那三个点的 显示与关闭
                specificationsFlag:false,      // 标识符: 控制 点击规格的 页面出现
+               MaskLayerFlag : false,         // 标识符 : 蒙层
+               shopGoodInfoFlag : false,      // 标识符 : 商品信息
                currentSpecificationInfo:{},   // 当前的规格卡信息
                FoodStyleSelectStrAndMoney:{}, // 规格卡里面的 '已选',金钱额度
                currentShoppingCar:{              // 购物车
@@ -125,9 +153,11 @@
                },
                ballMove:{                        // 小球过渡信息
                    flag : false,
-                   top  : 0 ,
+                   bottom  : 0 ,
                    left : 0,
                },
+               shopGoodInfo : {},              // 商品信息
+               value5 : 3.7
            }
         },
         methods:{
@@ -178,8 +208,8 @@
             // 点击 + , 添加货物( 无规格的+ )
             addFoods(foods,foodsMenuIndex,foodsIndex,event){
                 if ( event ){
-                    // 把当前在 页面中的 left top 传入 这个对象中
-                    this.ballMove.top =  event.target.getBoundingClientRect().top
+                    // 把当前在 页面中的 left bottom 传入 这个对象中
+                    this.ballMove.bottom  =  document.body.clientHeight - event.target.getBoundingClientRect().top
                     this.ballMove.left =  event.target.getBoundingClientRect().left
 
                     if ( this.ballMove.flag == false ){
@@ -401,8 +431,8 @@
                 })
                 //计算 规格卡里面的 '已选',金钱额度
                 this.countFoodStyleSelectStrAndMoney(sonVal.specifications,foodsMenuIndex,foodsIndex)
-                // 蒙层显示
-                this.specificationsFlag = true;
+                // 选项卡,蒙层显示
+                this.toggleSpecAndMaskLayerFlag(false)
             },
             // 点击 规格卡里面的 样式类型, 切换类 和 信息
             toggleFoodStyle(item,index){
@@ -431,23 +461,26 @@
                 this.shopGoodsMenu[this.currentSpecificationInfo.foodsMenuIndex].thisMenuSelectFoodsNum++
                 // 添加 当前商店购物车
                 this.addFoodsStyle()
-                // 关闭规格卡
-                this.specificationsFlag = false
+                // 关闭规格卡,蒙层
+                this.toggleSpecAndMaskLayerFlag(false)
             },
             // 过渡动画
             beforeEnterBall(el){
-                el.style.top = this.ballMove.top  + 'px'
+                el.style.bottom = this.ballMove.bottom  + 'px'
                 el.style.left = this.ballMove.left + 'px'
             },
             enterBall(el, done){
+                // 动画激活
                 el.offsetLeft
-                let top = 610
-                let left = 40
-                let transformTop =  top - this.ballMove.top
+                // 100/375   = 26.67vw
+                // 26.67 * 页面宽度 * 6.1 = 真实的px
+                let bottom = 2667 * document.body.clientWidth * 45 / 1000000
+                let left = 2667 * document.body.clientWidth * 4 / 100000
+                let transformBottom=  this.ballMove.bottom - bottom
                 let transformLeft = - ( this.ballMove.left - left )
                 el.style.transform =  `translate3d(${transformLeft}px,0,0)`
                 let child = el.children[0]
-                child.style.transform = `translate3d(0,${transformTop}px,0)`
+                child.style.transform = `translate3d(0,${transformBottom}px,0)`
                 el.addEventListener('transitionEnd', done)
                 el.addEventListener('webkitTransitionEnd', done)
             },
@@ -456,7 +489,24 @@
             },
             // 点击 展示商店的信息
             showShopInfo(sonVal){
-                console.log ( sonVal )
+                this.toggleShopGoodInfoAndMaskLayerFlag()
+                this.shopGoodInfo = sonVal
+            },
+            // 切换蒙层 和 Spec
+            toggleSpecAndMaskLayerFlag(maskFlag){
+                if( !maskFlag ) {
+                    this.specificationsFlag = !this.specificationsFlag
+                    this.MaskLayerFlag = !this.MaskLayerFlag
+                }else{
+                    this.specificationsFlag = false
+                    this.MaskLayerFlag = false
+                    this.shopGoodInfoFlag = false
+                }
+            },
+            // 切换蒙层 和 商品信息
+            toggleShopGoodInfoAndMaskLayerFlag(){
+                this.shopGoodInfoFlag = !this.shopGoodInfoFlag
+                this.MaskLayerFlag = !this.MaskLayerFlag
             }
         },
         computed:{
@@ -645,6 +695,9 @@
     }
 @import "../../../assets/less/shop/children/goods";
 
+.el-rate{
+    display: inline-block;
+}
 // 工具提示 tooltip
 .tooltip {
     position: relative;

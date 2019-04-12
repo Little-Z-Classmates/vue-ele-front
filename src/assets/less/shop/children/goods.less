@@ -303,6 +303,57 @@
   }
 }
 
+.shopGoodInfo{
+  position: fixed;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  bottom: 0px;
+  left: 0;
+  z-index: 1002;
+  background-color: #fff;
+  padding-bottom:.5rem ;
+  .el-icon-close{
+    position: absolute;
+    right: .1rem;
+    font-size: .25rem;
+    top: .1rem;
+    z-index: 2;
+    border-radius: 50%;
+    background-color: #cdcdcd;
+    padding:0.02rem;
+    color: #fdfeff;
+  }
+  .shopHeaderImg{
+    img{
+      width: 100%;
+    }
+  }
+  .info{
+    padding-left: .1rem;
+    .goodName{
+      line-height: .3rem;
+      color: #818181;
+    }
+    .goodDescription{
+      font-size: .18rem;
+      line-height: .28rem;
+    }
+    .rating{
+      line-height: .28rem;
+    }
+    .month_sales{
+      line-height: .28rem;
+      span{
+        color: orangered;
+      }
+    }
+    .rating_count{
+      line-height: .28rem;
+    }
+  }
+}
+
 // fade-in-out 动画
 .fadeInOut-enter-active,.fadeInOut-leave-active{
   transition: all .3s;

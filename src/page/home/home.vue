@@ -52,7 +52,8 @@
                 groupCityGuessInfo : {},
                 loading : '' ,
                 loadingKey : 3,
-                currentLoadingKey : 0
+                currentLoadingKey : 0,
+                arr1:[]
             }
         },
         created () {
@@ -67,6 +68,7 @@
                 this.judgeFullScreen( this )
             } ).catch ( err => {  console.log ( err )   } )
             this.groupCityGuess ( this ).then ( results => {
+                this.arr1 = results.data
                 this.sort ( results.data );
                 this.judgeFullScreen( this )
             } ).catch ( err => {   console.log ( err )} )

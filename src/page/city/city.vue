@@ -116,7 +116,7 @@
                     .then( result =>{
                         if ( result.status === 200 ){
                             this.flag = false
-                            this.PlaceToKeyInfo = result.body
+                            this.PlaceToKeyInfo = result.data
                         }
                     })
                 }
