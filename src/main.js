@@ -28,6 +28,12 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 Vue.use( VueAwesomeSwiper )
 
+// 导入图片预览插件 vue-photo-preview
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use( preview,{
+    fullscreenEl:false //关闭全屏按钮
+})
 
 // 导入App
 import app from "./App.vue"

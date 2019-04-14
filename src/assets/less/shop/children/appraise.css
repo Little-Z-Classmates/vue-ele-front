@@ -1,0 +1,148 @@
+.appraise {
+  width: 100%;
+}
+.appraise .ratingsScores {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 0.01rem solid #ccc;
+  height: 1.1rem;
+}
+.appraise .ratingsScores .ratingsScoresLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.appraise .ratingsScores .ratingsScoresLeft .overallMeritNum {
+  font-size: 0.25rem;
+  line-height: 0.34rem;
+  color: orangered;
+}
+.appraise .ratingsScores .ratingsScoresLeft .overallMeritWord {
+  font-size: 0.15rem;
+  line-height: 0.2rem;
+}
+.appraise .ratingsScores .ratingsScoresLeft .compareWithOther {
+  font-size: 0.12rem;
+  line-height: 0.25rem;
+  color: #b3b3b3;
+}
+.appraise .ratingsScores .ratingsScoresRight {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.appraise .ratingsScores .ratingsScoresRight > div {
+  line-height: 0.24rem;
+  font-size: 0.15rem;
+}
+.appraise .ratingsScores .ratingsScoresRight > div span {
+  color: #555555;
+}
+.appraise .ratingsScores .ratingsScoresRight > div .el-rate {
+  display: inline-block;
+  margin-left: 0.1rem;
+}
+.appraise .ratingsTags {
+  margin-top: 0.1rem;
+  background-color: #fff;
+  padding: 0 0.1rem;
+}
+.appraise .ratingsTags ul {
+  width: 100%;
+  padding: 0.1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  border-bottom: 0.01rem solid #ccc;
+}
+.appraise .ratingsTags ul li {
+  background-color: rgba(49, 144, 232, 0.16);
+  margin: 0.05rem;
+  padding: 0.05rem;
+  border-radius: 0.04rem;
+  color: #79828c;
+}
+.appraise .ratingsTags ul .active {
+  background-color: #3190E8 !important;
+  color: #fff !important;
+}
+.appraise .ratingsTags ul .unsatisfied {
+  color: #b0b0b0;
+  background-color: #e0e0e0;
+}
+.appraise .userRatings {
+  width: 100%;
+  padding: 0 0.1rem;
+}
+.appraise .userRatings ul li {
+  padding-bottom: 0.1rem;
+  padding-top: 0.1rem;
+  position: relative;
+  display: flex;
+  border-bottom: 0.01rem solid #ccc;
+}
+.appraise .userRatings ul li:last-of-type {
+  border-bottom: 0;
+  text-align: center;
+  display: block;
+  font-size: 0.15rem;
+}
+.appraise .userRatings ul li .userRatingsLeft {
+  width: 0.5rem;
+  height: 100%;
+}
+.appraise .userRatings ul li .userRatingsLeft img {
+  width: 0.33rem;
+  height: 0.33rem;
+  border-radius: 50%;
+}
+.appraise .userRatings ul li .userRatingsCentre {
+  flex: 1;
+}
+.appraise .userRatings ul li .userRatingsCentre .userDesc {
+  line-height: 0.3rem;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodImg img {
+  width: 0.66rem;
+  height: 0.66rem;
+  margin-left: 0.1rem;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodImg img:first-child,
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodImg img:nth-child(4n+1) {
+  margin-left: 0;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodImg img:nth-child(n+5) {
+  margin-top: 0.1rem;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodName {
+  padding-top: 0.1rem;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodName > span {
+  display: inline-block;
+  width: 0.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0.01rem solid #ccc;
+  padding: 0.03rem 0.04rem;
+  color: #787878;
+  border-radius: 0.03rem;
+  margin-left: 0.1rem;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodName > span:first-child,
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodName > span:nth-child(5n+1) {
+  margin-left: 0;
+}
+.appraise .userRatings ul li .userRatingsCentre .ratingsGoodName > span:nth-child(n+6) {
+  margin-top: 0.05rem;
+}
+.appraise .userRatings ul li .userRatingsDate {
+  position: absolute;
+  right: 0;
+  top: 0.1rem;
+}

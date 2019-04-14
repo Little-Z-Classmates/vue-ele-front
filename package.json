@@ -22,6 +22,7 @@
     "vue-awesome-mui": "^1.7.3",
     "vue-awesome-swiper": "^3.1.3",
     "vue-axios": "^2.1.4",
+    "vue-photo-preview": "^1.1.3",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

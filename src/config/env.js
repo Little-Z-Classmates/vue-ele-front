@@ -19,10 +19,10 @@ let imgBaseUrl = '';
 
 if (process.env.NODE_ENV == 'development') {
     baseImgUrl = '//elm.cangdu.org/img/';
-    imgBaseUrl = 'https://fuss10.elemecdn.com';
+    imgBaseUrl = 'https://fuss10.elemecdn.com/';
 }else if(process.env.NODE_ENV == 'production'){
     baseImgUrl = '//elm.cangdu.org/img/';
-    imgBaseUrl = 'https://fuss10.elemecdn.com';
+    imgBaseUrl = 'https://fuss10.elemecdn.com/';
 }
 
 export {

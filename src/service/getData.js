@@ -93,7 +93,7 @@ export  const getSellerActivityAttributes = async ( vmObj ) =>{
 /**
  * 根据 id 获取 商铺的 具体信息
  */
-export const getShopInformation  = async ( vmObj ,shopId) =>{
+export const getShopInformation  = async ( vmObj ,shopId ) =>{
     return vmObj.$axios.get(`shopping/restaurant/${shopId}`)
 }
 /**
@@ -101,4 +101,33 @@ export const getShopInformation  = async ( vmObj ,shopId) =>{
  */
 export const getShopGoodsMenu = async( vmObj ,shopId) =>{
     return vmObj.$axios.get(`shopping/v2/menu?restaurant_id=${shopId}`)
+}
+/*
+ * 获取 评价分数
+ */
+export  const getRatingsScores = async ( vmObj ,shopId) =>{
+    return vmObj.$axios.get(`/ugc/v2/restaurants/${shopId}/ratings/scores`)
+}
+/*
+ * 获取 评价分类
+ */
+export  const getRatingsTags = async ( vmObj ,shopId) =>{
+    return vmObj.$axios.get(`ugc/v2/restaurants/${shopId}/ratings/tags`)
+}
+/*
+ * 获取 用户评价信息
+ */
+export  const getUserRatingsInfo = async ( vmObj ,shopId,userRatingsInfoObj) =>{
+    var arr = []
+    for( let key in userRatingsInfoObj){
+        if ( userRatingsInfoObj [key] ){
+            arr.push( `${key}=${ userRatingsInfoObj [key] }` )
+        }
+    }
+    if ( arr.length ){
+        var str = arr.join('&')
+        return vmObj.$axios.get(`ugc/v2/restaurants/${shopId}/ratings?${str}`)
+    }else{
+        return vmObj.$axios.get(`ugc/v2/restaurants/${shopId}/ratings`)
+    }
 }

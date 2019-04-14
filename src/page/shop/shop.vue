@@ -1,5 +1,5 @@
 <template>
-    <div id="shop" :style="shopInfo.activities.length?{'padding-top': '1.8rem'}:''">
+    <div id="shop" :style="[shopInfo.activities.length?{'padding-top': '1.8rem'}:'',currentMain == 'appraise'? {'padding-bottom': '0'}:'']">
         <svg class="icon goback" @click="goback" aria-hidden="true"><use xlink:href="#icon-xiangyou-copy"></use></svg>
         <transition name="leftRight" mode="in-out">
             <router-view></router-view>
@@ -38,12 +38,12 @@
                 </section>
             </div>
             <nav id="nav">
-                <span class="left-nav active">商品</span>
-                <span class="right-nav">评价</span>
+                <span :class="['left-nav', { 'active' : currentMain == 'goods' }]" @click="toggleCurrentMain">商品</span>
+                <span :class="['right-nav',{ 'active' : currentMain == 'appraise' }]" @click="toggleCurrentMain">评价</span>
             </nav>
         </section>
         <main id="main">
-            <transition name="el-fade-in-linear">
+            <transition name="el-fade-in-linear" mode="out-in">
                 <keep-alive>
                     <component :is="currentMain"
                                @getShoppingCar="getShoppingCar"
@@ -53,7 +53,8 @@
                 </keep-alive>
             </transition>
         </main>
-        <footer id="footer" @click="thisShoppingCarFlag = !thisShoppingCarFlag">
+        <transition name="el-fade-in-linear" mode="out-in">
+            <footer id="footer" v-show="currentMain == 'goods'" @click="thisShoppingCarFlag = !thisShoppingCarFlag">
              <div :class="['shop-car',thisShoppingCar.foodsInfoArr.length?'':'huise',shoppingCarAnimateFlag?'animated ':'',shoppingCarAnimateFlag?'heartBeat ':'']" v-if="thisShoppingCar">
                  <svg class="icon blue-car" aria-hidden="true">
                      <use :xlink:href="thisShoppingCar.foodsInfoArr.length?'#icon-chat-blue':'#icon-chat-blue-copy'"></use>
@@ -69,6 +70,7 @@
                 <span class="gray-color" v-if="thisShoppingCar.gapPrice > 0">还差￥{{ thisShoppingCar.gapPrice }}起送</span>
             </el-button>
         </footer>
+        </transition>
         <transition name="el-zoom-in-bottom">
             <section class="thisShopPingCar" v-show="thisShoppingCarFlag">
                 <div class="title">
@@ -114,6 +116,7 @@
     import { getShopInformation } from "../../service/getData"
     import { baseImgUrl } from "../../config/env"
     import goods from "./children/goods"
+    import appraise from "./children/appraise"
     import {deepCopy} from "../../config/jsTools"
     import BScroll from 'better-scroll'
 
@@ -143,7 +146,8 @@
                   foodsIndex:null,
                   status: 'false',                   // 状态false 为 减 , true 为 加
               },
-              clearShopCarFlag : true                 // 清空标识符每次清空都修改它,goods监听
+              clearShopCarFlag : true,                 // 清空标识符每次清空都修改它,goods监听
+              isScrollFlag : false                     // 对滚动的监听
           }
         },
         methods:{
@@ -223,7 +227,6 @@
             },
             // 点击 + 号 , 减少相应的数量
             addGoodsNum(shoppingCarItem){
-                console.log ( shoppingCarItem )
                 this.changeFoodsNum = {
                     foodsId : shoppingCarItem.foodsId,
                     foodsMenuIndex : shoppingCarItem.foodsMenuIndex,
@@ -249,6 +252,24 @@
                 }
                 this.countPrice()
                 this.clearShopCarFlag = !this.clearShopCarFlag
+            },
+            // 切换 CurrentMain
+            toggleCurrentMain(){
+                if( this.currentMain == 'goods' ){
+                    this.currentMain = 'appraise'
+                    this.isScrollFlag = true
+                }else{
+                    this.currentMain = 'goods'
+                    this.isScrollFlag = false
+                }
+            },
+            // 定义一个 可以滚动的方法
+            move(){
+                document.body.style.overflow='';
+            },
+            //  禁止滚动
+            stop(){
+                document.body.style.overflow='hidden';
             }
         },
         computed:{
@@ -271,6 +292,14 @@
                         this.shoppingCarScroll
                         this.shoppingCarScroll.refresh()
                     })
+                }
+            },
+            // 滚动监听
+            isScrollFlag(newValue){
+                if ( newValue ){
+                    this.move()
+                }else{
+                    this.stop()
                 }
             }
         },
@@ -302,6 +331,7 @@
         },
         components:{
             goods,
+            appraise
         }
     }
 </script>

@@ -200,7 +200,7 @@
 #fixedTop #nav span {
   font-size: 0.18rem;
   line-height: 0.33rem;
-  border-bottom: 0.03rem transparent #3190E8;
+  border-bottom: 0.03rem solid transparent;
 }
 #fixedTop #nav .active {
   border-bottom: 0.03rem solid #3190E8;
